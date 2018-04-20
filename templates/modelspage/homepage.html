@@ -1,0 +1,388 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- top tiles -->
+      <div class="row tile_count">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <h2 class="title" style="font-size:200%;"><a href="/homepage/"><i class="fa fa-home"></i> 首页 </a></h2>
+        </div>
+      </div>
+
+      <!-- top tiles -->
+        <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="x_panel" style=" background: #00caff;">
+            <div class="x_content">
+              <div class="dashboard-widget-content" style="text-align:center; margin:0 auto;">
+                    <div class="block">
+                      <div class="block_content">
+                        <br>
+                        <h2 class="title" style="font-size:400%; color: white">{{ NumOfClinicalSample }}</h2>
+                        <p class="excerpt" style="font-size:200%; color: white">临检样本数量</p>
+                         <br>
+                      </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12" >
+          <div class="x_panel" style=" background: #FF9233;">
+            <div class="x_content">
+              <div class="dashboard-widget-content" style="text-align:center; margin:0 auto;">
+                    <div class="block">
+                      <div class="block_content">
+                        <br>
+                        <h2 class="title" style="font-size:400%; color: white">{{ NumOfRandDSample }}</h2>
+                        <p class="excerpt" style="font-size:200%; color: white">研发样本数量</p>
+                         <br>
+                      </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12" >
+          <div class="x_panel" style=" background: #ec6c6c;">
+            <div class="x_content">
+              <div class="dashboard-widget-content" style="text-align:center; margin:0 auto;">
+                    <div class="block">
+                      <div class="block_content">
+                        <br>
+                        <h2 class="title" style="font-size:400%; color: white">{{ NumOfSendReport }}</h2>
+                        <p class="excerpt" style="font-size:200%; color: white">已发送报告数量</p>
+                         <br>
+                      </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- /top tiles -->
+
+      <br />
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel" >
+            <div class="x_title">
+                <h2>样本进度查询</h2>
+              <div class="clearfix"></div>
+            </div>
+            <div style="width: 20%;">
+                <form data-parsley-validate class="form-horizontal form-label-left" method="post" action="/homepage/">
+                     <select id="SampleSource" name="SampleSource" class="btn btn-default" required>
+                         <option  id="opt02" name="opt02" value="临检样本">临检样本</option>
+                         <option id="opt03" name="opt03" value="研发样本">研发样本</option>
+                         <option id="opt01" name="opt01" style="display: none" value="{{ SampleSource }}">{{ SampleSource }}</option>
+                     </select>
+                    <script type="text/javascript">
+                      var val = document.getElementById("opt01").value;
+                      if(val == "临检样本"){
+                          document.getElementById("opt01").style.display="";
+                          document.getElementById("opt01").selected="selected";
+                          document.getElementById("opt02").style.display="none";
+                      }else if(val == "研发样本"){
+                          document.getElementById("opt01").style.display="";
+                          document.getElementById("opt01").selected="selected";
+                          document.getElementById("opt03").style.display="none";
+                      }
+                  </script>
+                    <br>
+                    <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" style="width: 80%" placeholder="Search for..." value = "{{ sam_code_num }}">
+                          <span>
+                              <button class="btn btn-primary" type="submit" id="Search" name="Search">Go!</button>
+                          </span>
+                    <br><br>
+
+                </form>
+            </div>
+            <div id="SearchResult" style="width: 40%; display: none" >
+                <h2>样本所属：{{ SampleSource }}</h2>
+                <h2>样本编号：{{ sam_code_num }}</h2>
+                <h2>查找结果：{{ sampleIsExist }}</h2>
+                <br>
+            </div>
+            <script type="text/javascript">
+                var val = document.getElementById("sam_code_num").value;
+                if(val != ""){
+                    document.getElementById("SearchResult").style.display="";
+                }
+            </script>
+            <div class="x_content">
+              <div class="wizard-progress wizard-progress-lg form_wizard wizard_horizontal">
+                <ul class="wizard_steps">
+
+                  <li>
+                    <a href="#RandDSampleInfoState" data-toggle="tab"> <span class="step_no" id="sampleRegister" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           样本登记<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_RandDSampleInfo" name="Num_RandDSampleInfo" value = "{{ Num_RandDSampleInfo }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_RandDSampleInfo").value;
+                      if(val != 0){
+                          document.getElementById("sampleRegister").style.backgroundColor="#00aa00";
+                      }
+                  </script>
+                  <li>
+                    <a href="#RandDSampleInfoReviewState" data-toggle="tab"> <span class="step_no" id="RandDSampleReview" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           收样审核<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_RandDSampleInfoReviewed" name="Num_RandDSampleInfoReviewed" value = "{{ Num_RandDSampleInfoReviewed }}"/></td>
+                  <input type="hidden" id="RandDSampleInfo_review_Sign" name="RandDSampleInfo_review_Sign" value = "{{ RandDSampleInfo_review_Sign }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_RandDSampleInfoReviewed").value;
+                      var RandDSampleInfo_review_Sign = document.getElementById("RandDSampleInfo_review_Sign").value;
+                      if(val != 0){
+                          if (RandDSampleInfo_review_Sign == 0){
+                              document.getElementById("RandDSampleReview").style.backgroundColor="#00aa00";
+                          }else{
+                              document.getElementById("RandDSampleReview").style.backgroundColor="#FFD119";
+                          }
+                      }
+                  </script>
+                  <li id="RandDSamplePretreatment" style="display: none">
+                    <a href="#RandDSamplePretreatmentInfoState" data-toggle="tab"> <span class="step_no" id="RandDSamplePretreatmentInfo" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           样本预处理<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_RandDSamplePretreatmentInfo" name="Num_RandDSamplePretreatmentInfo" value = "{{ Num_RandDSamplePretreatmentInfo }}"/></td>
+                  <input type="hidden" id="RandDSamplePretreatmentInfo_review_Sign" name="RandDSamplePretreatmentInfo_review_Sign" value = "{{ RandDSamplePretreatmentInfo_review_Sign }}"/></td>
+                  <input type="hidden" id="TissueSampleSign" name="TissueSampleSign" value = "{{ TissueSampleSign }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_RandDSamplePretreatmentInfo").value;
+                      var RandDSamplePretreatmentInfo_review_Sign = document.getElementById("RandDSamplePretreatmentInfo_review_Sign").value;
+                      var TissueSampleSign = document.getElementById("TissueSampleSign").value;
+                      if(val != 0){
+                          if(RandDSamplePretreatmentInfo_review_Sign==0){
+                              document.getElementById("RandDSamplePretreatmentInfo").style.backgroundColor="#00aa00";
+                          }else{
+                              document.getElementById("RandDSamplePretreatmentInfo").style.backgroundColor="#FFD119";
+                          }
+                      }
+                      if(TissueSampleSign==0){
+                        document.getElementById("RandDSamplePretreatment").style.display="";
+                      }else{
+                          document.getElementById("RandDSamplePretreatment").style.display="none";
+                      }
+                  </script>
+                  <li>
+                    <a href="#RandDSampleDNAExtractInfoState" data-toggle="tab"> <span class="step_no" id="RandDSampleDNAExtractInfo" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           DNA提取<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_RandDSampleDNAExtractInfo" name="Num_RandDSampleDNAExtractInfo" value = "{{ Num_RandDSampleDNAExtractInfo }}"/></td>
+                  <input type="hidden" id="DNAExtract_review_Sign" name="DNAExtract_review_Sign" value = "{{ DNAExtract_review_Sign }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_RandDSampleDNAExtractInfo").value;
+                      var DNAExtract_review_Sign = document.getElementById("DNAExtract_review_Sign").value;
+                      if(val != 0){
+                          if(DNAExtract_review_Sign==0){
+                              document.getElementById("RandDSampleDNAExtractInfo").style.backgroundColor="#00aa00";
+                          }else{
+                              document.getElementById("RandDSampleDNAExtractInfo").style.backgroundColor="#FFD119";
+                          }
+                      }
+                  </script>
+                  <li>
+                    <a href="#RandDSamplePreLibConInfoState" data-toggle="tab"> <span class="step_no" id="RandDSamplePreLibConInfo" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           预文库构建<br />
+                      </span></a>
+                  </li>
+                   <input type="hidden" id="Num_RandDSamplePreLibConInfo" name="Num_RandDSamplePreLibConInfo" value = "{{ Num_RandDSamplePreLibConInfo }}"/></td>
+                   <input type="hidden" id="PreLibCon_review_Sign" name="PreLibCon_review_Sign" value = "{{ PreLibCon_review_Sign }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_RandDSamplePreLibConInfo").value;
+                      var PreLibCon_review_Sign = document.getElementById("PreLibCon_review_Sign").value;
+                      if(val != 0){
+                          if(PreLibCon_review_Sign==0){
+                              document.getElementById("RandDSamplePreLibConInfo").style.backgroundColor="#00aa00";
+                          }else{
+                              document.getElementById("RandDSamplePreLibConInfo").style.backgroundColor="#FFD119";
+                          }
+                      }
+                  </script>
+                  <li>
+                    <a href="#RandDSampleFinLibConInfoState" data-toggle="tab"> <span class="step_no" id="RandDSampleFinLibConInfo" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           终文库构建<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_RandDSampleFinLibConInfo" name="Num_RandDSampleFinLibConInfo" value = "{{ Num_RandDSampleFinLibConInfo }}"/></td>
+                  <input type="hidden" id="FinalLibCon_review_Sign" name="FinalLibCon_review_Sign" value = "{{ FinalLibCon_review_Sign }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_RandDSampleFinLibConInfo").value;
+                      var FinalLibCon_review_Sign = document.getElementById("FinalLibCon_review_Sign").value;
+                      if(val != 0){
+                          if(FinalLibCon_review_Sign==0){
+                              document.getElementById("RandDSampleFinLibConInfo").style.backgroundColor="#00aa00";
+                          }else{
+                              document.getElementById("RandDSampleFinLibConInfo").style.backgroundColor="#FFD119";
+                          }
+                      }
+                  </script>
+                  <li>
+                    <a href="#RandDSampleComputerSeqInfoState" data-toggle="tab"> <span class="step_no" id="RandDSampleComputerSeqInfo" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           上机测序<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_RandDSampleComputerSeqInfo" name="Num_RandDSampleComputerSeqInfo" value = "{{ Num_RandDSampleComputerSeqInfo }}"/></td>
+                  <input type="hidden" id="ComputerSeq_review_Sign" name="ComputerSeq_review_Sign" value = "{{ ComputerSeq_review_Sign }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_RandDSampleComputerSeqInfo").value;
+                      var ComputerSeq_review_Sign = document.getElementById("ComputerSeq_review_Sign").value;
+                      if(val != 0){
+                          if(ComputerSeq_review_Sign==0){
+                              document.getElementById("RandDSampleComputerSeqInfo").style.backgroundColor="#00aa00";
+                          }else{
+                              document.getElementById("RandDSampleComputerSeqInfo").style.backgroundColor="#FFD119";
+                          }
+                      }
+                  </script>
+                  <li>
+                    <a href="#BioinfoDataAnalysisInfoState" data-toggle="tab"> <span class="step_no" id="BioinfoDataAnalysisInfo" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           生信分析<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_BioinfoDataAnalysisInfo" name="Num_BioinfoDataAnalysisInfo" value = "{{ Num_BioinfoDataAnalysisInfo }}"/></td>
+                  <input type="hidden" id="Bioinfo_review_Sign" name="Bioinfo_review_Sign" value = "{{ Bioinfo_review_Sign }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_BioinfoDataAnalysisInfo").value;
+                      var Bioinfo_review_Sign = document.getElementById("Bioinfo_review_Sign").value;
+                      if(val != 0){
+                          if(Bioinfo_review_Sign==0){
+                              document.getElementById("BioinfoDataAnalysisInfo").style.backgroundColor="#00aa00";
+                          }else{
+                              document.getElementById("BioinfoDataAnalysisInfo").style.backgroundColor="#FFD119";
+                          }
+                      }
+                  </script>
+                  <li>
+                    <a href="#Report_Make_State" data-toggle="tab"> <span class="step_no" id="Bioinfo_Report_Make" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           报告制作<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_Report_Make" name="Num_Report_Make" value = "{{ Num_Report_Make }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_Report_Make").value;
+                      if(val != 0){
+                          document.getElementById("Bioinfo_Report_Make").style.backgroundColor="#00aa00";
+                      }
+                  </script>
+                  <li>
+                    <a href="#Medical_Examine_State" data-toggle="tab"> <span class="step_no" id="Bioinfo_Medical_Examine" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           遗传咨询师审核报告<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_Medical_Examine" name="Num_Medical_Examine" value = "{{ Num_Medical_Examine }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_Medical_Examine").value;
+                      if(val != 0){
+                          document.getElementById("Bioinfo_Medical_Examine").style.backgroundColor="#00aa00";
+                      }
+                  </script>
+                  <li>
+                    <a href="#Operate_Examine_State" data-toggle="tab"> <span class="step_no" id="Bioinfo_Operate_Examine" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           运营审核报告<br />
+                      </span></a>
+                  </li>
+                  <input type="hidden" id="Num_Operate_Examine" name="Num_Operate_Examine" value = "{{ Num_Operate_Examine }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_Operate_Examine").value;
+                      if(val != 0){
+                          document.getElementById("Bioinfo_Operate_Examine").style.backgroundColor="#00aa00";
+                      }
+                  </script>
+
+                   <li>
+                    <a href="#Report_Send_State" data-toggle="tab"> <span class="step_no" id="Bioinfo_Report_Send" style="background: #7F9DB9"></span>
+                      <span class="step_descr">
+                           报告发送<br />
+                      </span></a>
+                  </li>
+
+
+                </ul>
+                  <input type="hidden" id="Num_Report_Send" name="Num_Report_Send" value = "{{ Num_Report_Send }}"/></td>
+                  <script type="text/javascript">
+                      var val = document.getElementById("Num_Report_Send").value;
+                      if(val != 0){
+                          document.getElementById("Bioinfo_Report_Send").style.backgroundColor="#00aa00";
+                      }
+                  </script>
+
+              </div>
+
+              <form class="form-horizontal" novalidate="novalidate">
+                <div class="tab-content">
+                  <div id="RandDSampleInfoState" class="tab-pane">
+                     <small>样本登记状态：{{ RandDSampleInputState }}</small>
+                  </div>
+
+                  <div id="RandDSampleInfoReviewState" class="tab-pane">
+                    <small>收样审核状态：{{ RandDSampleInfostate }}</small>
+                  </div>
+
+                  <div id="RandDSamplePretreatmentInfoState" class="tab-pane">
+                     <small>样本预处理状态：{{ RandDSamplePretreatmentInfoState }}</small>
+                  </div>
+
+                  <div id="RandDSampleDNAExtractInfoState" class="tab-pane">
+                       <small>DNA提取状态：{{ RandDSampleDNAExtractInfoState }}</small>
+                  </div>
+
+                   <div id="RandDSamplePreLibConInfoState" class="tab-pane">
+                      <small>预文库构建状态：{{ RandDSamplePreLibConInfoState }}</small>
+                  </div>
+
+                  <div id="RandDSampleFinLibConInfoState" class="tab-pane">
+                      <small>终文库构建状态：{{ RandDSampleFinLibConInfoState }}</small>
+                  </div>
+
+                  <div id="RandDSampleComputerSeqInfoState" class="tab-pane">
+                      <small>上机测序状态：{{ RandDSampleComputerSeqInfoState }}</small>
+                  </div>
+
+                  <div id="BioinfoDataAnalysisInfoState" class="tab-pane">
+                      <small>生信分析状态：{{ BioinfoDataAnalysisInfoState }}</small>
+                  </div>
+
+                  <div id="Report_Make_State" class="tab-pane">
+                      <small>生信报告制作状态：{{ Report_Make_State }}</small>
+                  </div>
+
+                  <div id="Medical_Examine_State" class="tab-pane">
+                      <small>遗传咨询师审核报告状态：{{ Medical_Examine_State }}</small>
+                  </div>
+
+                  <div id="Operate_Examine_State" class="tab-pane">
+                      <small>运营审核报告状态：{{ Operate_Examine_State }}</small>
+                  </div>
+
+                  <div id="Report_Send_State" class="tab-pane">
+                      <small>报告发送状态：{{ Report_Send_State }}</small>
+                  </div>
+
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+ {% endblock %}

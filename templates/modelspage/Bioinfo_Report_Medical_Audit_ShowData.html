@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>遗传咨询师审核报告信息录入</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <br />
+                    <form enctype="multipart/form-data" name=theForm id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/Bioinfo_Report_Medical_Audit_InfoToDataBases/">
+                      {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*实验编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="ExperimentNumber" class="form-control col-md-7 col-xs-12" type="text" name="ExperimentNumber" readonly value="{{ data.ExperimentNumber }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                          <h2>分析次数</h2>
+
+                      <div class="ln_solid"></div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">分析次数</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="DataAnalysis_num" class="btn btn-default" type="text" name="DataAnalysis_num" readonly value="{{ data.DataAnalysis_num }}">
+                            </div>
+                        </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>报告制作信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="Report_Maker" class="control-label col-md-3 col-sm-3 col-xs-12">报告制作人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Report_Maker" class="form-control col-md-7 col-xs-12" type="text" name="Report_Maker" readonly value="{{ data.Report_Maker }}">
+                        </div>
+                      </div>
+
+                     <div class="form-group">
+                        <label for="Report_Maker" class="control-label col-md-3 col-sm-3 col-xs-12">报告文件</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Report_File_Name" class="btn btn-default" type="text" name="Report_File_Name" readonly value="{{ data.Report_File_Name }}">
+                            <button class="btn btn-success" type=submit name=download id=download>下载报告</button>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="Report_Make_Time" class="control-label col-md-3 col-sm-3 col-xs-12">报告上传时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Report_Make_Time" class="form-control col-md-7 col-xs-12" type="text" name="Report_Make_Time" readonly value="{{ data.Report_Make_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*报告备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Report_Remarks" id="Report_Remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.Report_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>遗传咨询师审核报告信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                       <div class="form-group">
+                        <label for="Medical_Examine_Result" class="control-label col-md-3 col-sm-3 col-xs-12">*审核结果</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Medical_Examine_Result" class="btn btn-default" type="text" name="Medical_Examine_Result" readonly value="{{ data.Medical_Examine_Result }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="Medical_Examine_Result" class="control-label col-md-3 col-sm-3 col-xs-12">*审核时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Medical_Examine_Time" class="form-control col-md-7 col-xs-12t" type="text" name="Medical_Examine_Time" readonly value="{{ data.Medical_Examine_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">审核备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Medical_Examine_Remarks" id="Medical_Examine_Remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.Medical_Examine_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

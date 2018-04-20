@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>生信数据分析信息录入</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/Bioinfo_DataAnalysisInfoToDataBases/">
+                      {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*实验编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="ExperimentNumber" class="form-control col-md-7 col-xs-12" type="text" name="ExperimentNumber" readonly value="{{ data.ExperimentNumber }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>任务分派信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="Next_TaskProgress_Man" class="control-label col-md-3 col-sm-3 col-xs-12">*任务接收者</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Next_TaskProgress_Man" class="btn btn-default" type="text" name="Next_TaskProgress_Man" readonly value="{{ data.Next_TaskProgress_Man }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*数据下机路径</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DataPath" class="form-control col-md-7 col-xs-12" type="text" name="DataPath" readonly value="{{ data.DataPath }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="Next_TaskProgress_Man" class="control-label col-md-3 col-sm-3 col-xs-12">*分派时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Next_TaskProgress_Time" class="form-control col-md-7 col-xs-12" type="text" name="Next_TaskProgress_Time" readonly value="{{ data.Next_TaskProgress_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" style="display:none;">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">任务次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_num" class="btn btn-default" type="text" name="DNA_extraction_num" readonly value="{{ data.DNA_extraction_num }}">
+                          <input id="Build_Prelib_num" class="btn btn-default" type="text" name="Build_Prelib_num" readonly value="{{ data.Build_Prelib_num }}">
+                          <input id="Build_finlib_num" class="btn btn-default" type="text" name="Build_finlib_num" readonly value="{{ data.Build_finlib_num }}">
+                          <input id="Computer_Seq_num" class="btn btn-default" type="text" name="Computer_Seq_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Next_TaskProgress_Remarks" id="Next_TaskProgress_Remarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.Next_TaskProgress_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>分析结果信息录入</h2>
+
+                      <div class="ln_solid"></div>
+
+                       <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*数据质量</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="DataQquality" name="DataQquality" class="btn btn-default" required>
+                                <option id="option01" name="option01" value="合格">合格</option>
+                                <option id="option02" name="option02" value="警告">警告</option>
+                                <option id="option03" name="option03" value="不合格">不合格</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*有效测序深度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Effective_sequencing_depth" class="form-control col-md-7 col-xs-12" type="text" name="Effective_sequencing_depth" placeholder="有效测序深度">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*Sequencing file name</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="SequencingFileName" class="form-control col-md-7 col-xs-12" type="text" name="SequencingFileName" placeholder="Sequencing file name">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*QC result</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="QC_Result" class="form-control col-md-7 col-xs-12" type="text" name="QC_Result" placeholder="QC result">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*Path to sorted.deduped.bam</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Path_To_Sorted_Deduped_Bam" class="form-control col-md-7 col-xs-12" type="text" name="Path_To_Sorted_Deduped_Bam" placeholder="Path to sorted.deduped.bam">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="AnalysisRemarks" id="AnalysisRemarks" class="form-control col-md-7 col-xs-12" rows="5"  placeholder="任务备注"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button class="btn btn-success" type="submit" name="ClinSampleDetermine">确定提交</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

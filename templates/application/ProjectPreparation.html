@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    	<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>AnchorDx Lims 合同拟定</title>
+
+		<!-- Fav and touch icons
+
+	    <!-- Css files -->
+	   <link href="/static/css/MethylationAnalysis/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/css/MethylationAnalysis/jquery.mmenu.css" rel="stylesheet">
+		<link href="/static/css/MethylationAnalysis/font-awesome.min.css" rel="stylesheet">
+		<link href="/static/css/MethylationAnalysis/climacons-font.css" rel="stylesheet">
+
+		<link href="/static/css/MethylationAnalysis/morris.css" rel="stylesheet">
+		<link href="/static/css/MethylationAnalysis/jquery-ui-1.10.4.min.css" rel="stylesheet">
+
+	    <link href="/static/css/MethylationAnalysis/style.min.css" rel="stylesheet">
+		<link href="/static/css/MethylationAnalysis/add-ons.min.css" rel="stylesheet">
+
+    <!-- 引入必须的css和js文件 -->
+
+<!-- start: JavaScript-->
+	<!--[if !IE]>-->
+
+	<script src="/static/js/homepage/jquery-2.1.1.min.js"></script>
+
+	<!--<![endif]-->
+
+	<!--[if IE]>
+	<script src="/static/js/homepage/jquery.js"></script>
+	<![endif]-->
+
+	<!--[if !IE]>-->
+
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='/static/js/homepage/jquery-2.1.1.min.js'>"+"<"+"/script>");
+		</script>
+
+	<!--<![endif]-->
+
+	<!--[if IE]>
+
+		<script type="text/javascript">
+	 	window.jQuery || document.write("<script src='/static/js/homepage/jquery.js'>"+"<"+"/script>");
+		</script>
+
+	<![endif]-->
+
+    <!--引入wangEditor.css-->
+    <script src="/static/js/homepage/chosen/chosen.jquery.min.js"></script>
+    <link href="/static/js/homepage/chosen/chosen.css" rel="stylesheet" />
+
+    <script src="/static/js/laydate/laydate.js"></script>
+
+	    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+</head>
+
+<body>
+	<!-- start: Header -->
+	<div class="navbar" role="navigation">
+
+		<div class="container-fluid">
+
+			<!-- <ul class="nav navbar-nav navbar-actions navbar-left">
+				<li class="visible-md visible-lg"><a href="#" id="main-menu-toggle"><img src="<%=basePath%>images/login/list.png"><i class="fa fa-th-large"></i></a></li>
+				<li class="visible-xs visible-sm"><a href="#" id="sidebar-menu"><i class="fa fa-navicon"></i></a></li>
+			</ul> -->
+
+	        <ul class="nav navbar-nav navbar-right">
+
+                <li class="dropdown visible-md visible-lg">
+	        		<a href="#" class="dropdown-toggle" data-toggle="dropdown"></a>
+	      		</li>
+
+
+				<li class="dropdown visible-md visible-lg">
+	        		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, {{ data.username }}</a>
+	        		<ul class="dropdown-menu">
+						<li class="dropdown-menu-header">
+							<strong>Account</strong>
+						</li>
+						<li><a href="/homepage/"><img src="/static/images/homepage/PersonalInformation.jpg">个人信息</a></li>
+						<li class="divider"></li>
+                        <li><a href="/homepage/"><img src="/static/images/homepage/password.jpg">修改密码</a></li>
+						<li class="divider"></li>
+						<li><a href="/homepage/"><img src="/static/images/homepage/logout.png">Logout</a></li>
+	        		</ul>
+	      		</li>
+				<li><a href="/homepage/"><img src="/static/images/homepage/logout.png">Logout</a></li>
+			</ul>
+
+		</div>
+
+	</div>
+	<!-- end: Header -->
+
+	<div class="container-fluid content">
+
+		<div class="row">
+
+			<!-- start: Main Menu -->
+			<div class="sidebar ">
+
+				<div class="sidebar-collapse">
+					<div class="t-center">
+                     <span><img class="text-logo" src="/static/images/homepage/logo.png"></span>
+                    </div>
+					<div class="sidebar-menu">
+						<ul class="nav nav-sidebar">
+							<li><a href="/homepage/"><i class="fa fa-laptop"></i><span class="text"> 首页</span></a></li>
+							<li><a href="/ContractFormulation/"><i class="fa fa-laptop"></i><span class="text">合同拟定</span></a></li>
+							<li><a href="/ContractAudit/"><i class="fa fa-laptop"></i><span class="text">合同审核</span></a></li>
+							<li><a href="/ProjectPreparation/"><i class="fa fa-credit-card"></i><span class="text">项目申请</span></a></li>
+							<li><a href="/ProjectAudit/"><i class="fa fa-credit-card"></i><span class="text">项目审核</span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="sidebar-footer">
+
+					<div class="sidebar-brand">
+						AnchorDx
+					</div>
+
+					<ul class="sidebar-terms">
+						<li><a href="#">Teams</a></li>
+						<li><a href="#">Privacy</a></li>
+						<li><a href="#">Help</a></li>
+						<li><a href="#">About</a></li>
+					</ul>
+
+				</div>
+
+			</div>
+			<!-- end: Main Menu -->
+        </div>
+    </div>
+
+    <div class="main">
+
+        <div class="panel-heading" style="text-align:center">
+            <h1><strong>立项申请</strong></h1>
+        </div>
+
+		<form method="POST" action="/contract/" class="form-horizontal" enctype="multipart/form-data">
+
+            <div class="form-group">
+                    <label for="focusedinput" class="col-sm-2 control-label">*项目编号</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="sam_code_con" name="sam_code_con" placeholder="项目编号" required/>
+					</div>
+			</div>
+
+             <div class="form-group">
+                    <label for="focusedinput" class="col-sm-2 control-label">*项目名称</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="contract_name" name="contract_name" placeholder="项目名称" required/>
+					</div>
+			</div>
+
+            <div class="form-group">
+               <label for="selector1" class="col-sm-2 control-label">*项目类型</label>
+               <div class="col-sm-8">
+                    <select id="poj_way" name="poj_way" class="form-control">
+                        <option selected="selected" value="【请选择...】">【请选择...】</option>
+                        <option value="小RNA">小RNA</option>
+                        <option value="一代测序">一代测序</option>
+                        <option value="二代全基因">二代全基因</option>
+                        <option value="二代全外显子">二代全外显子</option>
+                        <option value="DDPCR">DDPCR</option>
+                        <option value="常规PCR">常规PCR</option>
+                        <option value="GCMS">GCMS</option>
+                        <option value="LCMS">LCMS</option>
+                        <option value="基因芯片">基因芯片</option>
+                        <option value="IFCTC">IFCTC</option>
+                        <option value="CTC">CTC</option>
+                        <option value="其他平台描述">其他平台描述</option>
+                    </select>
+               </div>
+            </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">合同名称</label>
+			    <div class="col-sm-8">
+				    <input type="text" class="form-control" id="contract_client_company" name="contract_client_company" placeholder="合同名称" >
+			    </div>
+		    </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">客户单位</label>
+			    <div class="col-sm-8">
+				    <input type="text" class="form-control" id="contract_client_company" name="contract_client_company" placeholder="客户单位" >
+			    </div>
+		    </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">物种名称</label>
+			    <div class="col-sm-8">
+				    <input type="text" class="form-control" id="contract_client_company" name="contract_client_company" placeholder="物种名称" >
+			    </div>
+		    </div>
+
+           <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">*开始日期</label>
+				<div class="col-sm-8">
+				    <input class="form-control" id="member.birth" name="member.birth"  placeholder="点击选择日期" onClick="laydate()">
+				</div>
+           </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">*结束日期</label>
+				<div class="col-sm-8">
+				    <input class="form-control" id="contract_time1" name="contract_time1"  placeholder="点击选择日期" onClick="laydate()">
+				</div>
+           </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">实验负责人</label>
+			    <div class="col-sm-8">
+				    <input type="text" class="form-control" id="contract_client_company" name="contract_client_company" placeholder="实验负责人" >
+			    </div>
+		    </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">项目跟进人</label>
+			    <div class="col-sm-8">
+				    <input type="text" class="form-control" id="contract_client_company" name="contract_client_company" placeholder="项目跟进人" >
+			    </div>
+		    </div>
+
+           <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">*首款（元）</label>
+                <div class="col-sm-8">
+                    <input type="number" min="0" class="form-control" id="contract_pay" name="contract_pay" placeholder="首款（元）" required  >
+			    </div>
+           </div>
+
+           <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">*首款到账日期</label>
+				<div class="col-sm-8">
+				    <input class="form-control" id="contract_time" name="contract_time"  placeholder="点击选择日期" onClick="laydate()">
+				</div>
+           </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">*尾款（元）</label>
+                <div class="col-sm-8">
+                    <input type="number" min="0" class="form-control" id="contract_pay" name="contract_pay" placeholder="尾款（元）" required  >
+			    </div>
+           </div>
+
+           <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">*尾款到账日期</label>
+				<div class="col-sm-8">
+				    <input class="form-control" id="contract_time" name="contract_time"  placeholder="点击选择日期" onClick="laydate()">
+				</div>
+           </div>
+
+            <div class="form-group">
+                <label for="focusedinput" class="col-sm-2 control-label">*销售员</label>
+				<div class="col-sm-8">
+                    <input type="text" class="form-control" id="contract_name" name="contract_name" placeholder="销售员" required/>
+                </div>
+			</div>
+
+            <div class="form-group">
+               <label for="selector1" class="col-sm-2 control-label">*样品处理</label>
+               <div class="col-sm-8">
+                    <select id="poj_way" name="poj_way" class="form-control">
+                        <option selected="selected" value="【请选择...】">【请选择...】</option>
+                        <option value="丢弃">丢弃</option>
+                        <option value="保存">保存</option>
+                        <option value="返还">返还</option>
+                    </select>
+               </div>
+            </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">*合同金额（元）</label>
+                <div class="col-sm-8">
+                    <input type="number" min="0" class="form-control" id="contract_pay" name="contract_pay" placeholder="合同金额（元）" required  >
+			    </div>
+           </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">项目描述</label>
+			    <div class="col-sm-8">
+				    <textarea name="newcontext" id="limit" class="form-control" rows="5" style="width:100%;"></textarea>
+			    </div>
+		    </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">信息分析描述</label>
+			    <div class="col-sm-8">
+				    <textarea name="newcontext" id="limit" class="form-control" rows="5" style="width:100%;"></textarea>
+			    </div>
+		    </div>
+
+            <div class="form-group">
+			    <label for="focusedinput" class="col-sm-2 control-label">其它（备注）</label>
+			    <div class="col-sm-8">
+				    <textarea name="newcontext" id="limit" class="form-control" rows="5" style="width:100%;"></textarea>
+			    </div>
+		    </div>　
+
+            <div class="col-sm-8 col-sm-offset-2">
+                <button class="btn-success btn" name="submit" value="submit">提交</button>
+                <button class="btn-default btn" onclick="window.history.back()">返回</button>
+            </div>
+            <br><br> <br><br>
+
+		</form>
+
+    </div>
+
+
+ <script src="/static/js/homepage/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/static/js/homepage/bootstrap.min.js"></script>
+	<!-- page scripts -->
+	<script src="/static/js/homepage/plugins/jquery-ui/js/jquery-ui-1.10.4.min.js"></script>
+	<script src="/static/js/homepage/plugins/touchpunch/jquery.ui.touch-punch.min.js"></script>
+	<script src="/static/js/homepage/plugins/moment/moment.min.js"></script>
+	<script src="/static/js/homepage/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/static/js/homepage/plugins/excanvas/excanvas.min.js"></script>
+	<![endif]-->
+	<script src="/static/js/homepage/plugins/flot/jquery.flot.min.js"></script>
+	<script src="/static/js/homepage/plugins/flot/jquery.flot.pie.min.js"></script>
+	<script src="/static/js/homepage/plugins/flot/jquery.flot.stack.min.js"></script>
+	<script src="/static/js/homepage/plugins/flot/jquery.flot.resize.min.js"></script>
+	<script src="/static/js/homepage/plugins/flot/jquery.flot.time.min.js"></script>
+	<script src="/static/js/homepage/plugins/flot/jquery.flot.spline.min.js"></script>
+	<script src="/static/js/homepage/plugins/autosize/jquery.autosize.min.js"></script>
+	<script src="/static/js/homepage/plugins/placeholder/jquery.placeholder.min.js"></script>
+	<script src="/static/js/homepage/plugins/raphael/raphael.min.js"></script>
+	<script src="/static/js/homepage/plugins/morris/js/morris.min.js"></script>
+	<script src="/static/js/homepage/plugins/jvectormap/js/jquery-jvectormap-1.2.2.min.js"></script>
+	<script src="/static/js/homepage/plugins/jvectormap/js/jquery-jvectormap-world-mill-en.js"></script>
+	<script src="/static/js/homepage/plugins/jvectormap/js/gdp-data.js"></script>
+	<script src="/static/js/homepage/plugins/gauge/gauge.min.js"></script>
+	<!-- theme scripts -->
+	<script src="/static/js/homepage/SmoothScroll.js"></script>
+	<script src="/static/js/homepage/jquery.mmenu.min.js"></script>
+	<script src="/static/js/homepage/core.min.js"></script>
+	<script src="/static/js/homepage/plugins/d3/d3.min.js"></script>
+                        <script type="text/javascript" src="/static/js/homepage/layer/layer.js"></script>
+
+	<!-- inline scripts related to this page -->
+	<script src="/static/js/homepage/pages/index.js"></script>
+
+    <script src="/static/js/homepage/plugins/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="/static/js/homepage/plugins/datatables/js/dataTables.bootstrap.min.js"></script>
+
+	<!-- end: JavaScript-->
+</body>
+</html>

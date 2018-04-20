@@ -1,0 +1,665 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+           <!-- top tiles -->
+             <div class="row" style="text-align:center">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel" >
+                            <input type="button" value="样本信息"  class="btn btn-primary" style=" border: 0;background-color: white; color: black; display:none" id="SampleInfo" onclick="show(this)"/>
+                            <input type="button" value="样本预处理信息" class="btn btn-primary" style=" border: 0; background-color: white; color: black; display:none" id="Pretreatmentbutton" onclick="show(this)"/>
+                            <input type="button" value="{{ TaskProgress }}"  class="btn btn-primary" style="display:none; border: 0;background-color: white; color: black" id="TaskProgress">
+                        </div>
+                    </div>
+                </div>
+
+             <div class="row" style="display:none" id="SampleInfoDiv">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>患者信息<small>*号为必填项</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                          <!--<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="#">Settings 1</a>
+                              </li>
+                              <li><a href="#">Settings 2</a>
+                              </li>
+                            </ul>
+                          </li>-->
+                          <li><a class="close-link"><i class="fa fa-close"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <br />
+                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/Pretreatment_taskToExamineOperation/">
+                          {%  for data in data %}
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*患者姓名</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" id="PatientName" name="PatientName" class="form-control col-md-7 col-xs-12" readonly value="{{ data.PatientName }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="PatientAge" class="control-label col-md-3 col-sm-3 col-xs-12">*患者年龄（岁）</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PatientAge" class="form-control col-md-7 col-xs-12" type="number" name="PatientAge"  readonly value="{{ data.PatientAge }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*患者性别</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="PatientSex" class="btn btn-default" type="text" name="PatientSex"  readonly value="{{ data.PatientSex }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientBirthday">*患者身份证号码</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PatientBirthday" name="PatientBirthday" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly value="{{ data.PatientBirthday }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="PatientPhoneNumber" class="control-label col-md-3 col-sm-3 col-xs-12">*患者联系电话</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PatientPhoneNumber " class="form-control col-md-7 col-xs-12" type="number" name="PatientPhoneNumber" readonly value="{{ data.PatientPhoneNumber }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="PatientEmail" class="control-label col-md-3 col-sm-3 col-xs-12">患者电子邮箱</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><label><i class="fa fa-envelope-o"></i></label></div>
+                                    <input type="text" class="form-control" id="PatientEmail" name="PatientEmail" readonly value="{{ data.PatientEmail }}">
+                                </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="PatientAddress" class="control-label col-md-3 col-sm-3 col-xs-12">*报告接收地址</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PatientAddress" class="form-control col-md-7 col-xs-12" type="text" name="PatientAddress" readonly value="{{ data.PatientAddress }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="treatment_hospital" class="control-label col-md-3 col-sm-3 col-xs-12">*就诊医院</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" class="form-control" id="treatment_hospital" name="treatment_hospital" readonly value="{{ data.treatment_hospital }}" >
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="treatment_department" class="control-label col-md-3 col-sm-3 col-xs-12">*就诊科室</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" class="form-control" name="treatment_department" id="treatment_department" readonly value="{{ data.treatment_department }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="AttendingDoctor" class="control-label col-md-3 col-sm-3 col-xs-12">*主治医生</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="AttendingDoctor" class="form-control col-md-7 col-xs-12" type="text" name="AttendingDoctor" readonly value="{{ data.AttendingDoctor }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="DoctorEmail" class="control-label col-md-3 col-sm-3 col-xs-12">医生邮箱</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><label><i class="fa fa-envelope-o"></i></label></div>
+                                    <input type="text" class="form-control" id="DoctorEmail" name="DoctorEmail" readonly value="{{ data.DoctorEmail }}">
+                                </div>
+                            </div>
+                          </div>
+                        <div class="ln_solid"></div>
+
+                          <h2>样本信息<small>*号为必填项</small></h2>
+
+                          <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label for="Pathological_diagnosis" class="control-label col-md-3 col-sm-3 col-xs-12">*病理诊断</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="Pathological_diagnosis" class="form-control col-md-7 col-xs-12" type="text" name="Pathological_diagnosis" readonly value="{{ data.Pathological_diagnosis }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="clinical_diagnosis" class="control-label col-md-3 col-sm-3 col-xs-12">*临床诊断</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="clinical_diagnosis" class="form-control col-md-7 col-xs-12" type="text" name="clinical_diagnosis" readonly value="{{ data.clinical_diagnosis }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="Clinical_stage" class="control-label col-md-3 col-sm-3 col-xs-12">*临床分期</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input id="Clinical_stage" class="btn btn-default" type="text" name="Clinical_stage"  readonly value="{{ data.Clinical_stage }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="is_tubercle_history" class="control-label col-md-3 col-sm-3 col-xs-12">*结核病史</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="is_tubercle_history" class="btn btn-default" type="text" name="is_tubercle_history"  readonly value="{{ data.is_tubercle_history }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="tubercle_distribution" class="control-label col-md-3 col-sm-3 col-xs-12">*结节大小和分布</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="tubercle_distribution" class="form-control col-md-7 col-xs-12" type="text" name="tubercle_distribution" readonly value="{{ data.tubercle_distribution }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="sample_source" class="control-label col-md-3 col-sm-3 col-xs-12">*样本来源</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="sample_source" class="form-control col-md-7 col-xs-12" type="text" name="sample_source" readonly value="{{ data.sample_source }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*采集时间</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="acquisition_time" class="form-control col-md-7 col-xs-12" type="text" name="acquisition_time" readonly value="{{ data.acquisition_time }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="family_history" class="control-label col-md-3 col-sm-3 col-xs-12">家族史</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="family_history" class="form-control col-md-7 col-xs-12" type="text" name="family_history" readonly value="{{ data.family_history }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="receiving_time" class="control-label col-md-3 col-sm-3 col-xs-12">*送检时间</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="receiving_time" class="form-control col-md-7 col-xs-12" type="text" name="receiving_time" readonly value="{{ data.receiving_time }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="sample_count" class="control-label col-md-3 col-sm-3 col-xs-12">*样本数量</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="sample_count" class="form-control col-md-7 col-xs-12" type="number" name="sample_count" readonly value="{{ data.sample_count }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="sample_type" class="control-label col-md-3 col-sm-3 col-xs-12">*样本类型</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="sample_type" class="btn btn-default" type="text" name="sample_type"  readonly value="{{ data.sample_type }}">
+                                <p></p>
+                                <input type="text" class="form-control" name="sample_type_text" id="sample_type_text" readonly value="{{ data.sample_type_text }}" >
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="infection_history" class="control-label col-md-3 col-sm-3 col-xs-12">*传染病史</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="infection_history" class="form-control col-md-7 col-xs-12" type="text" name="infection_history" readonly value="{{ data.infection_history }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">基因检测史</label>
+                              <div class="col-md-6 col-sm-6 col-xs-12" id="detected_gene" name="detected_gene">
+                                <input type="hidden" class="form_datetime form-control ng-invalid ng-invalid-required" id="time" name="time" value="{{ data.detected_gene_time }}">
+                                <input type="hidden" class="form_datetime form-control ng-invalid ng-invalid-required" id="name" name="name" value="{{ data.detected_gene_name }}">
+                                <input type="hidden" class="form_datetime form-control ng-invalid ng-invalid-required" id="result" name="result" value="{{ data.detected_gene_result }}">
+                              </div>
+                                    <script type="text/javascript">
+                                        $(document).ready(function display() {
+                                            var str_detected_gene_time = $("#time").val()
+                                            var str_detected_gene_name = $("#name").val()
+                                            var str_detected_gene_result = $("#result").val()
+                                            var strs_detected_gene_time = new Array(); //定义一数组
+                                            var strs_detected_gene_name = new Array(); //定义一数组
+                                            var strs_detected_gene_result = new Array(); //定义一数组
+                                            strs_detected_gene_time = str_detected_gene_time.split(";"); //字符分割
+                                            strs_detected_gene_name = str_detected_gene_name.split(";"); //字符分割
+                                            strs_detected_gene_result = str_detected_gene_result.split(";"); //字符分割
+                                            for (i = 0; i < strs_detected_gene_time.length; i++) {
+                                                var more = i+1;
+                                                $("#detected_gene").append('<p></p>'+
+                                                    '<div class="text-success pull-left" id="pull" name="pull">基因检测史'+more+'</div>' +
+                                                    '<br>' +
+                                                    '<div class="input-group" >' +
+                                                    '<div class="input-group-addon"><label>检测时间</label></div>' +
+                                                    '<input type="text" class="form_datetime form-control ng-invalid ng-invalid-required" id="detected_gene_time" name="detected_gene_time" readonly value="'+strs_detected_gene_time[i]+'">' +
+                                                    '</div>' +
+                                                    '<div class="input-group" >' +
+                                                    '<div class="input-group-addon"><label>检测基因</label></div>' +
+                                                    '<input type="text" class="form_datetime form-control ng-invalid ng-invalid-required" id="detected_gene_name" name="detected_gene_name" readonly value="'+strs_detected_gene_name[i]+'">' +
+                                                    '</div>' +
+                                                    '<div class="input-group" >' +
+                                                    '<div class="input-group-addon"><label>检测结果</label></div>' +
+                                                    '<input type="text" class="form_datetime form-control ng-invalid ng-invalid-required" id="detected_gene_result" name="detected_gene_result" readonly value="'+strs_detected_gene_result[i]+'">' +
+                                                    '</div>' +
+                                                    '</div>'
+                                                );
+                                            }
+                                        });
+                                    </script>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">曾有治疗史</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12" id="treatment_history" name="treatment_history">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><label> 手术</label></div>
+                                    <input type="text" class="form-control" id="treatment_history_surgery" name="treatment_history_surgery" readonly value="{{ data.treatment_history_surgery }}">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><label>化疗</label></div>
+                                    <input type="text" class="form-control" id="treatment_history_chem" name="treatment_history_chem" readonly value="{{ data.treatment_history_chem }}">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><label>靶向治疗</label></div>
+                                    <input type="text" class="form-control" id="treatment_history_therapy" name="treatment_history_therapy" readonly value="{{ data.treatment_history_therapy }}">
+                                </div>
+                            </div>
+                          </div>
+
+                            <div class="ln_solid"></div>
+
+                          <h2>合同信息<small>*号为必填项</small></h2>
+
+                          <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*项目编号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="contract_name" class="form-control col-md-7 col-xs-12" type="text" name="contract_name" readonly value="{{ data.contract_name }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*合同金额（人民币）</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="contract_pay" class="form-control col-md-7 col-xs-12" type="number" name="contract_pay" readonly value="{{ data.contract_pay }}">
+                            </div>
+                            <h3>元</h3>
+                          </div>
+
+                          <div class="form-group">
+                               <label for="pay_way" class="control-label col-md-3 col-sm-3 col-xs-12">*支付方式</label>
+                               <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="pay_way" class="btn btn-default" type="text" name="pay_way"  readonly value="{{ data.pay_way }}" >
+                               </div>
+                          </div>
+
+                            <script type="text/javascript">
+                                 $(document).ready(function display(){
+                                    if ($("#pay_way").val() == 'pos机支付'){
+                                         var cont = '<div class="alert-success" ><span>pos单号(交易参考号)必须填写</span> </div>';
+                                         $('#pos_code').val();
+                                         $('#pos_code_div').show()
+                                    } else {
+                                        $('#pos_code_div').hide()
+                                        $('#pos_code').val('无')
+                                    }
+                                 });
+                            </script>
+
+                            <div class="form-group" id="pos_code_div">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">*pos单号(交易参考号)</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" min="0" class="form-control" id="pos_code" name="pos_code" readonly value="{{ data.pos_code }}" >
+                                </div>
+                            </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*业务员</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="Client" class="form-control col-md-7 col-xs-12" type="text" name="Client" readonly value="{{ data.Client }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（合同备注）</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <textarea name="remarks" id="remarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly >{{ data.remarks }}</textarea>
+                            </div>
+                          </div>
+
+
+                           <div class="ln_solid"></div>
+
+                           <h2>检测方案<small>*号为必填项</small></h2>
+
+                          <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*癌种</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="cancer_type" class="btn btn-default" type="text" name="cancer_type"  readonly value="{{ data.cancer_type }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">*产品类型</label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input id="detection_type" class="form-control col-md-7 col-xs-12" type="text" name="detection_type" readonly value="{{ data.detection_type }}">
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">*产品名称</label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input id="product_name" class="form-control col-md-7 col-xs-12" type="text" name="product_name" readonly value="{{ data.product_name }}">
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*剩余样本是否退回</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="is_return" class="btn btn-default" type="text" name="is_return"  readonly value="{{ data.is_return }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*是否需要发票</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                 <input id="is_invoice" class="btn btn-default" type="text" name="is_invoice"  readonly value="{{ data.is_invoice }}">
+                            </div>
+                          </div>
+
+                           <div class="ln_solid"></div>
+
+                          <h2>收样信息<small>*号为必填项</small></h2>
+
+                          <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*实验编号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="ExperimentNumber" class="form-control col-md-7 col-xs-12" type="text" name="ExperimentNumber" readonly value="{{ data.ExperimentNumber }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*收样时间</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="CollectSamplesDate" class="form-control col-md-7 col-xs-12" type="text" name="CollectSamplesDate" readonly value="{{ data.CollectSamplesDate }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">收样审核备注</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <textarea name="Reason" id="Reason" class="form-control col-md-7 col-xs-12" rows="5"  readonly >{{ data.Reason }}</textarea>
+                            </div>
+                          </div>
+
+                            <div class="ln_solid"></div>
+                            {% endfor %}
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            <div class="row" style="display:none" id="SamplePretreatmentInfoDiv">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>样本信息<small>*号为必填项</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                          <!--<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="#">Settings 1</a>
+                              </li>
+                              <li><a href="#">Settings 2</a>
+                              </li>
+                            </ul>
+                          </li>-->
+                          <li><a class="close-link"><i class="fa fa-close"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <br />
+                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/DNAExtract_taskToExamineOperation/">
+                          {%  for data in SamplePretreatmentInfo %}
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*实验编号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="ExperimentNumber" class="form-control col-md-7 col-xs-12" type="text" name="ExperimentNumber" readonly value="{{ data.ExperimentNumber }}">
+                            </div>
+                          </div>
+
+                            <div class="ln_solid"></div>
+
+                          <h2>样本预处理信息<small>*号为必填项</small></h2>
+
+                          <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*采血管类型</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="Types_of_blood_vessel" class="btn btn-default" type="text" name="Types_of_blood_vessel" readonly value="{{ data.Types_of_blood_vessel }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*分离后血浆管数</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="number_of_plasma" class="form-control col-md-7 col-xs-12" type="number" name="number_of_plasma" readonly value="{{ data.number_of_plasma }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*血浆体积(mL)</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="Plasma_volume" class="form-control col-md-7 col-xs-12" type="number" name="Plasma_volume" readonly value="{{ data.Plasma_volume }}">
+                            </div>
+                            <h4>(mL)</h4>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*白细胞管数</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="number_of_white_blood_cells" class="form-control col-md-7 col-xs-12" type="number" name="number_of_white_blood_cells"  readonly value="{{ data.number_of_white_blood_cells }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*白细胞体积(mL)</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="Leukocyte_volume" class="form-control col-md-7 col-xs-12" type="number" name="Leukocyte_volume" readonly value="{{ data.Leukocyte_volume }}">
+                            </div>
+                            <h4>(mL)</h4>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*操作人</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="Operator" class="form-control col-md-7 col-xs-12" type="text" name="Operator" readonly value="{{ data.Operator }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*操作时间</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="Operating_time" class="form-control col-md-7 col-xs-12" type="text" name="Operating_time" readonly value="{{ data.Operating_time }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <textarea name="Pretreatment_remarks" id="Pretreatment_remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.Pretreatment_remarks }}</textarea>
+                            </div>
+                          </div>
+
+                           <div class="ln_solid"></div>
+
+                            {% endfor %}
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/recoveryTaskOperation/">
+                     <h2>任务信息<small>*号为必填项</small></h2>
+                      <div class="ln_solid"></div>
+
+                      {%  for data in TaskDetails %}
+                        <div class="form-group" style="display:none">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                            </div>
+                        </div>
+
+                      <div class="form-group">
+                        <label for="Next_TaskProgress" class="control-label col-md-3 col-sm-3 col-xs-12">下一步任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input id="Next_TaskProgress" class="btn btn-default" type="text" name="Next_TaskProgress" readonly value="{{ data.Next_TaskProgress }}">
+                        </div>
+                      </div>
+                      <div class="form-group" style="display:none;">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">下一步任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Pretreatment" class="form-control col-md-7 col-xs-12" type="text" name="Pretreatment" readonly value="样本预处理">
+                          <input id="DNA_extraction" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction" readonly value="DNA提取">
+                          <input id="PreLibCon" class="form-control col-md-7 col-xs-12" type="text" name="PreLibCon" readonly value="预文库构建">
+                          <input id="FinLibCon" class="form-control col-md-7 col-xs-12" type="text" name="FinLibCon" readonly value="终文库构建">
+                          <input id="ComSeq" class="form-control col-md-7 col-xs-12" type="text" name="ComSeq" readonly value="上机测序">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="Next_TaskProgress_Time" class="control-label col-md-3 col-sm-3 col-xs-12">任务暂停时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Next_TaskProgress_Time" class="form-control col-md-7 col-xs-12" type="text" name="Next_TaskProgress_Time" readonly value="{{ data.Next_TaskProgress_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Next_TaskProgress_Remarks" id="Next_TaskProgress_Remarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.Next_TaskProgress_Remarks }}</textarea>
+                        </div>
+                      </div>
+                     <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button type="submit" class="btn btn-success" name="recoveryTask">恢复任务</button>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <script>
+                var TaskProgress=document.getElementById("TaskProgress").value; 
+                var buttonArray=new Array();
+                if(TaskProgress=="样本登记"){
+                    buttonArray=new Array("SampleInfo");
+                }else if(TaskProgress=="样本预处理"){
+                    buttonArray=new Array("SampleInfo","Pretreatmentbutton");
+                }
+                var buttonId=new Array("SampleInfo","Pretreatmentbutton");
+                for (i=0;i<buttonId.length;i++) {
+                    if(contains(buttonArray,buttonId[i])){
+                        document.getElementById(buttonId[i]).style.display="";
+                    }else{
+                        document.getElementById(buttonId[i]).style.display="none";
+                    }
+                }
+                document.getElementById(buttonId[buttonArray.length-1]).style.color="red";
+                //setDivStyle(buttonId[0]);
+                setDivStyle(buttonId[buttonArray.length-1]);
+
+                function show(e){
+                    //location.reload(true);
+                    var id=e.getAttribute("id");
+                    button=exist(id);
+                    button.setAttribute("style","border: 0; background-color: white;color: red;");
+                    setbuttonStyle(id);
+                    setDivStyle(id);
+                }
+                function setbuttonStyle(id){
+                    //buttonArray=new Array("SampleInfo","DNAExtract","PreLibraryConstruction","FinalLibraryConstruction");
+                    for (i=0;i<buttonArray.length;i++) {
+                         button=exist(buttonArray[i]);
+                         if(buttonArray[i]!=id){
+                            button.setAttribute("style","border: 0; background-color: white;color: black;");  
+                         }
+                    }
+            }
+                function contains(arr,obj){
+                  var i=arr.length;  
+                  while(i--){  
+                    if(arr[i] === obj){  
+                      return true;  
+                    }
+                  }
+                  return false;  
+                }
+                function setDivStyle(id){
+                    var divArray=new Array();
+                    if(id=="Pretreatmentbutton"){
+                         divArray=new Array("SamplePretreatmentInfoDiv");
+                    }else if(id=="SampleInfo"){
+                         divArray=new Array("SampleInfoDiv");
+                    }
+                    var mycars=new Array("SampleInfoDiv","SamplePretreatmentInfoDiv");
+                    for (i=0;i<mycars.length;i++) {
+                         if(contains(divArray,mycars[i])){
+                            document.getElementById(mycars[i]).style.display="block";
+                         }else{
+                            document.getElementById(mycars[i]).style.display="none";
+                         }
+                    } 
+            }
+                function exist(id){
+                    var bt=document.getElementById(id);
+              if(null==bt){
+               return false;
+              }else{
+                 return bt;    
+              }
+            }
+            </script>
+
+ {% endblock %}

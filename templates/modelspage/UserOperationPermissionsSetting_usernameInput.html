@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="">
+        <form enctype="multipart/form-data" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/UserOperationPermissionsSettingUsernameInput/">
+
+            <div class="" style="align-content: center">
+                <div class="row" style="align-content: center">
+                    <div class="col-md-12 col-sm-12 col-xs-12" style="align-content: center">
+                        <div class="x_panel" style="align-content: center">
+                            <h2>用户操作权限设置</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                          <div class="x_content">
+                               <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">*用户账号</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                      <input id="username" class="form-control col-md-7 col-xs-12" type="text" name="username" placeholder="用户账号" required>
+                                    </div>
+                               </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                          <div class="x_content">
+                               <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">*选择用户所在部门</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                      <select id="department" name="department" class="form-control col-md-7 col-xs-12" onchange="Change(this)">
+                                            <option selected="selected" value="管理员">管理员</option>
+                                            <option value="生信部">生信部</option>
+                                            <option value="财务部">财务部</option>
+                                            <option value="研发部">研发部</option>
+                                            <option value="临检中心">临检中心</option>
+                                            <option value="销售部">销售部</option>
+                                            <option value="市场部">市场部</option>
+                                            <option value="医学部">医学部</option>
+                                            <option value="软件工程部">软件工程部</option>
+                                      </select>
+                                    </div>
+                               </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_content">
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center">
+                                      <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                                      <button class="btn btn-success" type="submit" name="Determine">确定提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}

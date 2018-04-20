@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+      <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>合同信息审核</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>合同信息<small>*号为必填项</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/contractToExamineOperation/">
+                    {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*合同编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="HT{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" type="hidden">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*实验编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="ExperimentNumber" class="form-control col-md-7 col-xs-12" type="text" name="ExperimentNumber" readonly value="{{ data.ExperimentNumber }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*患者姓名</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="PatientName" name="PatientName" class="form-control col-md-7 col-xs-12" readonly value="{{ data.PatientName }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*采集时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="acquisition_time" class="form-control col-md-7 col-xs-12" type="text" name="acquisition_time" readonly value="{{ data.acquisition_time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="sample_type" class="control-label col-md-3 col-sm-3 col-xs-12">*样本类型</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="sample_type" class="btn btn-default" type="text" name="sample_type"  readonly value="{{ data.sample_type }}">
+                            <p></p>
+                            <input type="text" class="form-control" name="sample_type_text" id="sample_type_text" readonly value="{{ data.sample_type_text }}" >
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*项目编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="contract_name" class="form-control col-md-7 col-xs-12" type="text" name="contract_name" readonly value="{{ data.contract_name }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*合同金额（人民币）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="contract_pay" class="form-control col-md-7 col-xs-12" type="number" name="contract_pay" readonly value="{{ data.contract_pay }}">
+                        </div>
+                        <h3>元</h3>
+                      </div>
+
+                      <div class="form-group">
+                           <label for="pay_way" class="control-label col-md-3 col-sm-3 col-xs-12">*支付方式</label>
+                           <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="pay_way" class="btn btn-default" type="text" name="pay_way"  readonly value="{{ data.pay_way }}" >
+                           </div>
+                      </div>
+
+                        <script type="text/javascript">
+                             $(document).ready(function display(){
+                                if ($("#pay_way").val() == 'pos机支付'){
+                                     var cont = '<div class="alert-success" ><span>pos单号(交易参考号)必须填写</span> </div>';
+                                     $('#pos_code').val();
+                                     $('#pos_code_div').show()
+                                } else {
+                                    $('#pos_code_div').hide()
+                                    $('#pos_code').val('无')
+                                }
+                             });
+                        </script>
+
+                        <div class="form-group" id="pos_code_div">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*pos单号(交易参考号)</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" min="0" class="form-control" id="pos_code" name="pos_code" readonly value="{{ data.pos_code }}" >
+                            </div>
+                        </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*业务员</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Client" class="form-control col-md-7 col-xs-12" type="text" name="Client" readonly value="{{ data.Client }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="remarks" id="remarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly >{{ data.remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*癌种</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="cancer_type" class="btn btn-default" type="text" name="cancer_type"  readonly value="{{ data.cancer_type }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">*产品名称</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="radio block"><label><input type="checkbox" id="product_name" name="product_name" value="10基因" DISABLED>10基因
+                                  <div><small>(10个肺癌靶向药物相关基因：EGFR/KRAS/BRAF/PIK3CA/ALK/ROS1/ERBB2/MET/RET/BIM)</small></div></label></div>
+                              <div class="radio block"><label><input type="checkbox" id="product_name" name="product_name" value="11基因" DISABLED>11基因
+                                  <div><small>(11个肠癌药物相关基因：KRAS/NRAS/BRAF/PIK3CA/PTEN/EGFR/HRAS/APC/TP53/DPYD/UGT1A1)</small></div></label></div>
+                              <div class="radio block"><label><input type="checkbox" id="product_name" name="product_name" value="72基因" DISABLED>72基因
+                                  <div><small>(68个靶向药物相关基因；21个遗传性肿瘤相关基因；4个药物代谢相关基因)</small></div></label></div>
+                              <div class="radio block"><label><input type="checkbox" id="product_name" name="product_name" value="315基因" DISABLED>315基因
+                                  <div><small>(68个靶向药物、65个遗传性肿瘤、22个药物代谢和239个肿瘤信号通路的相关基因)</small></div></label></div>
+                              <div class="radio block"><label><input type="checkbox" id="product_name" name="product_name" value="MSI" DISABLED> MSI
+                                  <div><small>(5个微卫星位点：BAT25/BAT26/D5S346/D3S123/D17S250)</small></div></label></div>
+                              <div class="radio block"><label><input type="checkbox" id="product_name" name="product_name" value="融合7基因" DISABLED> 融合7基因
+                                  <div><small>(7个肺癌靶向用药相关融合基因：ALK/ROS1/RET/BRAF/NTRK1/NTRK2/NTRK3)</small></div></label></div>
+                          </div>
+                      </div>
+
+                        <input type="hidden" id="Old_detection_type" name="Old_detection_type" class="form-control col-md-7 col-xs-12" value="{{ data.detection_type }}">
+                        <input type="hidden" id="Old_product_name" name="Old_product_name" class="form-control col-md-7 col-xs-12" value="{{ data.product_name }}">
+                        <script>
+                            var strs_Old_detection_type = document.getElementById("Old_detection_type").value.split(";");
+                            var boxes_Old_detection_type = document.getElementsByName("detection_type");
+                            for(i=0;i<boxes_Old_detection_type.length;i++){
+                                for(j=0;j<strs_Old_detection_type.length;j++){
+                                    if(boxes_Old_detection_type[i].value == strs_Old_detection_type[j]){
+                                        boxes_Old_detection_type[i].checked = true;
+                                        break
+                                    }
+                                }
+                            }
+                            var strs_Old_product_name = document.getElementById("Old_product_name").value.split(";");
+                            var boxes_Old_product_name = document.getElementsByName("product_name");
+                            for(i=0;i<boxes_Old_product_name.length;i++){
+                                for(j=0;j<strs_Old_product_name.length;j++){
+                                    if(boxes_Old_product_name[i].value == strs_Old_product_name[j]){
+                                        boxes_Old_product_name[i].checked = true;
+                                        break
+                                    }
+                                }
+                            }
+
+                        </script>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*是否需要发票</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input id="is_invoice" class="btn btn-default" type="text" name="is_invoice"  readonly value="{{ data.is_invoice }}">
+                        </div>
+                      </div>
+
+                      {% endfor %}
+
+                       <div class="ln_solid"></div>
+
+                        <h2>其他信息<small>*号为必填项</small></h2>
+
+                      <div class="ln_solid"></div>
+                      {%  for data in temp_contractReviewInfo %}
+
+                       <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">财务本次审核次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="contract_Times" class="btn btn-default" type="number" name="contract_Times" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*收款金额（人民币）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Receivables" class="form-control col-md-7 col-xs-12" type="text" name="Receivables" value="{{ data.Receivables }}">
+                        </div>
+                        <h3>元</h3>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*收款日期</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="ReceivablesDate" class="form-control col-md-7 col-xs-12" type="text" name="ReceivablesDate" value="{{ data.ReceivablesDate }}" onClick="laydate()">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*审核备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="contractReviewReason" id="contractReviewReason" class="form-control col-md-7 col-xs-12" rows="5" >{{ data.contractReviewReason }}</textarea>
+                        </div>
+                      </div>
+
+                        <div class="ln_solid"></div>
+                      {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button type="submit" class="btn btn-success" name="submitModify">确认修改</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+{% endblock %}

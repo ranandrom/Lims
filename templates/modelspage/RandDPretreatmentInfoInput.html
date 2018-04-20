@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        <script type="text/javascript">
+            //jeDate.skin('gray');
+            jeDate({
+                dateCell:"#indate",//isinitVal:true,
+                format:"YYYY-MM",
+                isTime:false, //isClear:false,
+                minDate:"2015-10-19 00:00:00",
+                maxDate:"2016-11-8 00:00:00"
+            })
+            jeDate({
+                dateCell:"#dateinfo",
+                format:"YYYY年MM月DD日 hh:mm:ss",
+                isinitVal:true,
+                isTime:true, //isClear:false,
+                minDate:"2014-09-19 00:00:00",
+                okfun:function(val){alert(val)}
+            })
+
+            //alert("YYYY/MM".match(/\w+|d+/g).join("-"))
+         </script>
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>研发样本预处理信息录入</h2>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息<small>*号为必填项</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandDPretreatmentInfoToDataBases/">
+                    {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+                      
+                      <h2>样本预处理信息<small>*号为必填项</small></h2>
+                      
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*血浆总体积(mL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Plasma_volume" class="form-control col-md-7 col-xs-12" type="text" name="Plasma_volume" placeholder="血浆总体积(mL)">
+                        </div>
+                        <h4>(mL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*分装管数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Division_Tube_Number" class="form-control col-md-7 col-xs-12" type="text" name="Division_Tube_Number" placeholder="分装管数">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*白细胞分离管数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="number_of_white_blood_cells" class="form-control col-md-7 col-xs-12" type="text" name="number_of_white_blood_cells" placeholder="白细胞分离管数">
+                        </div>
+                      </div>
+
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*是否溶血</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="isHemolysis" name="isHemolysis" class="btn btn-default">
+                                <option selected="selected" value="否">否</option>
+                                <option value="微溶">微溶</option>
+                                <option value="严重">严重</option>
+                            </select>
+                        </div>
+                      </div>
+
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*是否脂血</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="isFatBlood" name="isFatBlood" class="btn btn-default">
+                                <option selected="selected" value="否">否</option>
+                                <option value="是">是</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*采血管类型</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="Type_of_blood_vessel" name="Type_of_blood_vessel" class="btn btn-default">
+                                <option selected="selected" value="EDTA管">EDTA管</option>
+                                <option value="Streck管">Streck管</option>
+                                <option value="未知">未知</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*分血时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Blood_sharing_time" class="form-control col-md-7 col-xs-12" type="text" name="Blood_sharing_time" placeholder="分血时间"
+                                 onClick="jeDate({dateCell:'#Blood_sharing_time',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Pretreatment_remarks" id="Pretreatment_remarks" class="form-control col-md-7 col-xs-12" rows="5" placeholder="其它（备注）"></textarea>
+                        </div>
+                      </div>
+
+                       <div class="ln_solid"></div>
+                      {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button type="submit" class="btn btn-success" name="Determine">确认提交</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>上机测序数据录入信息</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/Bioinfo_taskToExamineOperation/">
+                      {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>上机测序信息<small>*号为必填项</small></h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*预文库名称</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="PreLibConName" class="form-control col-md-7 col-xs-12" type="text" name="PreLibConName" readonly value="{{ data.PreLibConName }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*终文库名称</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="FinLibConName" class="form-control col-md-7 col-xs-12" type="text" name="FinLibConName" readonly value="{{ data.FinLibConName }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*浓度(ng/µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_Concentration" class="form-control col-md-7 col-xs-12" type="number" name="DNA_Concentration" readonly value="{{ data.DNA_Concentration }}">
+                        </div>
+                        <h4>(ng/µL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*稀释倍数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DilutionMultiple" class="form-control col-md-7 col-xs-12" type="text" name="DilutionMultiple" readonly value="{{ data.DilutionMultiple }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*qPCR测量值(pM)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="qPCR" class="form-control col-md-7 col-xs-12" type="text" name="qPCR" readonly value="{{ data.qPCR }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*文库平均长度(bp)7</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="AverageLengthLibrary" class="form-control col-md-7 col-xs-12" type="text" name="AverageLengthLibrary" readonly value="{{ data.AverageLengthLibrary }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*文库有效浓度(nM)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="LibEffConcentration" class="form-control col-md-7 col-xs-12" type="text" name="LibEffConcentration" readonly value="{{ data.LibEffConcentration }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*定量时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="QuantitativeTime" class="form-control col-md-7 col-xs-12" type="text" name="QuantitativeTime" readonly value="{{ data.QuantitativeTime }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*终文库存储位置</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="FinLibCon_storage_location" class="form-control col-md-7 col-xs-12" type="text" name="FinLibCon_storage_location" readonly value="{{ data.FinLibCon_storage_location }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*定量人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="QuantitativeHuman" class="form-control col-md-7 col-xs-12" type="text" name="QuantitativeHuman" readonly value="{{ data.QuantitativeHuman }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="SeqRemarks" id="SeqRemarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.SeqRemarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">上机测序次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Computer_Seq_num" class="btn btn-default" type="number" name="Computer_Seq_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>其他信息信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                        <div class="form-group">
+                            <label for="Next_TaskProgress_Man" class="control-label col-md-3 col-sm-3 col-xs-12">*审核结果</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="ReviewResult" name="ReviewResult" class="btn btn-default" required>
+                                    <option value="{{ data.ReviewResult }}">{{ data.ReviewResult }}</option>
+                                    <option value="通过">通过</option>
+                                    <option value="退回">退回</option>
+                                    <option value="暂停">暂停</option>
+                                    <option value="终止">终止</option>
+                                </select>
+                            </div>
+                       </div>
+
+                        <div class="form-group">
+                            <label for="Next_TaskProgress_Man" class="control-label col-md-3 col-sm-3 col-xs-12">*任务接收者</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="Next_TaskProgress_Man" name="Next_TaskProgress_Man" class="btn btn-default" required>
+                                    <option value="{{ data.Next_TaskProgress_Man }}">{{ data.Next_TaskProgress_Man }}</option>
+                                    {%  for data in userlist %}
+                                        <option value="{{ data.username }}">{{ data.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                       </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*数据下机路径</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DataPath" class="form-control col-md-7 col-xs-12" type="text" name="DataPath" value="{{ data.DataPath }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" style="display:none;">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">任务次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_num" class="btn btn-default" type="text" name="DNA_extraction_num" readonly value="{{ data.DNA_extraction_num }}">
+                          <input id="Build_Prelib_num" class="btn btn-default" type="text" name="Build_Prelib_num" readonly value="{{ data.Build_Prelib_num }}">
+                          <input id="Build_finlib_num" class="btn btn-default" type="text" name="Build_finlib_num" readonly value="{{ data.Build_finlib_num }}">
+                          <input id="Computer_Seq_num" class="btn btn-default" type="text" name="Computer_Seq_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Next_TaskProgress_Remarks" id="Next_TaskProgress_Remarks" class="form-control col-md-7 col-xs-12" rows="5" >{{ data.Next_TaskProgress_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button class="btn btn-primary" type="submit" name="RandD_submitModify">确定修改</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

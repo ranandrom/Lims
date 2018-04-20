@@ -1,0 +1,2184 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel" >
+                <input type="button" value="DNA提取" class="btn btn-primary" style=" border: 0; background-color: white; color: red" id="DNAExtract" onclick="show(this)"/>
+                <input type="button" value="预文库构建"  class="btn btn-primary" style=" border: 0;background-color: white; color: black" id="PreLibraryConstruction" onclick="show(this)"/>
+                <input type="button" value="终文库构建"  class="btn btn-primary" style=" border: 0;background-color: white; color: black" id="FinalLibraryConstruction" onclick="show(this)"/>
+                <input type="button" value="上机测序"  class="btn btn-primary" style=" border: 0;background-color: white; color: black" id="ComputerSequencing" onclick="show(this)"/>
+                <input type="button" value="其他信息"  class="btn btn-primary" style=" border: 0;background-color: white; color: black" id="OtherInformation" onclick="show(this)"/>
+            </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="display:block" id="DivDNAExt">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>DNA提取任务<small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="btn0"></a>
+                    <input id="pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="pageSizeSet">设置</a> 
+                    <a id="sjzl"></a> 
+                    <a href="#" id="btn1">首页</a>
+                    <a href="#" id="btn2">上一页</a>
+                    <a href="#" id="btn3">下一页</a>
+                    <a href="#" id="btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="btn5">跳转</a><p></p>
+                    <table id="datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>性别</th>
+                          <th>年龄（岁）</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>就诊医院</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>操作</th>
+
+                        </tr>
+                      </thead>
+
+                       <tbody id="tbody_review">
+
+                        {%  for data in data %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamine/">
+                            <tr>
+                                <td >{{ data.sam_code_num }}<input type="hidden" id="sam_code_num" name="sam_code_num" value = "{{ data.sam_code_num }}"/></td>
+                                <td>{{ data.PatientName }}</td>
+                                <td>{{ data.PatientSex }}</td>
+                                <td>{{ data.PatientAge }}</td>
+                                <td>{{ data.sample_type }}</td>
+                                <td>{{ data.product_name }}</td>
+                                <td>{{ data.treatment_hospital }}</td>
+                                <td>{{ data.CollectSamplesDate }}</td>
+                                <td>{{ data.ExperimentNumber }}</td>
+                                <td>
+                                    <a href="#" id="review_submit{{ data.id }}" style="display:none;"><span class="label label-primary">审核通过</span><a>
+                                    <!--<a href="/ClinicalSampleRegistration/"><span class="label label-info"></span></a>-->
+                                    <button type="submit" class="label label-info">查看详细信息并审核</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var pageSize = 5;    //每页显示的记录条数
+               var curPage=0;        //当前页
+               var lastPage;        //最后页
+                var direct=0;        //方向
+               var len;            //总行数
+               var page;            //总页数
+               var begin;
+               var end;
+               
+               $(document).ready(function display(){  
+                len =$("#tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                page=len % pageSize==0 ? len/pageSize : Math.floor(len/pageSize)+1;//根据记录条数，计算页数
+                curPage=1;    // 设置当前为第一页
+                displayPage(1);//显示第一页
+                               resub(); //直接审核按钮
+
+                document.getElementById("btn0").innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("sjzl").innerHTML="数据总量 " + len + "条";        // 显示数据量
+                document.getElementById("pageSize").value = pageSize;          
+
+                $("#btn1").click(function firstPage(){    // 首页
+                    curPage=1;
+                    direct = 0;
+                    displayPage();
+                });
+                $("#btn2").click(function frontPage(){    // 上一页
+                    direct=-1;
+                    displayPage();
+                });
+                $("#btn3").click(function nextPage(){    // 下一页
+                    direct=1;
+                    displayPage();
+                });
+                $("#btn4").click(function lastPage(){    // 尾页
+                    curPage=page;
+                    direct = 0;
+                    displayPage();
+                });
+                $("#btn5").click(function changePage(){    // 转页
+                    curPage=document.getElementById("changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (curPage > page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    direct = 0;
+                    displayPage();
+                });
+               
+                $("#pageSizeSet").click(function setPageSize(){    // 设置每页显示多少条记录
+                    pageSize = document.getElementById("pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(pageSize)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       len =$("#tbody_review tr").length;
+                    page=len % pageSize==0 ? len/pageSize : Math.floor(len/pageSize)+1;//根据记录条数，计算页数
+                    curPage=1;        //当前页
+                    direct=0;        //方向
+                                       displayPage();//显示第一页
+                });
+            });
+
+            function displayPage(){
+                if(curPage <=1 && direct==-1){
+                    direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (curPage >= page && direct==1) {
+                    direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                lastPage = curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (len > pageSize) {
+                    //curPage = ((curPage + direct + len) % len);
+                                        if (pageSize!=1) {
+                                            curPage = ((curPage + direct + len) % len);
+                                        } else {
+                                            curPage = curPage + direct;
+                                        }
+                } else {
+                    curPage = 1;
+                }
+
+                document.getElementById("btn0").innerHTML="当前 " + curPage + "/" + page + " 页    每页 ";        // 显示当前多少页
+
+                begin=(curPage-1)*pageSize;// 起始记录号
+                end = begin + 1*pageSize - 1;    // 末尾记录号
+                              
+                if(end > len ) end=len;
+                $("#tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#tbody_review tr").each(function(i){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(i>=begin && i<=end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                          function resub() {
+                              for (var i = 1; i < len+1; i++) {
+                                  $('#review_submit' + i).on('click', function () {
+                                      //询问框
+                                      layer.confirm('您确定不查看详细信息就直接审核通过吗？', {
+                                          btn: ['取消', '确认'] //按钮
+                                      }, function () {
+                                          layer.msg('您已经取消！', {icon: 1});
+                                      }, function () {
+                                          layer.msg('样本审核通过！', {
+                                              time: 15000, //15s后自动关闭
+                                              btn: [ '好的，我知道了！']
+                                          });
+                                      });
+                                  });
+                              }
+                          }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:block" id="DivDNAExtAss">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>DNA提取任务已分派 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="pass_btn0"></a>
+                    <input id="pass_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="pass_pageSizeSet">设置</a> 
+                    <a id="pass_sjzl"></a> 
+                    <a href="#" id="pass_btn1">首页</a>
+                    <a href="#" id="pass_btn2">上一页</a>
+                    <a href="#" id="pass_btn3">下一页</a>
+                    <a href="#" id="pass_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="pass_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="pass_btn5">跳转</a><p></p>
+                    <table id="pass_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务派送时间</th>
+                          <th>操作</th>
+
+                        </tr>
+                      </thead>
+
+                       <tbody id="pass_tbody_review">
+                        {%  for pass in pass %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineDetermine/">
+                            <tr>
+                                <td >{{ pass.sam_code_num }}<input type="hidden" id="pass_sam_code_num" name="pass_sam_code_num" value = "{{ pass.sam_code_num }}"/></td>
+                                <td>{{ pass.PatientName }}</td>
+                                <td>{{ pass.sample_type }}</td>
+                                <td>{{ pass.product_name }}</td>
+                                <td>{{ pass.CollectSamplesDate }}</td>
+                                <td>{{ pass.ExperimentNumber }}</td>
+                                <td>{{ pass.TaskReceiver }}</td>
+                                <td>{{ pass.TaskProgress }}</td>
+                                <td>{{ pass.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var pass_pageSize = 5;    //每页显示的记录条数
+               var pass_curPage=0;        //当前页
+               var pass_lastPage;        //最后页
+                var pass_direct=0;        //方向
+               var pass_len;            //总行数
+               var pass_page;            //总页数
+               var pass_begin;
+               var pass_end;
+               
+               $(document).ready(function pass_display(){  
+                pass_len =$("#pass_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                pass_page=pass_len % pass_pageSize==0 ? pass_len/pass_pageSize : Math.floor(pass_len/pass_pageSize)+1;//根据记录条数，计算页数
+                pass_curPage=1;    // 设置当前为第一页
+                pass_displayPage(1);//显示第一页
+
+                document.getElementById("pass_btn0").innerHTML="当前 " + pass_curPage + "/" + pass_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("pass_sjzl").innerHTML="数据总量 " + pass_len + "条";        // 显示数据量
+                document.getElementById("pass_pageSize").value = pass_pageSize;        
+
+                $("#pass_btn1").click(function pass_firstPage(){    // 首页
+                    pass_curPage=1;
+                    pass_direct = 0;
+                    pass_displayPage();
+                });
+                $("#pass_btn2").click(function pass_frontPage(){    // 上一页
+                    pass_direct=-1;
+                    pass_displayPage();
+                });
+                $("#pass_btn3").click(function pass_nextPage(){    // 下一页
+                    pass_direct=1;
+                    pass_displayPage();
+                });
+                $("#pass_btn4").click(function pass_lastPage(){    // 尾页
+                    pass_curPage=pass_page;
+                    pass_direct = 0;
+                    pass_displayPage();
+                });
+                $("#pass_btn5").click(function pass_changePage(){    // 转页
+                    pass_curPage=document.getElementById("pass_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(pass_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (pass_curPage > pass_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    pass_direct = 0;
+                    pass_displayPage();
+                });
+               
+                $("#pass_pageSizeSet").click(function pass_setPageSize(){    // 设置每页显示多少条记录
+                    pass_pageSize = document.getElementById("pass_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(pass_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       pass_len =$("#pass_tbody_review tr").length;
+                    pass_page=pass_len % pass_pageSize==0 ? pass_len/pass_pageSize : Math.floor(pass_len/pass_pageSize)+1;//根据记录条数，计算页数
+                    pass_curPage=1;        //当前页
+                    pass_direct=0;        //方向
+                                       pass_displayPage();//显示第一页
+                });
+            });
+
+            function pass_displayPage(){
+                if(pass_curPage <=1 && pass_direct==-1){
+                    pass_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (pass_curPage >= pass_page && pass_direct==1) {
+                    pass_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                pass_lastPage = pass_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (pass_len > pass_pageSize) {
+                                        if (pass_pageSize!=1) {
+                                            pass_curPage = ((pass_curPage + pass_direct + pass_len) % pass_len);
+                                        } else {
+                                            pass_curPage = pass_curPage + pass_direct;
+                                        }
+                } else {
+                    pass_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("pass_btn0").innerHTML="当前 " + pass_curPage + "/" + pass_page + " 页    每页 ";        // 显示当前多少页
+
+                pass_begin=(pass_curPage-1)*pass_pageSize;// 起始记录号
+                pass_end = pass_begin + 1*pass_pageSize - 1;    // 末尾记录号
+                              
+                if(pass_end > pass_len ) pass_end=pass_len;
+                $("#pass_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#pass_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=pass_begin && x<=pass_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivPreLibCon">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>预文库构建任务 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="PreLibCon_btn0"></a>
+                    <input id="PreLibCon_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="PreLibCon_pageSizeSet">设置</a> 
+                    <a id="PreLibCon_sjzl"></a> 
+                    <a href="#" id="PreLibCon_btn1">首页</a>
+                    <a href="#" id="PreLibCon_btn2">上一页</a>
+                    <a href="#" id="PreLibCon_btn3">下一页</a>
+                    <a href="#" id="PreLibCon_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="PreLibCon_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="PreLibCon_btn5">跳转</a><p></p>
+                    <table id="PreLibCon_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务派送时间</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="PreLibCon_tbody_review">
+                        {%  for pass in pass %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineDetermine/">
+                            <tr>
+                                <td >{{ pass.sam_code_num }}<input type="hidden" id="sam_code_num" name="sam_code_num" value = "{{ pass.sam_code_num }}"/></td>
+                                <td>{{ pass.PatientName }}</td>
+                                <td>{{ pass.sample_type }}</td>
+                                <td>{{ pass.product_name }}</td>
+                                <td>{{ pass.CollectSamplesDate }}</td>
+                                <td>{{ pass.ExperimentNumber }}</td>
+                                <td>{{ pass.TaskReceiver }}</td>
+                                <td>{{ pass.TaskProgress }}</td>
+                                <td>{{ pass.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var PreLibCon_pageSize = 5;    //每页显示的记录条数
+               var PreLibCon_curPage=0;        //当前页
+               var PreLibCon_lastPage;        //最后页
+                var PreLibCon_direct=0;        //方向
+               var PreLibCon_len;            //总行数
+               var PreLibCon_page;            //总页数
+               var PreLibCon_begin;
+               var PreLibCon_end;
+               
+               $(document).ready(function PreLibCon_display(){  
+                PreLibCon_len =$("#PreLibCon_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                PreLibCon_page=PreLibCon_len % PreLibCon_pageSize==0 ? PreLibCon_len/PreLibCon_pageSize : Math.floor(PreLibCon_len/PreLibCon_pageSize)+1;//根据记录条数，计算页数
+                PreLibCon_curPage=1;    // 设置当前为第一页
+                PreLibCon_displayPage(1);//显示第一页
+
+                document.getElementById("PreLibCon_btn0").innerHTML="当前 " + PreLibCon_curPage + "/" + PreLibCon_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("PreLibCon_sjzl").innerHTML="数据总量 " + PreLibCon_len + "条";        // 显示数据量
+                document.getElementById("PreLibCon_pageSize").value = PreLibCon_pageSize;        
+
+                $("#PreLibCon_btn1").click(function PreLibCon_firstPage(){    // 首页
+                    PreLibCon_curPage=1;
+                    PreLibCon_direct = 0;
+                    PreLibCon_displayPage();
+                });
+                $("#PreLibCon_btn2").click(function PreLibCon_frontPage(){    // 上一页
+                    PreLibCon_direct=-1;
+                    PreLibCon_displayPage();
+                });
+                $("#PreLibCon_btn3").click(function PreLibCon_nextPage(){    // 下一页
+                    PreLibCon_direct=1;
+                    PreLibCon_displayPage();
+                });
+                $("#PreLibCon_btn4").click(function PreLibCon_lastPage(){    // 尾页
+                    PreLibCon_curPage=PreLibCon_page;
+                    PreLibCon_direct = 0;
+                    PreLibCon_displayPage();
+                });
+                $("#PreLibCon_btn5").click(function PreLibCon_changePage(){    // 转页
+                    PreLibCon_curPage=document.getElementById("PreLibCon_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(PreLibCon_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (PreLibCon_curPage > PreLibCon_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    PreLibCon_direct = 0;
+                    PreLibCon_displayPage();
+                });
+               
+                $("#PreLibCon_pageSizeSet").click(function PreLibCon_setPageSize(){    // 设置每页显示多少条记录
+                    PreLibCon_pageSize = document.getElementById("PreLibCon_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(PreLibCon_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       PreLibCon_len =$("#PreLibCon_tbody_review tr").length;
+                    PreLibCon_page=PreLibCon_len % PreLibCon_pageSize==0 ? PreLibCon_len/PreLibCon_pageSize : Math.floor(PreLibCon_len/PreLibCon_pageSize)+1;//根据记录条数，计算页数
+                    PreLibCon_curPage=1;        //当前页
+                    PreLibCon_direct=0;        //方向
+                                       PreLibCon_displayPage();//显示第一页
+                });
+            });
+
+            function PreLibCon_displayPage(){
+                if(PreLibCon_curPage <=1 && PreLibCon_direct==-1){
+                    PreLibCon_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (PreLibCon_curPage >= PreLibCon_page && PreLibCon_direct==1) {
+                    PreLibCon_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                PreLibCon_lastPage = PreLibCon_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (PreLibCon_len > PreLibCon_pageSize) {
+                                        if (PreLibCon_pageSize!=1) {
+                                            PreLibCon_curPage = ((PreLibCon_curPage + PreLibCon_direct + PreLibCon_len) % PreLibCon_len);
+                                        } else {
+                                            PreLibCon_curPage = PreLibCon_curPage + PreLibCon_direct;
+                                        }
+                } else {
+                    PreLibCon_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("PreLibCon_btn0").innerHTML="当前 " + PreLibCon_curPage + "/" + PreLibCon_page + " 页    每页 ";        // 显示当前多少页
+
+                PreLibCon_begin=(PreLibCon_curPage-1)*PreLibCon_pageSize;// 起始记录号
+                PreLibCon_end = PreLibCon_begin + 1*PreLibCon_pageSize - 1;    // 末尾记录号
+                              
+                if(PreLibCon_end > PreLibCon_len ) PreLibCon_end=PreLibCon_len;
+                $("#PreLibCon_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#PreLibCon_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=PreLibCon_begin && x<=PreLibCon_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivPreLibConAss">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>预文库构建任务已分派 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="PreLibConAss_btn0"></a>
+                    <input id="PreLibConAss_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="PreLibConAss_pageSizeSet">设置</a> 
+                    <a id="PreLibConAss_sjzl"></a> 
+                    <a href="#" id="PreLibConAss_btn1">首页</a>
+                    <a href="#" id="PreLibConAss_btn2">上一页</a>
+                    <a href="#" id="PreLibConAss_btn3">下一页</a>
+                    <a href="#" id="PreLibConAss_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="PreLibConAss_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="PreLibConAss_btn5">跳转</a><p></p>
+                    <table id="PreLibConAss_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务派送时间</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="PreLibConAss_tbody_review">
+                        {%  for pass in pass %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineDetermine/">
+                            <tr>
+                                <td >{{ pass.sam_code_num }}<input type="hidden" id="sam_code_num" name="sam_code_num" value = "{{ pass.sam_code_num }}"/></td>
+                                <td>{{ pass.PatientName }}</td>
+                                <td>{{ pass.sample_type }}</td>
+                                <td>{{ pass.product_name }}</td>
+                                <td>{{ pass.CollectSamplesDate }}</td>
+                                <td>{{ pass.ExperimentNumber }}</td>
+                                <td>{{ pass.TaskReceiver }}</td>
+                                <td>{{ pass.TaskProgress }}</td>
+                                <td>{{ pass.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var PreLibConAss_pageSize = 5;    //每页显示的记录条数
+               var PreLibConAss_curPage=0;        //当前页
+               var PreLibConAss_lastPage;        //最后页
+                var PreLibConAss_direct=0;        //方向
+               var PreLibConAss_len;            //总行数
+               var PreLibConAss_page;            //总页数
+               var PreLibConAss_begin;
+               var PreLibConAss_end;
+               
+               $(document).ready(function PreLibConAss_display(){  
+                PreLibConAss_len =$("#PreLibConAss_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                PreLibConAss_page=PreLibConAss_len % PreLibConAss_pageSize==0 ? PreLibConAss_len/PreLibConAss_pageSize : Math.floor(PreLibConAss_len/PreLibConAss_pageSize)+1;//根据记录条数，计算页数
+                PreLibConAss_curPage=1;    // 设置当前为第一页
+                PreLibConAss_displayPage(1);//显示第一页
+                document.getElementById("PreLibConAss_btn0").innerHTML="当前 " + PreLibConAss_curPage + "/" + PreLibConAss_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("PreLibConAss_sjzl").innerHTML="数据总量 " + PreLibConAss_len + "条";        // 显示数据量
+                document.getElementById("PreLibConAss_pageSize").value = PreLibConAss_pageSize;        
+
+                $("#PreLibConAss_btn1").click(function PreLibConAss_firstPage(){    // 首页
+                    PreLibConAss_curPage=1;
+                    PreLibConAss_direct = 0;
+                    PreLibConAss_displayPage();
+                });
+                $("#PreLibConAss_btn2").click(function PreLibConAss_frontPage(){    // 上一页
+                    PreLibConAss_direct=-1;
+                    PreLibConAss_displayPage();
+                });
+                $("#PreLibConAss_btn3").click(function PreLibConAss_nextPage(){    // 下一页
+                    PreLibConAss_direct=1;
+                    PreLibConAss_displayPage();
+                });
+                $("#PreLibConAss_btn4").click(function PreLibConAss_lastPage(){    // 尾页
+                    PreLibConAss_curPage=PreLibConAss_page;
+                    PreLibConAss_direct = 0;
+                    PreLibConAss_displayPage();
+                });
+                $("#PreLibConAss_btn5").click(function PreLibConAss_changePage(){    // 转页
+                    PreLibConAss_curPage=document.getElementById("PreLibConAss_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(PreLibConAss_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (PreLibConAss_curPage > PreLibConAss_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    PreLibConAss_direct = 0;
+                    PreLibConAss_displayPage();
+                });
+               
+                $("#PreLibConAss_pageSizeSet").click(function PreLibConAss_setPageSize(){    // 设置每页显示多少条记录
+                    PreLibConAss_pageSize = document.getElementById("PreLibConAss_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(PreLibConAss_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       PreLibConAss_len =$("#PreLibConAss_tbody_review tr").length;
+                    PreLibConAss_page=PreLibConAss_len % PreLibConAss_pageSize==0 ? PreLibConAss_len/PreLibConAss_pageSize : Math.floor(PreLibConAss_len/PreLibConAss_pageSize)+1;//根据记录条数，计算页数
+                    PreLibConAss_curPage=1;        //当前页
+                    PreLibConAss_direct=0;        //方向
+                                       PreLibConAss_displayPage();//显示第一页
+                });
+            });
+
+            function PreLibConAss_displayPage(){
+                if(PreLibConAss_curPage <=1 && PreLibConAss_direct==-1){
+                    PreLibConAss_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (PreLibConAss_curPage >= PreLibConAss_page && PreLibConAss_direct==1) {
+                    PreLibConAss_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                PreLibConAss_lastPage = PreLibConAss_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (PreLibConAss_len > PreLibConAss_pageSize) {
+                                        if (PreLibConAss_pageSize!=1) {
+                                            PreLibConAss_curPage = ((PreLibConAss_curPage + PreLibConAss_direct + PreLibConAss_len) % PreLibConAss_len);
+                                        } else {
+                                            PreLibConAss_curPage = PreLibConAss_curPage + PreLibConAss_direct;
+                                        }
+                } else {
+                    PreLibConAss_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("PreLibConAss_btn0").innerHTML="当前 " + PreLibConAss_curPage + "/" + PreLibConAss_page + " 页    每页 ";        // 显示当前多少页
+
+                PreLibConAss_begin=(PreLibConAss_curPage-1)*PreLibConAss_pageSize;// 起始记录号
+                PreLibConAss_end = PreLibConAss_begin + 1*PreLibConAss_pageSize - 1;    // 末尾记录号
+                              
+                if(PreLibConAss_end > PreLibConAss_len ) PreLibConAss_end=PreLibConAss_len;
+                $("#PreLibConAss_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#PreLibConAss_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=PreLibConAss_begin && x<=PreLibConAss_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivFinLibCon">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>终文库构建任务 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="FinLibCon_btn0"></a>
+                    <input id="FinLibCon_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="FinLibCon_pageSizeSet">设置</a> 
+                    <a id="FinLibCon_sjzl"></a> 
+                    <a href="#" id="FinLibCon_btn1">首页</a>
+                    <a href="#" id="FinLibCon_btn2">上一页</a>
+                    <a href="#" id="FinLibCon_btn3">下一页</a>
+                    <a href="#" id="FinLibCon_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="FinLibCon_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="FinLibCon_btn5">跳转</a><p></p>
+                    <table id="FinLibCon_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务派送时间</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="FinLibCon_tbody_review">
+                        {%  for pass in pass %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineDetermine/">
+                            <tr>
+                                <td >{{ pass.sam_code_num }}<input type="hidden" id="sam_code_num" name="sam_code_num" value = "{{ pass.sam_code_num }}"/></td>
+                                <td>{{ pass.PatientName }}</td>
+                                <td>{{ pass.sample_type }}</td>
+                                <td>{{ pass.product_name }}</td>
+                                <td>{{ pass.CollectSamplesDate }}</td>
+                                <td>{{ pass.ExperimentNumber }}</td>
+                                <td>{{ pass.TaskReceiver }}</td>
+                                <td>{{ pass.TaskProgress }}</td>
+                                <td>{{ pass.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var FinLibCon_pageSize = 5;    //每页显示的记录条数
+               var FinLibCon_curPage=0;        //当前页
+               var FinLibCon_lastPage;        //最后页
+                var FinLibCon_direct=0;        //方向
+               var FinLibCon_len;            //总行数
+               var FinLibCon_page;            //总页数
+               var FinLibCon_begin;
+               var FinLibCon_end;
+               
+               $(document).ready(function FinLibCon_display(){  
+                FinLibCon_len =$("#FinLibCon_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                FinLibCon_page=FinLibCon_len % FinLibCon_pageSize==0 ? FinLibCon_len/FinLibCon_pageSize : Math.floor(FinLibCon_len/FinLibCon_pageSize)+1;//根据记录条数，计算页数
+                FinLibCon_curPage=1;    // 设置当前为第一页
+                FinLibCon_displayPage(1);//显示第一页
+
+                document.getElementById("FinLibCon_btn0").innerHTML="当前 " + FinLibCon_curPage + "/" + FinLibCon_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("FinLibCon_sjzl").innerHTML="数据总量 " + FinLibCon_len + "条";        // 显示数据量
+                document.getElementById("FinLibCon_pageSize").value = FinLibCon_pageSize;        
+
+                $("#FinLibCon_btn1").click(function FinLibCon_firstPage(){    // 首页
+                    FinLibCon_curPage=1;
+                    FinLibCon_direct = 0;
+                    FinLibCon_displayPage();
+                });
+                $("#FinLibCon_btn2").click(function FinLibCon_frontPage(){    // 上一页
+                    FinLibCon_direct=-1;
+                    FinLibCon_displayPage();
+                });
+                $("#FinLibCon_btn3").click(function FinLibCon_nextPage(){    // 下一页
+                    FinLibCon_direct=1;
+                    FinLibCon_displayPage();
+                });
+                $("#FinLibCon_btn4").click(function FinLibCon_lastPage(){    // 尾页
+                    FinLibCon_curPage=FinLibCon_page;
+                    FinLibCon_direct = 0;
+                    FinLibCon_displayPage();
+                });
+                $("#FinLibCon_btn5").click(function FinLibCon_changePage(){    // 转页
+                    FinLibCon_curPage=document.getElementById("FinLibCon_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(FinLibCon_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (FinLibCon_curPage > FinLibCon_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    FinLibCon_direct = 0;
+                    FinLibCon_displayPage();
+                });
+               
+                $("#FinLibCon_pageSizeSet").click(function FinLibCon_setPageSize(){    // 设置每页显示多少条记录
+                    FinLibCon_pageSize = document.getElementById("FinLibCon_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(FinLibCon_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       FinLibCon_len =$("#FinLibCon_tbody_review tr").length;
+                    FinLibCon_page=FinLibCon_len % FinLibCon_pageSize==0 ? FinLibCon_len/FinLibCon_pageSize : Math.floor(FinLibCon_len/FinLibCon_pageSize)+1;//根据记录条数，计算页数
+                    FinLibCon_curPage=1;        //当前页
+                    FinLibCon_direct=0;        //方向
+                                       FinLibCon_displayPage();//显示第一页
+                });
+            });
+
+            function FinLibCon_displayPage(){
+                if(FinLibCon_curPage <=1 && FinLibCon_direct==-1){
+                    FinLibCon_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (FinLibCon_curPage >= FinLibCon_page && FinLibCon_direct==1) {
+                    FinLibCon_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                FinLibCon_lastPage = FinLibCon_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (FinLibCon_len > FinLibCon_pageSize) {
+                                        if (FinLibCon_pageSize!=1) {
+                                            FinLibCon_curPage = ((FinLibCon_curPage + FinLibCon_direct + FinLibCon_len) % FinLibCon_len);
+                                        } else {
+                                            FinLibCon_curPage = FinLibCon_curPage + FinLibCon_direct;
+                                        }
+                } else {
+                    FinLibCon_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("FinLibCon_btn0").innerHTML="当前 " + FinLibCon_curPage + "/" + FinLibCon_page + " 页    每页 ";        // 显示当前多少页
+
+                FinLibCon_begin=(FinLibCon_curPage-1)*FinLibCon_pageSize;// 起始记录号
+                FinLibCon_end = FinLibCon_begin + 1*FinLibCon_pageSize - 1;    // 末尾记录号
+                              
+                if(FinLibCon_end > FinLibCon_len ) FinLibCon_end=FinLibCon_len;
+                $("#FinLibCon_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#FinLibCon_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=FinLibCon_begin && x<=FinLibCon_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivFinLibConAss">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>终文库构建任务已分派 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="FinLibConAss_btn0"></a>
+                    <input id="FinLibConAss_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="FinLibConAss_pageSizeSet">设置</a> 
+                    <a id="FinLibConAss_sjzl"></a> 
+                    <a href="#" id="FinLibConAss_btn1">首页</a>
+                    <a href="#" id="FinLibConAss_btn2">上一页</a>
+                    <a href="#" id="FinLibConAss_btn3">下一页</a>
+                    <a href="#" id="FinLibConAss_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="FinLibConAss_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="FinLibConAss_btn5">跳转</a><p></p>
+                    <table id="FinLibConAss_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务派送时间</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="FinLibConAss_tbody_review">
+                        {%  for pass in pass %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineDetermine/">
+                            <tr>
+                                <td >{{ pass.sam_code_num }}<input type="hidden" id="sam_code_num" name="sam_code_num" value = "{{ pass.sam_code_num }}"/></td>
+                                <td>{{ pass.PatientName }}</td>
+                                <td>{{ pass.sample_type }}</td>
+                                <td>{{ pass.product_name }}</td>
+                                <td>{{ pass.CollectSamplesDate }}</td>
+                                <td>{{ pass.ExperimentNumber }}</td>
+                                <td>{{ pass.TaskReceiver }}</td>
+                                <td>{{ pass.TaskProgress }}</td>
+                                <td>{{ pass.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var FinLibConAss_pageSize = 5;    //每页显示的记录条数
+               var FinLibConAss_curPage=0;        //当前页
+               var FinLibConAss_lastPage;        //最后页
+                var FinLibConAss_direct=0;        //方向
+               var FinLibConAss_len;            //总行数
+               var FinLibConAss_page;            //总页数
+               var FinLibConAss_begin;
+               var FinLibConAss_end;
+               
+               $(document).ready(function FinLibConAss_display(){  
+                FinLibConAss_len =$("#FinLibConAss_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                FinLibConAss_page=FinLibConAss_len % FinLibConAss_pageSize==0 ? FinLibConAss_len/FinLibConAss_pageSize : Math.floor(FinLibConAss_len/FinLibConAss_pageSize)+1;//根据记录条数，计算页数
+                FinLibConAss_curPage=1;    // 设置当前为第一页
+                FinLibConAss_displayPage(1);//显示第一页
+                document.getElementById("FinLibConAss_btn0").innerHTML="当前 " + FinLibConAss_curPage + "/" + FinLibConAss_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("FinLibConAss_sjzl").innerHTML="数据总量 " + FinLibConAss_len + "条";        // 显示数据量
+                document.getElementById("FinLibConAss_pageSize").value = FinLibConAss_pageSize;        
+
+                $("#FinLibConAss_btn1").click(function FinLibConAss_firstPage(){    // 首页
+                    FinLibConAss_curPage=1;
+                    FinLibConAss_direct = 0;
+                    FinLibConAss_displayPage();
+                });
+                $("#FinLibConAss_btn2").click(function FinLibConAss_frontPage(){    // 上一页
+                    FinLibConAss_direct=-1;
+                    FinLibConAss_displayPage();
+                });
+                $("#FinLibConAss_btn3").click(function FinLibConAss_nextPage(){    // 下一页
+                    FinLibConAss_direct=1;
+                    FinLibConAss_displayPage();
+                });
+                $("#FinLibConAss_btn4").click(function FinLibConAss_lastPage(){    // 尾页
+                    FinLibConAss_curPage=FinLibConAss_page;
+                    FinLibConAss_direct = 0;
+                    FinLibConAss_displayPage();
+                });
+                $("#FinLibConAss_btn5").click(function FinLibConAss_changePage(){    // 转页
+                    FinLibConAss_curPage=document.getElementById("FinLibConAss_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(FinLibConAss_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (FinLibConAss_curPage > FinLibConAss_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    FinLibConAss_direct = 0;
+                    FinLibConAss_displayPage();
+                });
+               
+                $("#FinLibConAss_pageSizeSet").click(function FinLibConAss_setPageSize(){    // 设置每页显示多少条记录
+                    FinLibConAss_pageSize = document.getElementById("FinLibConAss_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(FinLibConAss_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       FinLibConAss_len =$("#FinLibConAss_tbody_review tr").length;
+                    FinLibConAss_page=FinLibConAss_len % FinLibConAss_pageSize==0 ? FinLibConAss_len/FinLibConAss_pageSize : Math.floor(FinLibConAss_len/FinLibConAss_pageSize)+1;//根据记录条数，计算页数
+                    FinLibConAss_curPage=1;        //当前页
+                    FinLibConAss_direct=0;        //方向
+                                       FinLibConAss_displayPage();//显示第一页
+                });
+            });
+
+            function FinLibConAss_displayPage(){
+                if(FinLibConAss_curPage <=1 && FinLibConAss_direct==-1){
+                    FinLibConAss_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (FinLibConAss_curPage >= FinLibConAss_page && FinLibConAss_direct==1) {
+                    FinLibConAss_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                FinLibConAss_lastPage = FinLibConAss_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (FinLibConAss_len > FinLibConAss_pageSize) {
+                                        if (FinLibConAss_pageSize!=1) {
+                                            FinLibConAss_curPage = ((FinLibConAss_curPage + FinLibConAss_direct + FinLibConAss_len) % FinLibConAss_len);
+                                        } else {
+                                            FinLibConAss_curPage = FinLibConAss_curPage + FinLibConAss_direct;
+                                        }
+                } else {
+                    FinLibConAss_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("FinLibConAss_btn0").innerHTML="当前 " + FinLibConAss_curPage + "/" + FinLibConAss_page + " 页    每页 ";        // 显示当前多少页
+
+                FinLibConAss_begin=(FinLibConAss_curPage-1)*FinLibConAss_pageSize;// 起始记录号
+                FinLibConAss_end = FinLibConAss_begin + 1*FinLibConAss_pageSize - 1;    // 末尾记录号
+                              
+                if(FinLibConAss_end > FinLibConAss_len ) FinLibConAss_end=FinLibConAss_len;
+                $("#FinLibConAss_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#FinLibConAss_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=FinLibConAss_begin && x<=FinLibConAss_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivComputerSeq">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>上机测序任务 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="ComputerSeq_btn0"></a>
+                    <input id="ComputerSeq_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="ComputerSeq_pageSizeSet">设置</a> 
+                    <a id="ComputerSeq_sjzl"></a> 
+                    <a href="#" id="ComputerSeq_btn1">首页</a>
+                    <a href="#" id="ComputerSeq_btn2">上一页</a>
+                    <a href="#" id="ComputerSeq_btn3">下一页</a>
+                    <a href="#" id="ComputerSeq_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="ComputerSeq_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="ComputerSeq_btn5">跳转</a><p></p>
+                    <table id="ComputerSeq_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务派送时间</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="ComputerSeq_tbody_review">
+                        {%  for pass in pass %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineDetermine/">
+                            <tr>
+                                <td >{{ pass.sam_code_num }}<input type="hidden" id="sam_code_num" name="sam_code_num" value = "{{ pass.sam_code_num }}"/></td>
+                                <td>{{ pass.PatientName }}</td>
+                                <td>{{ pass.sample_type }}</td>
+                                <td>{{ pass.product_name }}</td>
+                                <td>{{ pass.CollectSamplesDate }}</td>
+                                <td>{{ pass.ExperimentNumber }}</td>
+                                <td>{{ pass.TaskReceiver }}</td>
+                                <td>{{ pass.TaskProgress }}</td>
+                                <td>{{ pass.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var ComputerSeq_pageSize = 5;    //每页显示的记录条数
+               var ComputerSeq_curPage=0;        //当前页
+               var ComputerSeq_lastPage;        //最后页
+                var ComputerSeq_direct=0;        //方向
+               var ComputerSeq_len;            //总行数
+               var ComputerSeq_page;            //总页数
+               var ComputerSeq_begin;
+               var ComputerSeq_end;
+               
+               $(document).ready(function ComputerSeq_display(){  
+                ComputerSeq_len =$("#ComputerSeq_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                ComputerSeq_page=ComputerSeq_len % ComputerSeq_pageSize==0 ? ComputerSeq_len/ComputerSeq_pageSize : Math.floor(ComputerSeq_len/ComputerSeq_pageSize)+1;//根据记录条数，计算页数
+                ComputerSeq_curPage=1;    // 设置当前为第一页
+                ComputerSeq_displayPage(1);//显示第一页
+
+                document.getElementById("ComputerSeq_btn0").innerHTML="当前 " + ComputerSeq_curPage + "/" + ComputerSeq_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("ComputerSeq_sjzl").innerHTML="数据总量 " + ComputerSeq_len + "条";        // 显示数据量
+                document.getElementById("ComputerSeq_pageSize").value = ComputerSeq_pageSize;        
+
+                $("#ComputerSeq_btn1").click(function ComputerSeq_firstPage(){    // 首页
+                    ComputerSeq_curPage=1;
+                    ComputerSeq_direct = 0;
+                    ComputerSeq_displayPage();
+                });
+                $("#ComputerSeq_btn2").click(function ComputerSeq_frontPage(){    // 上一页
+                    ComputerSeq_direct=-1;
+                    ComputerSeq_displayPage();
+                });
+                $("#ComputerSeq_btn3").click(function ComputerSeq_nextPage(){    // 下一页
+                    ComputerSeq_direct=1;
+                    ComputerSeq_displayPage();
+                });
+                $("#ComputerSeq_btn4").click(function ComputerSeq_lastPage(){    // 尾页
+                    ComputerSeq_curPage=ComputerSeq_page;
+                    ComputerSeq_direct = 0;
+                    ComputerSeq_displayPage();
+                });
+                $("#ComputerSeq_btn5").click(function ComputerSeq_changePage(){    // 转页
+                    ComputerSeq_curPage=document.getElementById("ComputerSeq_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(ComputerSeq_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (ComputerSeq_curPage > ComputerSeq_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    ComputerSeq_direct = 0;
+                    ComputerSeq_displayPage();
+                });
+               
+                $("#ComputerSeq_pageSizeSet").click(function ComputerSeq_setPageSize(){    // 设置每页显示多少条记录
+                    ComputerSeq_pageSize = document.getElementById("ComputerSeq_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(ComputerSeq_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       ComputerSeq_len =$("#ComputerSeq_tbody_review tr").length;
+                    ComputerSeq_page=ComputerSeq_len % ComputerSeq_pageSize==0 ? ComputerSeq_len/ComputerSeq_pageSize : Math.floor(ComputerSeq_len/ComputerSeq_pageSize)+1;//根据记录条数，计算页数
+                    ComputerSeq_curPage=1;        //当前页
+                    ComputerSeq_direct=0;        //方向
+                                       ComputerSeq_displayPage();//显示第一页
+                });
+            });
+
+            function ComputerSeq_displayPage(){
+                if(ComputerSeq_curPage <=1 && ComputerSeq_direct==-1){
+                    ComputerSeq_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (ComputerSeq_curPage >= ComputerSeq_page && ComputerSeq_direct==1) {
+                    ComputerSeq_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                ComputerSeq_lastPage = ComputerSeq_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (ComputerSeq_len > ComputerSeq_pageSize) {
+                                        if (ComputerSeq_pageSize!=1) {
+                                            ComputerSeq_curPage = ((ComputerSeq_curPage + ComputerSeq_direct + ComputerSeq_len) % ComputerSeq_len);
+                                        } else {
+                                            ComputerSeq_curPage = ComputerSeq_curPage + ComputerSeq_direct;
+                                        }
+                } else {
+                    ComputerSeq_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("ComputerSeq_btn0").innerHTML="当前 " + ComputerSeq_curPage + "/" + ComputerSeq_page + " 页    每页 ";        // 显示当前多少页
+
+                ComputerSeq_begin=(ComputerSeq_curPage-1)*ComputerSeq_pageSize;// 起始记录号
+                ComputerSeq_end = ComputerSeq_begin + 1*ComputerSeq_pageSize - 1;    // 末尾记录号
+                              
+                if(ComputerSeq_end > ComputerSeq_len ) ComputerSeq_end=ComputerSeq_len;
+                $("#ComputerSeq_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#ComputerSeq_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=ComputerSeq_begin && x<=ComputerSeq_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivComputerSeqAss">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>上机测序任务已分派 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="ComputerSeqAss_btn0"></a>
+                    <input id="ComputerSeqAss_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="ComputerSeqAss_pageSizeSet">设置</a> 
+                    <a id="ComputerSeqAss_sjzl"></a> 
+                    <a href="#" id="ComputerSeqAss_btn1">首页</a>
+                    <a href="#" id="ComputerSeqAss_btn2">上一页</a>
+                    <a href="#" id="ComputerSeqAss_btn3">下一页</a>
+                    <a href="#" id="ComputerSeqAss_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="ComputerSeqAss_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="ComputerSeqAss_btn5">跳转</a><p></p>
+                    <table id="ComputerSeqAss_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务派送时间</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="ComputerSeqAss_tbody_review">
+                        {%  for pass in pass %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineDetermine/">
+                            <tr>
+                                <td >{{ pass.sam_code_num }}<input type="hidden" id="sam_code_num" name="sam_code_num" value = "{{ pass.sam_code_num }}"/></td>
+                                <td>{{ pass.PatientName }}</td>
+                                <td>{{ pass.sample_type }}</td>
+                                <td>{{ pass.product_name }}</td>
+                                <td>{{ pass.CollectSamplesDate }}</td>
+                                <td>{{ pass.ExperimentNumber }}</td>
+                                <td>{{ pass.TaskReceiver }}</td>
+                                <td>{{ pass.TaskProgress }}</td>
+                                <td>{{ pass.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var ComputerSeqAss_pageSize = 5;    //每页显示的记录条数
+               var ComputerSeqAss_curPage=0;        //当前页
+               var ComputerSeqAss_lastPage;        //最后页
+                var ComputerSeqAss_direct=0;        //方向
+               var ComputerSeqAss_len;            //总行数
+               var ComputerSeqAss_page;            //总页数
+               var ComputerSeqAss_begin;
+               var ComputerSeqAss_end;
+               
+               $(document).ready(function ComputerSeqAss_display(){  
+                ComputerSeqAss_len =$("#ComputerSeqAss_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                ComputerSeqAss_page=ComputerSeqAss_len % ComputerSeqAss_pageSize==0 ? ComputerSeqAss_len/ComputerSeqAss_pageSize : Math.floor(ComputerSeqAss_len/ComputerSeqAss_pageSize)+1;//根据记录条数，计算页数
+                ComputerSeqAss_curPage=1;    // 设置当前为第一页
+                ComputerSeqAss_displayPage(1);//显示第一页
+                document.getElementById("ComputerSeqAss_btn0").innerHTML="当前 " + ComputerSeqAss_curPage + "/" + ComputerSeqAss_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("ComputerSeqAss_sjzl").innerHTML="数据总量 " + ComputerSeqAss_len + "条";        // 显示数据量
+                document.getElementById("ComputerSeqAss_pageSize").value = ComputerSeqAss_pageSize;        
+
+                $("#ComputerSeqAss_btn1").click(function ComputerSeqAss_firstPage(){    // 首页
+                    ComputerSeqAss_curPage=1;
+                    ComputerSeqAss_direct = 0;
+                    ComputerSeqAss_displayPage();
+                });
+                $("#ComputerSeqAss_btn2").click(function ComputerSeqAss_frontPage(){    // 上一页
+                    ComputerSeqAss_direct=-1;
+                    ComputerSeqAss_displayPage();
+                });
+                $("#ComputerSeqAss_btn3").click(function ComputerSeqAss_nextPage(){    // 下一页
+                    ComputerSeqAss_direct=1;
+                    ComputerSeqAss_displayPage();
+                });
+                $("#ComputerSeqAss_btn4").click(function ComputerSeqAss_lastPage(){    // 尾页
+                    ComputerSeqAss_curPage=ComputerSeqAss_page;
+                    ComputerSeqAss_direct = 0;
+                    ComputerSeqAss_displayPage();
+                });
+                $("#ComputerSeqAss_btn5").click(function ComputerSeqAss_changePage(){    // 转页
+                    ComputerSeqAss_curPage=document.getElementById("ComputerSeqAss_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(ComputerSeqAss_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (ComputerSeqAss_curPage > ComputerSeqAss_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    ComputerSeqAss_direct = 0;
+                    ComputerSeqAss_displayPage();
+                });
+               
+                $("#ComputerSeqAss_pageSizeSet").click(function ComputerSeqAss_setPageSize(){    // 设置每页显示多少条记录
+                    ComputerSeqAss_pageSize = document.getElementById("ComputerSeqAss_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(ComputerSeqAss_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       ComputerSeqAss_len =$("#ComputerSeqAss_tbody_review tr").length;
+                    ComputerSeqAss_page=ComputerSeqAss_len % ComputerSeqAss_pageSize==0 ? ComputerSeqAss_len/ComputerSeqAss_pageSize : Math.floor(ComputerSeqAss_len/ComputerSeqAss_pageSize)+1;//根据记录条数，计算页数
+                    ComputerSeqAss_curPage=1;        //当前页
+                    ComputerSeqAss_direct=0;        //方向
+                                       ComputerSeqAss_displayPage();//显示第一页
+                });
+            });
+
+            function ComputerSeqAss_displayPage(){
+                if(ComputerSeqAss_curPage <=1 && ComputerSeqAss_direct==-1){
+                    ComputerSeqAss_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (ComputerSeqAss_curPage >= ComputerSeqAss_page && ComputerSeqAss_direct==1) {
+                    ComputerSeqAss_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                ComputerSeqAss_lastPage = ComputerSeqAss_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (ComputerSeqAss_len > ComputerSeqAss_pageSize) {
+                                        if (ComputerSeqAss_pageSize!=1) {
+                                            ComputerSeqAss_curPage = ((ComputerSeqAss_curPage + ComputerSeqAss_direct + ComputerSeqAss_len) % ComputerSeqAss_len);
+                                        } else {
+                                            ComputerSeqAss_curPage = ComputerSeqAss_curPage + ComputerSeqAss_direct;
+                                        }
+                } else {
+                    ComputerSeqAss_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("ComputerSeqAss_btn0").innerHTML="当前 " + ComputerSeqAss_curPage + "/" + ComputerSeqAss_page + " 页    每页 ";        // 显示当前多少页
+
+                ComputerSeqAss_begin=(ComputerSeqAss_curPage-1)*ComputerSeqAss_pageSize;// 起始记录号
+                ComputerSeqAss_end = ComputerSeqAss_begin + 1*ComputerSeqAss_pageSize - 1;    // 末尾记录号
+                              
+                if(ComputerSeqAss_end > ComputerSeqAss_len ) ComputerSeqAss_end=ComputerSeqAss_len;
+                $("#ComputerSeqAss_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#ComputerSeqAss_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=ComputerSeqAss_begin && x<=ComputerSeqAss_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivFin_unaud">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>财务未审核 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="Fin_unaud_btn0"></a>
+                    <input id="Fin_unaud_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="Fin_unaud_pageSizeSet">设置</a> 
+                    <a id="Fin_unaud_sjzl"></a> 
+                    <a href="#" id="Fin_unaud_btn1">首页</a>
+                    <a href="#" id="Fin_unaud_btn2">上一页</a>
+                    <a href="#" id="Fin_unaud_btn3">下一页</a>
+                    <a href="#" id="Fin_unaud_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="Fin_unaud_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="Fin_unaud_btn5">跳转</a><p></p>
+                    <table id="Fin_unaud_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>性别</th>
+                          <th>年龄（岁）</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>就诊医院</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="Fin_unaud_tbody_review">
+                        {%  for Fin_unaud in Fin_unaud %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskFinUnaud/">
+                            <tr>
+                                <td >{{ Fin_unaud.sam_code_num }}<input type="hidden" id="Fin_unaud_sam_code_num" name="Fin_unaud_sam_code_num" value = "{{ Fin_unaud.sam_code_num }}"/></td>
+                                <td>{{ Fin_unaud.PatientName }}</td>
+                                <td>{{ Fin_unaud.PatientSex }}</td>
+                                <td>{{ Fin_unaud.PatientAge }}</td>
+                                <td>{{ Fin_unaud.sample_type }}</td>
+                                <td>{{ Fin_unaud.product_name }}</td>
+                                <td>{{ Fin_unaud.treatment_hospital }}</td>
+                                <td>{{ Fin_unaud.CollectSamplesDate }}</td>
+                                <td>{{ Fin_unaud.ExperimentNumber }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var Fin_unaud_pageSize = 5;    //每页显示的记录条数
+               var Fin_unaud_curPage=0;        //当前页
+               var Fin_unaud_lastPage;        //最后页
+                var Fin_unaud_direct=0;        //方向
+               var Fin_unaud_len;            //总行数
+               var Fin_unaud_page;            //总页数
+               var Fin_unaud_begin;
+               var Fin_unaud_end;
+               
+               $(document).ready(function Fin_unaud_display(){  
+                Fin_unaud_len =$("#Fin_unaud_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                Fin_unaud_page=Fin_unaud_len % Fin_unaud_pageSize==0 ? Fin_unaud_len/Fin_unaud_pageSize : Math.floor(Fin_unaud_len/Fin_unaud_pageSize)+1;//根据记录条数，计算页数
+                Fin_unaud_curPage=1;    // 设置当前为第一页
+                Fin_unaud_displayPage(1);//显示第一页
+
+                document.getElementById("Fin_unaud_btn0").innerHTML="当前 " + Fin_unaud_curPage + "/" + Fin_unaud_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("Fin_unaud_sjzl").innerHTML="数据总量 " + Fin_unaud_len + "条";        // 显示数据量
+                document.getElementById("Fin_unaud_pageSize").value = Fin_unaud_pageSize;        
+
+                $("#Fin_unaud_btn1").click(function Fin_unaud_firstPage(){    // 首页
+                    Fin_unaud_curPage=1;
+                    Fin_unaud_direct = 0;
+                    Fin_unaud_displayPage();
+                });
+                $("#Fin_unaud_btn2").click(function Fin_unaud_frontPage(){    // 上一页
+                    Fin_unaud_direct=-1;
+                    Fin_unaud_displayPage();
+                });
+                $("#Fin_unaud_btn3").click(function Fin_unaud_nextPage(){    // 下一页
+                    Fin_unaud_direct=1;
+                    Fin_unaud_displayPage();
+                });
+                $("#Fin_unaud_btn4").click(function Fin_unaud_lastPage(){    // 尾页
+                    Fin_unaud_curPage=Fin_unaud_page;
+                    Fin_unaud_direct = 0;
+                    Fin_unaud_displayPage();
+                });
+                $("#Fin_unaud_btn5").click(function Fin_unaud_changePage(){    // 转页
+                    Fin_unaud_curPage=document.getElementById("Fin_unaud_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(Fin_unaud_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (Fin_unaud_curPage > Fin_unaud_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    Fin_unaud_direct = 0;
+                    Fin_unaud_displayPage();
+                });
+               
+                $("#Fin_unaud_pageSizeSet").click(function Fin_unaud_setPageSize(){    // 设置每页显示多少条记录
+                    Fin_unaud_pageSize = document.getElementById("Fin_unaud_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(Fin_unaud_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       Fin_unaud_len =$("#Fin_unaud_tbody_review tr").length;
+                    Fin_unaud_page=Fin_unaud_len % Fin_unaud_pageSize==0 ? Fin_unaud_len/Fin_unaud_pageSize : Math.floor(Fin_unaud_len/Fin_unaud_pageSize)+1;//根据记录条数，计算页数
+                    Fin_unaud_curPage=1;        //当前页
+                    Fin_unaud_direct=0;        //方向
+                                       Fin_unaud_displayPage();//显示第一页
+                });
+            });
+
+            function Fin_unaud_displayPage(){
+                if(Fin_unaud_curPage <=1 && Fin_unaud_direct==-1){
+                    Fin_unaud_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (Fin_unaud_curPage >= Fin_unaud_page && Fin_unaud_direct==1) {
+                    Fin_unaud_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                Fin_unaud_lastPage = Fin_unaud_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (Fin_unaud_len > Fin_unaud_pageSize) {
+                                        if (Fin_unaud_pageSize!=1) {
+                                            Fin_unaud_curPage = ((Fin_unaud_curPage + Fin_unaud_direct + Fin_unaud_len) % Fin_unaud_len);
+                                        } else {
+                                            Fin_unaud_curPage = Fin_unaud_curPage + Fin_unaud_direct;
+                                        }
+                } else {
+                    Fin_unaud_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("Fin_unaud_btn0").innerHTML="当前 " + Fin_unaud_curPage + "/" + Fin_unaud_page + " 页    每页 ";        // 显示当前多少页
+
+                Fin_unaud_begin=(Fin_unaud_curPage-1)*Fin_unaud_pageSize;// 起始记录号
+                Fin_unaud_end = Fin_unaud_begin + 1*Fin_unaud_pageSize - 1;    // 末尾记录号
+                              
+                if(Fin_unaud_end > Fin_unaud_len ) Fin_unaud_end=Fin_unaud_len;
+                $("#Fin_unaud_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#Fin_unaud_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=Fin_unaud_begin && x<=Fin_unaud_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivSuspend">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>暂停任务 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="Not_pass_btn0"></a>
+                    <input id="Not_pass_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="Not_pass_pageSizeSet">设置</a> 
+                    <a id="Not_pass_sjzl"></a> 
+                    <a href="#" id="Not_pass_btn1">首页</a>
+                    <a href="#" id="Not_pass_btn2">上一页</a>
+                    <a href="#" id="Not_pass_btn3">下一页</a>
+                    <a href="#" id="Not_pass_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="Not_pass_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="Not_pass_btn5">跳转</a><p></p>
+                    <table id="Not_pass_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务暂停时间</th>
+                          <th>操作</th>
+
+                        </tr>
+                      </thead>
+
+                       <tbody id="Not_pass_tbody_review">
+
+                        {%  for Not_pass in Not_pass %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineSuspend/">
+                            <tr>
+                                <td >{{ Not_pass.sam_code_num }}<input type="hidden" id="Not_pass_sam_code_num" name="Not_pass_sam_code_num" value = "{{ Not_pass.sam_code_num }}"/></td>
+                                <td>{{ Not_pass.PatientName }}</td>
+                                <td>{{ Not_pass.sample_type }}</td>
+                                <td>{{ Not_pass.product_name }}</td>
+                                <td>{{ Not_pass.CollectSamplesDate }}</td>
+                                <td>{{ Not_pass.ExperimentNumber }}</td>
+                                <td>{{ Not_pass.TaskReceiver }}</td>
+                                <td>{{ Not_pass.TaskProgress }}</td>
+                                <td>{{ Not_pass.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var Not_pass_pageSize = 5;    //每页显示的记录条数
+               var Not_pass_curPage=0;        //当前页
+               var Not_pass_lastPage;        //最后页
+                var Not_pass_direct=0;        //方向
+               var Not_pass_len;            //总行数
+               var Not_pass_page;            //总页数
+               var Not_pass_begin;
+               var Not_pass_end;
+               
+               $(document).ready(function Not_pass_display(){  
+                Not_pass_len =$("#Not_pass_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                Not_pass_page=Not_pass_len % Not_pass_pageSize==0 ? Not_pass_len/Not_pass_pageSize : Math.floor(Not_pass_len/Not_pass_pageSize)+1;//根据记录条数，计算页数
+                Not_pass_curPage=1;    // 设置当前为第一页
+                Not_pass_displayPage(1);//显示第一页
+
+                document.getElementById("Not_pass_btn0").innerHTML="当前 " + Not_pass_curPage + "/" + Not_pass_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("Not_pass_sjzl").innerHTML="数据总量 " + Not_pass_len + "条";        // 显示数据量
+                document.getElementById("Not_pass_pageSize").value = Not_pass_pageSize;        
+
+                $("#Not_pass_btn1").click(function Not_pass_firstPage(){    // 首页
+                    Not_pass_curPage=1;
+                    Not_pass_direct = 0;
+                    Not_pass_displayPage();
+                });
+                $("#Not_pass_btn2").click(function Not_pass_frontPage(){    // 上一页
+                    Not_pass_direct=-1;
+                    Not_pass_displayPage();
+                });
+                $("#Not_pass_btn3").click(function Not_pass_nextPage(){    // 下一页
+                    Not_pass_direct=1;
+                    Not_pass_displayPage();
+                });
+                $("#Not_pass_btn4").click(function Not_pass_lastPage(){    // 尾页
+                    Not_pass_curPage=Not_pass_page;
+                    Not_pass_direct = 0;
+                    Not_pass_displayPage();
+                });
+                $("#Not_pass_btn5").click(function Not_pass_changePage(){    // 转页
+                    Not_pass_curPage=document.getElementById("Not_pass_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(Not_pass_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (Not_pass_curPage > Not_pass_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    Not_pass_direct = 0;
+                    Not_pass_displayPage();
+                });
+               
+                $("#Not_pass_pageSizeSet").click(function Not_pass_setPageSize(){    // 设置每页显示多少条记录
+                    Not_pass_pageSize = document.getElementById("Not_pass_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(Not_pass_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       Not_pass_len =$("#Not_pass_tbody_review tr").length;
+                    Not_pass_page=Not_pass_len % Not_pass_pageSize==0 ? Not_pass_len/Not_pass_pageSize : Math.floor(Not_pass_len/Not_pass_pageSize)+1;//根据记录条数，计算页数
+                    Not_pass_curPage=1;        //当前页
+                    Not_pass_direct=0;        //方向
+                                       Not_pass_displayPage();//显示第一页
+                });
+            });
+
+            function Not_pass_displayPage(){
+                if(Not_pass_curPage <=1 && Not_pass_direct==-1){
+                    Not_pass_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (Not_pass_curPage >= Not_pass_page && Not_pass_direct==1) {
+                    Not_pass_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                Not_pass_lastPage = Not_pass_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (Not_pass_len > Not_pass_pageSize) {
+                                        if (Not_pass_pageSize!=1) {
+                                            Not_pass_curPage = ((Not_pass_curPage + Not_pass_direct + Not_pass_len) % Not_pass_len);
+                                        } else {
+                                            Not_pass_curPage = Not_pass_curPage + Not_pass_direct;
+                                        }
+                } else {
+                    Not_pass_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("Not_pass_btn0").innerHTML="当前 " + Not_pass_curPage + "/" + Not_pass_page + " 页    每页 ";        // 显示当前多少页
+
+                Not_pass_begin=(Not_pass_curPage-1)*Not_pass_pageSize;// 起始记录号
+                Not_pass_end = Not_pass_begin + 1*Not_pass_pageSize - 1;    // 末尾记录号
+                              
+                if(Not_pass_end > Not_pass_len ) Not_pass_end=Not_pass_len;
+                $("#Not_pass_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#Not_pass_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=Not_pass_begin && x<=Not_pass_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <div class="row" style="display:none" id="DivStop">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>终止任务 <small>（临检）</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      预留位置
+                    </p>
+					<a id="Stop_btn0"></a>
+                    <input id="Stop_pageSize" type="text" size="1" maxlength="2" value="getDefaultValue()"/><a> 条 </a> <a href="#" id="Stop_pageSizeSet">设置</a> 
+                    <a id="Stop_sjzl"></a> 
+                    <a href="#" id="Stop_btn1">首页</a>
+                    <a href="#" id="Stop_btn2">上一页</a>
+                    <a href="#" id="Stop_btn3">下一页</a>
+                    <a href="#" id="Stop_btn4">尾页</a> 
+                    <a>转到 </a>
+                    <input id="Stop_changePage" type="text" size="1" maxlength="4"/>
+                    <a>页 </a>
+                    <a href="#" id="Stop_btn5">跳转</a><p></p>
+                    <table id="Stop_datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>条码号</th>
+                          <th>客户名称</th>
+                          <th>样本类型</th>
+                          <th>产品名称</th>
+                          <th>收样时间</th>
+                          <th>实验编号</th>
+                          <th>任务接收者</th>
+                          <th>任务进度</th>
+                          <th>任务终止时间</th>
+                          <th>操作</th>
+
+                        </tr>
+                      </thead>
+
+                       <tbody id="Stop_tbody_review">
+
+                        {%  for stop in stop %}
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/taskToExamineStop/">
+                            <tr>
+                                <td >{{ stop.sam_code_num }}<input type="hidden" id="stop_sam_code_num" name="stop_sam_code_num" value = "{{ stop.sam_code_num }}"/></td>
+                                <td>{{ stop.PatientName }}</td>
+                                <td>{{ stop.sample_type }}</td>
+                                <td>{{ stop.product_name }}</td>
+                                <td>{{ stop.CollectSamplesDate }}</td>
+                                <td>{{ stop.ExperimentNumber }}</td>
+                                <td>{{ stop.TaskReceiver }}</td>
+                                <td>{{ stop.TaskProgress }}</td>
+                                <td>{{ stop.taskTime }}</td>
+                                <td>
+                                    <button type="submit" class="label label-info">查看详细信息</button>
+                                </td>
+                            </tr>
+                            </form>
+                        {% endfor %}
+
+                      </tbody>
+                      <script type="text/javascript">
+               var Stop_pageSize = 5;    //每页显示的记录条数
+               var Stop_curPage=0;        //当前页
+               var Stop_lastPage;        //最后页
+                var Stop_direct=0;        //方向
+               var Stop_len;            //总行数
+               var Stop_page;            //总页数
+               var Stop_begin;
+               var Stop_end;
+               
+               $(document).ready(function Stop_display(){  
+                Stop_len =$("#Stop_tbody_review tr").length;    // 求这个表的总行数，剔除第一行介绍
+                Stop_page=Stop_len % Stop_pageSize==0 ? Stop_len/Stop_pageSize : Math.floor(Stop_len/Stop_pageSize)+1;//根据记录条数，计算页数
+                Stop_curPage=1;    // 设置当前为第一页
+                Stop_displayPage(1);//显示第一页
+
+                document.getElementById("Stop_btn0").innerHTML="当前 " + Stop_curPage + "/" + Stop_page + " 页    每页 ";    // 显示当前多少页
+                document.getElementById("Stop_sjzl").innerHTML="数据总量 " + Stop_len + "条";        // 显示数据量
+                document.getElementById("Stop_pageSize").value = Stop_pageSize;        
+
+                $("#Stop_btn1").click(function Stop_firstPage(){    // 首页
+                    Stop_curPage=1;
+                    Stop_direct = 0;
+                    Stop_displayPage();
+                });
+                $("#Stop_btn2").click(function Stop_frontPage(){    // 上一页
+                    Stop_direct=-1;
+                    Stop_displayPage();
+                });
+                $("#Stop_btn3").click(function Stop_nextPage(){    // 下一页
+                    Stop_direct=1;
+                    Stop_displayPage();
+                });
+                $("#Stop_btn4").click(function Stop_lastPage(){    // 尾页
+                    Stop_curPage=Stop_page;
+                    Stop_direct = 0;
+                    Stop_displayPage();
+                });
+                $("#Stop_btn5").click(function Stop_changePage(){    // 转页
+                    Stop_curPage=document.getElementById("Stop_changePage").value * 1;
+                    if (!/^[1-9]\d*$/.test(Stop_curPage)) {
+                        alert("请输入正整数");
+                        return ;
+                    }
+                    if (Stop_curPage > Stop_page) {
+                        alert("超出数据页面");
+                        return ;
+                    }
+                    Stop_direct = 0;
+                    Stop_displayPage();
+                });
+               
+                $("#Stop_pageSizeSet").click(function Stop_setPageSize(){    // 设置每页显示多少条记录
+                    Stop_pageSize = document.getElementById("Stop_pageSize").value;    //每页显示的记录条数
+                    if (!/^[1-9]\d*$/.test(Stop_pageSize)) {
+                        alert("请输入大于0的整数");
+                        return ;
+                    }
+                    //len =$("#tbody_review tr").length - 1;
+                                       Stop_len =$("#Stop_tbody_review tr").length;
+                    Stop_page=Stop_len % Stop_pageSize==0 ? Stop_len/Stop_pageSize : Math.floor(Stop_len/Stop_pageSize)+1;//根据记录条数，计算页数
+                    Stop_curPage=1;        //当前页
+                    Stop_direct=0;        //方向
+                                       Stop_displayPage();//显示第一页
+                });
+            });
+
+            function Stop_displayPage(){
+                if(Stop_curPage <=1 && Stop_direct==-1){
+                    Stop_direct=0;
+                    alert("已经是第一页了");
+                    return;
+                } else if (Stop_curPage >= Stop_page && Stop_direct==1) {
+                    Stop_direct=0;
+                    alert("已经是最后一页了");
+                    return ;
+                }
+
+                Stop_lastPage = Stop_curPage;
+
+                // 修复当len=1时，curPage计算得0的bug
+                if (Stop_len > Stop_pageSize) {
+                                        if (Stop_pageSize!=1) {
+                                            Stop_curPage = ((Stop_curPage + Stop_direct + Stop_len) % Stop_len);
+                                        } else {
+                                            Stop_curPage = Stop_curPage + Stop_direct;
+                                        }
+                } else {
+                    Stop_curPage = 1;
+                }
+                               //alert("pass_curPage"+pass_curPage);
+                document.getElementById("Stop_btn0").innerHTML="当前 " + Stop_curPage + "/" + Stop_page + " 页    每页 ";        // 显示当前多少页
+
+                Stop_begin=(Stop_curPage-1)*Stop_pageSize;// 起始记录号
+                Stop_end = Stop_begin + 1*Stop_pageSize - 1;    // 末尾记录号
+                              
+                if(Stop_end > Stop_len ) Stop_end=Stop_len;
+                $("#Stop_tbody_review tr").hide();    // 首先，设置这行为隐藏
+                $("#Stop_tbody_review tr").each(function(x){    // 然后，通过条件判断决定本行是否恢复显示
+                   if(x>=Stop_begin && x<=Stop_end) {//显示begin<=x<=end的记录
+                                            $(this).show();
+                                        }
+                });
+             }
+
+                    </script>
+
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+    <script>
+        function show(e){
+            var id=e.getAttribute("id");
+            button=exist(id);
+            button.setAttribute("style","border: 0; background-color: white;color: red;");
+            setbuttonStyle(id);
+            setDivStyle(id);
+        }
+        function setbuttonStyle(id){
+            var mycars=new Array("DNAExtract","PreLibraryConstruction","FinalLibraryConstruction","ComputerSequencing","OtherInformation");
+            for (i=0;i<mycars.length;i++) {
+                 button=exist(mycars[i]);
+                 if(mycars[i]!=id){
+                    button.setAttribute("style","border: 0; background-color: white;color: black;");  
+                 }
+            }
+    }
+        function contains(arr,obj){  
+          var i=arr.length;  
+          while(i--){  
+            if(arr[i] === obj){  
+              return true;  
+            }
+          }
+          return false;  
+        }
+        function setDivStyle(id){
+            var divArray=new Array();
+            if(id=="DNAExtract"){
+                 divArray=new Array("DivDNAExt","DivDNAExtAss");
+            }else if(id=="PreLibraryConstruction"){
+                divArray=new Array("DivPreLibCon","DivPreLibConAss");
+            }else if(id=="FinalLibraryConstruction"){
+                divArray=new Array("DivFinLibCon","DivFinLibConAss");
+            }else if(id=="ComputerSequencing"){
+                divArray=new Array("DivComputerSeq","DivComputerSeqAss");
+            }else if(id=="OtherInformation"){
+                divArray=new Array("DivFin_unaud","DivSuspend","DivStop");
+            }
+            var mycars=new Array("DivDNAExt","DivDNAExtAss","DivPreLibCon","DivPreLibConAss","DivFinLibCon","DivFinLibConAss","DivComputerSeq","DivComputerSeqAss","DivFin_unaud","DivSuspend","DivStop");
+            for (i=0;i<mycars.length;i++) {
+                 if(contains(divArray,mycars[i])){
+                    document.getElementById(mycars[i]).style.display="block";
+                 }else{
+                    document.getElementById(mycars[i]).style.display="none";
+                 }
+            } 
+    }
+        function exist(id){
+            var bt=document.getElementById(id);
+      if(null==bt){
+       return false;
+      }else{
+         return bt;    
+      }
+    }
+    </script>
+
+{% endblock %}

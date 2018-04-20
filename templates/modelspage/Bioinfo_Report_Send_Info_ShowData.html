@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>报告发送信息录入</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <br />
+                    <form enctype="multipart/form-data" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/download_file/">
+                      {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*实验编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="ExperimentNumber" class="form-control col-md-7 col-xs-12" type="text" name="ExperimentNumber" readonly value="{{ data.ExperimentNumber }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>分析结果信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                       <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*数据质量</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="DataQquality" class="btn btn-default" type="text" name="DataQquality" readonly value="{{ data.DataQquality }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*有效测序深度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Effective_sequencing_depth" class="form-control col-md-7 col-xs-12" type="text" name="Effective_sequencing_depth" readonly value="{{ data.Effective_sequencing_depth }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*Sequencing file name</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="SequencingFileName" class="form-control col-md-7 col-xs-12" type="text" name="SequencingFileName" readonly value="{{ data.SequencingFileName }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*QC result</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="QC_Result" class="form-control col-md-7 col-xs-12" type="text" name="QC_Result" readonly value="{{ data.QC_Result }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*Path to sorted.deduped.bam</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Path_To_Sorted_Deduped_Bam" class="form-control col-md-7 col-xs-12" type="text" name="Path_To_Sorted_Deduped_Bam" readonly value="{{ data.Path_To_Sorted_Deduped_Bam }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="AnalysisRemarks" id="AnalysisRemarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.AnalysisRemarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                          <h2>分析次数</h2>
+
+                      <div class="ln_solid"></div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">分析次数</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="DataAnalysis_num" class="btn btn-default" type="text" name="DataAnalysis_num" readonly value="{{ data.DataAnalysis_num }}">
+                            </div>
+                        </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>报告制作信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="Report_Maker" class="control-label col-md-3 col-sm-3 col-xs-12">报告制作人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Report_Maker" class="form-control col-md-7 col-xs-12" type="text" name="Report_Maker" readonly value="{{ data.Report_Maker }}">
+                        </div>
+                      </div>
+
+                     <div class="form-group">
+                        <label for="Report_Maker" class="control-label col-md-3 col-sm-3 col-xs-12">报告文件</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Report_File_Name" class="btn btn-default" type="text" name="Report_File_Name" readonly value="{{ data.Report_File_Name }}">
+                            <button class="btn btn-success" type="submit" name="download">下载报告</button>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="Report_Make_Time" class="control-label col-md-3 col-sm-3 col-xs-12">报告上传时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Report_Make_Time" class="form-control col-md-7 col-xs-12" type="text" name="Report_Make_Time" readonly value="{{ data.Report_Make_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*报告备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Report_Remarks" id="Report_Remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.Report_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                       <h2>报告发送信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="Report_Send_Address" class="control-label col-md-3 col-sm-3 col-xs-12">*报告发送地</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Report_Send_Address" class="form-control col-md-7 col-xs-12" type="text" name="Report_Send_Address" readonly value="{{ data.Report_Send_Address }}">
+                        </div>
+                      </div>
+
+                     <div class="form-group">
+                        <label for="Report_Send_Date" class="control-label col-md-3 col-sm-3 col-xs-12">*报告发送日期</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Report_Send_Date" class="form-control col-md-7 col-xs-12" type="text" name="Report_Send_Date" readonly value="{{ data.Report_Send_Date }}">
+                        </div>
+                      </div>
+
+                       <div class="form-group">
+                        <label for="Invoice_Issuing_Date" class="control-label col-md-3 col-sm-3 col-xs-12">*发票开具日期</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Invoice_Issuing_Date" class="form-control col-md-7 col-xs-12" type="text" name="Invoice_Issuing_Date" readonly value="{{ data.Invoice_Issuing_Date }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*报告发送备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Report_Send_Remarks" id="Report_Send_Remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.Report_Send_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

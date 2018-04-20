@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>欢迎登录AnchorDx Lims</title>
+
+    <link href="/static/css/import_basic.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/css/yzm.css" type="text/css" rel="stylesheet" />
+
+<style type="text/css">
+
+
+textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="time"]:focus,input[type="week"]:focus,input[type="number"]:focus,input[type="email"]:focus,input[type="url"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="color"]:focus,.uneditable-input:focus{border-color:rgba(82, 168, 236, 0.8);/*outline:0;outline:thin dotted \9;*/-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);-moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);}
+
+*{ padding:0; margin:0;border:0; outline:none; font-family:"微软雅黑";}
+
+/*头部*/
+#herad{ width:100%; height:90px;}
+
+/*logo*/
+#logo{ width:335px; height:100%; background:url(/static/login_images/01_03.png)  no-repeat; margin-left:5%; }
+/*背景外层DIV*/
+ .content{ width:100%; height:70%; }
+/*背景图*/
+.con_bg{filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+-moz-background-size:100% 100%;
+    background-size:100% 100%;
+	height:100%;
+	width:100%;  background:url(/static/login_images/bg.jpg) center  no-repeat; position:relative;}
+
+/*登录框主题*/
+#main{ width:400px; height:260px; position:absolute; top:80px;
+ left:50%; margin-left:-200px;
+    border-radius:5px; border:1px solid #f8f8f8;
+	 background: rgba(255, 255, 255, 0.7);
+	  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#AAFFFFFF, endColorstr=#AAFFFFFF); -ms-filter:
+"progid:DXImageTransform.Microsoft.gradient(startColorstr=#AAFFFFFF, endColorstr=#AAFFFFFF)";}
+#main h3{ text-align:center; font-size:14px; color:#3981c4; line-height:45px; border-bottom:1px solid #f2f2f2;}
+#main  .text{ width:218px; height:30px; margin-bottom:10px; background:url(/static/login_images/01_07.png) no-repeat #fff;padding-left:40px;font-size:12px; line-height:30px;  }
+#main .text1{ width:218px; height:30px; outline:none; background:url(/static/login_images/01_10.png) #fff no-repeat;padding-left:40px; color:#999; margin-bottom:10px; font-size:12px;line-height:30px;}
+#main .but{  width:218px; height:30px; background:url(/static/login_images/but.png) no-repeat; cursor:pointer; color:#FFF; font-size:12px; margin-top:15px;}
+
+
+#main .but:hover{ background:url(/static/login_images/but2.png) no-repeat;}
+/*底部*/
+.footer p{ text-align:center; font-size:12px; margin-top:30px; line-height:28px; color:#666}
+
+</style>
+</head>
+
+<body onLoad="getFocus1()" style="padding:0px;" bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+ <!-- <form action="/static/jsp/welcome.jsp" method="post" name="form1" target="_self" > -->
+<!-- ImageReady Slices (登录封面.psd) -->
+
+<div id="herad">
+   <div id="logo"></div>
+</div>
+<!--content-->
+<div class="content">
+    <img style="position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1; " src="/static/images/background.jpg" />
+    <form method="post" action="/homepage/"  class="form-horizontal login">
+     <!--  <div class="con_bg" > -->
+      <div id="main" align="center">
+          <h3>AnchorDx Lims</h3>
+            <table width="222" height="128" border="1" cellspacing="0" cellpadding="1" style=" margin:auto; margin-top:25px;">
+              <tr>
+                <td>
+                    <input id="username" name="username" type="text" placeholder="请输入账号" class="text" required>
+                </td>
+              </tr>
+
+              <!-- <tr>
+                <td> <input autocomplete="off" id="accountName" name="accountName" onkeyup="if(event.keyCode==13) getFocus2();"
+                            type="text" value="请输入账号" onFocus="if(value==defaultValue){value='';this.style.color='#000'}"
+                            onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999" class="text">
+                </td>
+              </tr>-->
+
+              <tr>
+                <td>
+                    <input type="password" id="password" name="password" placeholder="请输入密码" class="text1" required >
+                </td>
+              </tr>
+
+                <!--
+              <tr>
+                <td>
+                    <select id="department" name="department" class="text">
+                        <option selected="selected" value="【请选择所属部门...】">【请选择所属部门...】</option>
+                        <option value="管理员">管理员</option>
+                        <option value="生信部">生信部</option>
+                        <option value="财务部">财务部</option>
+                        <option value="研发部">研发部</option>
+                        <option value="财务部">财务部</option>
+                        <option value="临检中心">临检中心</option>
+                    </select>
+                </td>
+              </tr>
+              -->
+
+             <!--  <tr>
+                <td id="yzm">验证码 : </td>
+              </tr>-->
+              <tr>
+                <td> <input name="login" id="login" type="submit" value="登录" class="but"></td>
+              </tr>
+            </table>
+      </div>
+    </form>
+
+    <script type="text/javascript">
+        var err = {{ error.error }};
+        //alert({{ error.error }});
+        if(err == 1){
+            alert("登录失败！");
+        }else{
+            alert(err);
+        }
+    </script>
+
+</div>
+<!--footer-->
+<div class="footer ">
+<p>©2017 广州市基准医疗有限责任公司 保留所有权利<br />技术支持广州市基准医疗有限责任公司| 咨询电话020-3443-8809| 网址：www.anchordx.com</p>
+</div>
+
+<!-- End ImageReady Slices -->
+</body>
+</html>

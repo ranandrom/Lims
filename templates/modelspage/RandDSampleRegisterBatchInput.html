@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <!-- top tiles -->
+        <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>样本登记 <small>（研发）</small></h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandDSampleInfoInputToDataBase/">
+                      <table id="datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                          <thead>
+                            <tr>
+                              <th>样本编号</th>
+                              <th>送检医院</th>
+                              <th>联系人</th>
+                              <th>收样时间（血样）</th>
+                              <th>收样时间（组织）</th>
+                              <th>收样人</th>
+                              <th>住院号</th>
+                              <th>病理号</th>
+                              <th>相关编号</th>
+                            </tr>
+                          </thead>
+
+                           <tbody id="tbody_review">
+                                <tr>
+                                    <td><textarea name="sam_code_num" id="sam_code_num" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="样本编号" required></textarea></td>
+                                    <td><textarea id="HospitalForInspection" name="HospitalForInspection" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="送检医院"></textarea></td>
+                                    <td><textarea id="Contacts" name="Contacts" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="联系人"></textarea></td>
+                                    <td><textarea id="SamplingTime_Blood" name="SamplingTime_Blood" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="收样时间（血样）"></textarea></td>
+                                    <td><textarea id="SamplingTime_Tissue" name="SamplingTime_Tissue" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="收样时间（组织）"></textarea></td>
+                                    <td><textarea id="Collector" name="Collector" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="收样人"></textarea></td>
+                                    <td><textarea id="InpatientNumber" name="InpatientNumber" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="住院号"></textarea></td>
+                                    <td><textarea id="PathologicalNumber" name="PathologicalNumber" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="病理号"></textarea></td>
+                                    <td><textarea id="CorrelationNumber" name="CorrelationNumber" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="相关编号"></textarea></td>
+                                </tr>
+                          </tbody>
+                        </table>
+
+                      <table id="datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                          <th>患者姓名</th>
+                          <th>患者年龄（岁）</th>
+                          <th>患者性别</th>
+                          <th>血样类型</th>
+                          <th>采血时间</th>
+                          <th>组织样本来源</th>
+                          <th>组织数量</th>
+                          <th>组织类型</th>
+                          <th>组织样本处理方式</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="tbody_review">
+                            <tr>
+                                <td><textarea name="PatientName" id="PatientName" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="患者姓名"></textarea></td>
+                                <td><textarea id="PatientAge" name="PatientAge" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="患者年龄（岁）"></textarea></td>
+                                <td><textarea id="PatientSex" name="PatientSex" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="患者性别"></textarea></td>
+                                <td><textarea id="BloodSampleType" name="BloodSampleType" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="血样类型"></textarea></td>
+                                <td><textarea id="BloodSamplingTime" name="BloodSamplingTime" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="采血时间"></textarea></td>
+                                <td><textarea id="TissueSampleSources" name="TissueSampleSources" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="组织样本来源"></textarea></td>
+                                <td><textarea id="TissueQuantity" name="TissueQuantity" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="组织数量"></textarea></td>
+                                <td><textarea id="TissueType" name="TissueType" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="组织类型"></textarea></td>
+                                <td><textarea id="TissueSampleProcessing" name="TissueSampleProcessing" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="组织样本处理方式"></textarea></td>
+                            </tr>
+                      </tbody>
+                    </table>
+
+                      <table id="datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                          <th>手术日期</th>
+                          <th>病理信息</th>
+                          <th>TNM分期</th>
+                          <th>Stage</th>
+                          <th>分子诊断信息</th>
+                          <th>分类</th>
+                          <th>血浆用途</th>
+                          <th>组织用途</th>
+                          <th>血浆存放位置</th>
+                          <th>组织存放位置</th>
+                        </tr>
+                      </thead>
+
+                       <tbody id="tbody_review">
+                            <tr>
+                                <td><textarea id="OperationDate" name="OperationDate" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="手术日期"></textarea></td>
+                                <td><textarea id="PathologicalInfo" name="PathologicalInfo" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="病理信息"></textarea></td>
+                                <td><textarea id="TNMStaging" name="TNMStaging" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="TNM分期"></textarea></td>
+                                <td><textarea id="Stage" name="Stage" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="Stage"></textarea></td>
+                                <td><textarea id="MolecularDiagnosticInfo" name="MolecularDiagnosticInfo" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="分子诊断信息"></textarea></td>
+                                <td><textarea id="Classification" name="Classification" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="分类"></textarea></td>
+                                <td><textarea id="PlasmaUse" name="PlasmaUse" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="血浆用途"></textarea></td>
+                                <td><textarea id="TissueUse" name="TissueUse" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="组织用途"></textarea></td>
+                                <td><textarea id="PlasmaStoragePosition" name="PlasmaStoragePosition" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="血浆存放位置"></textarea></td>
+                                <td><textarea id="TissueStoragePosition" name="TissueStoragePosition" class="form-control col-md-7 col-xs-12" type="text" rows="10" placeholder="组织存放位置"></textarea></td>
+                            </tr>
+
+                      </tbody>
+                     </table>
+
+                     <div class="ln_solid"></div>
+                      <div class="form-group">
+                            <label >*样本审核人</label>
+                                <select id="SampleAuditor" name="SampleAuditor" class="btn btn-default" required>
+                                    {%  for data in userlist %}
+                                        <option value="{{ data.username }}">{{ data.username }}</option>
+                                    {% endfor %}
+                                </select>
+
+                       </div>
+
+                     <div class="ln_solid"></div>
+                      <div class="form-group">
+                          <a href="/RandDSampleInfoInputHomePage/"><button class="btn btn-primary" type="button" >返回</button></a>
+                          <button type="submit" class="btn btn-success" name="batchAddSampleDraft">存为草稿</button>
+                          <button class="btn btn-success" type="submit" name="batchAddSample">提交审核</button>
+                      </div>
+
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+
+ {% endblock %}

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>AnchorDx LIMS</title>
+
+  <!-- Bootstrap -->
+  <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <!-- NProgress -->
+  <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+  <!-- iCheck -->
+  <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+  <!-- Datatables -->
+  <link href="/static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+  <link href="/static/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+  <link href="/static/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+  <link href="/static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+  <link href="/static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+ <script type="text/javascript" src="/static/jedate/jedate.js"></script>
+  <!-- jQuery -->
+  <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+  <script src="/static/laydate/laydate.js"></script>
+
+  <!--<script type="text/javascript" src="/static/vendors/jquery/dist/jquery.min.js"></script>
+  <script src="/static/vendors/layer/layer/layer.js"></script>
+  <script type="text/javascript" src="/static/vendors/layer/layer/layer.js"></script>-->
+
+  <!-- Custom Theme Style -->
+  <link href="/static/build/css/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+<div class="container body">
+  <div class="main_container">
+    <div class="col-md-3 left_col">
+      <div class="left_col scroll-view">
+        <div class="navbar nav_title">
+            <a class="site_title"><span>AnchorDx LIMS</span></a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!-- menu profile quick info -->
+        <div class="profile clearfix">
+          <div class="profile_pic">
+            <img src="/static/images/user.png" alt="..." class="img-circle profile_img">
+          </div>
+          <div class="profile_info">
+            <span>Welcome,</span>
+            <h2>{{ userinfo.department }}-{{ userinfo.username }}</h2>
+          </div>
+        </div>
+        <!-- /menu profile quick info -->
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+          <div class="menu_section">
+            <h3>General</h3>
+            <ul class="nav side-menu">
+
+              <li id="homepage"><a href="/homepage/"><i class="fa fa-home"></i> 首页 </a></li>
+
+              <li id="SampleManagement" style="display:none"><a><i class="fa fa-edit"></i> 样本管理 <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li id="ClinicalSampleRegistration" style="display:none"><a href="/ClinicalSampleRegistration/">样本登记（临检）</a></li>
+                  <li id="sampleReview" style="display:none"><a href="/sample_Review/">收样审核（临检）</a></li>
+                  <li id="clinicalExperimentalTaskAssignment" style="display:none"><a href="/clinicalExperimentalTaskAssignment/">任务分派（临检）</a></li>
+                  <li id="PretreatmentTaskReview" style="display:none"><a href="/PretreatmentTaskReview/">样本预处理（临检）</a></li>
+                  <li id="DNAExtractTaskReview" style="display:none"><a href="/DNAExtractTaskReview/">DNA提取（临检）</a></li>
+                  <li id="PreLibConTaskReview" style="display:none"><a href="/PreLibConTaskReview/">预文库构建（临检）</a></li>
+                  <li id="FinLibConTaskReview" style="display:none"><a href="/FinLibConTaskReview/">终文库构建（临检）</a></li>
+                  <li id="ComSeqTaskReview" style="display:none"><a href="/ComSeqTaskReview/">上机测序（临检）</a></li>
+                </ul>
+              </li>
+
+              <li id="projectManagement" style="display:none"><a><i class="fa fa-desktop"></i> 项目管理 <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li id="RandDSampleInfoInputHomePage" style="display:none"><a href="/RandDSampleInfoInputHomePage/">收样登记（研发）</a></li>
+                  <li id="RandDSampleReviewHomePage" style="display:none"><a href="/RandDSampleReviewHomePage/">收样审核（研发）</a></li>
+                  <li id="RandDExperimentalTaskAssignmentHomePage" style="display:none"><a href="/RandDExperimentalTaskAssignmentHomePage/">任务分派（研发）</a></li>
+                  <li id="RandDPretreatmentInfoInputHomePage" style="display:none"><a href="/RandDPretreatmentInfoInputHomePage/">样本预处理（研发）</a></li>
+                  <li id="RandDDNAExtractInfoInputHomePage" style="display:none"><a href="/RandDDNAExtractInfoInputHomePage/">DNA提取（研发）</a></li>
+                  <li id="RandDPreLibConInfoInputHomePage" style="display:none"><a href="/RandDPreLibConInfoInputHomePage/">预文库构建（研发）</a></li>
+                  <li id="RandDFinLibConInfoInputHomePage" style="display:none"><a href="/RandDFinLibConInfoInputHomePage/">终文库构建（研发）</a></li>
+                  <li id="RandDComSeqInfoInputHomePage" style="display:none"><a href="/RandDComSeqInfoInputHomePage/">上机测序（研发）</a></li>
+                </ul>
+              </li>
+
+              <li id="contractManagement" style="display:none"><a><i class="fa fa-table"></i> 合同管理 <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li id="contractReview" style="display:none"><a href="/contract_Review/">合同审核</a></li>
+                </ul>
+              </li>
+
+              <li id="BioinfoAnalysis" style="display:none"><a><i class="fa fa-bar-chart-o"></i> 生信分析 <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li id="BioinfoTaskAssignment" style="display:none"><a href="/BioinfoTaskAssignment/">分析任务分派</a></li>
+                  <li id="BioinfoDataAnalysisTaskReview" style="display:none"><a href="/Bioinfo_DataAnalysisTask_Review/">分析结果录入</a></li>
+                  <li id="BioinfoDataAnalysisResultReview" style="display:none"><a href="/Bioinfo_DataAnalysisResult_Review/">分析结果审核</a></li>
+                  <li id="BioinfoReportTaskReview" style="display:none"><a href="/Bioinfo_Report_Task_Review/">报告生成</a></li>
+                </ul>
+              </li>
+
+              <li id="ReportManagement" style="display:none"><a><i class="fa fa-clone"></i> 报告管理 <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li id="BioinfoReportMedicalAuditTaskReview" style="display:none"><a href="/Bioinfo_Report_Medical_Audit_Task_Review/">遗传咨询师审核报告</a></li>
+                  <li id="BioinfoReportOperateAuditTaskReview" style="display:none"><a href="/Bioinfo_Report_Operate_Audit_Task_Review/">运营审核报告</a></li>
+                </ul>
+              </li>
+
+              <li id="BusinessAffairsManagement" style="display:none"><a><i class="fa fa-laptop"></i>商务管理 <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li id="BioinfoReportSendInfoTaskReview" style="display:none"><a href="/Bioinfo_Report_Send_Info_Task_Review/">报告发送</a></li>
+                </ul>
+              </li>
+
+            </ul>
+          </div>
+
+          <div class="menu_section" id="SystemSetDiv" style="display:none">
+            <h3>System settings</h3>
+            <ul class="nav side-menu" >
+              <li id="aboutMe" style="display:none" ><a><i class="fa fa-bug"></i> 关于我的 <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a href="plain_page.html">我录入/审核的样本</a></li>
+                  <li><a href="plain_page.html">我录入/审核的项目</a></li>
+                  <li><a href="plain_page.html">我录入/审核的合同</a></li>
+                  <li><a href="plain_page.html">我录入/审核的实验数据</a></li>
+                  <li><a href="plain_page.html">我审核的检测结果/报告</a></li>
+                </ul>
+              </li>
+              <li id="UserSeting" style="display:none"><a><i class="fa fa-windows"></i> 用户权限设置 <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a href="/UserAccessRightsSetting/">用户访问权限设置</a></li>
+                  <li><a href="/UserOperationPermissionsSetting/">用户操作权限设置</a></li>
+                </ul>
+              </li>
+              <li id="" style="display:none"><a><i class="fa fa-sitemap"></i>管理员权限<span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a href="plain_page.html">？？？？</a></li>
+                </ul>
+              </li>
+              <li id="" style="display:none"><a href="javascript:void(0)"><i class="fa fa-laptop"></i>？？？<span class="label label-success pull-right">Coming Soon</span></a></li>
+            </ul>
+          </div>
+
+        </div>
+        <!-- /sidebar menu -->
+          {%  for data in myInfo %}
+              <div class="row" style="display:none">
+
+                  <input type="text" id="IP_department" name="IP_department" class="form-control col-md-7 col-xs-12" readonly value="{{ data.department }}">
+                  <input type="text" id="IP_DefaultMark" name="IP_DefaultMark" class="form-control col-md-7 col-xs-12" readonly value="{{ data.DefaultMark }}">
+
+                  <input type="text" id="IP_SampleManagement" name="IP_SampleManagement" class="form-control col-md-7 col-xs-12" readonly value="{{ data.SampleManagement }}">
+                  <input type="text" id="IP_ClinicalSampleRegistration" name="IP_ClinicalSampleRegistration" class="form-control col-md-7 col-xs-12" readonly value="{{ data.ClinicalSampleRegistration }}">
+                  <input type="text" id="IP_sampleReview" name="IP_sampleReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sampleReview }}">
+                  <input type="text" id="IP_clinicalExperimentalTaskAssignment" name="IP_clinicalExperimentalTaskAssignment" class="form-control col-md-7 col-xs-12" readonly value="{{ data.clinicalExperimentalTaskAssignment }}">
+                  <input type="text" id="IP_PretreatmentTaskReview" name="IP_PretreatmentTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.PretreatmentTaskReview }}">
+                  <input type="text" id="IP_DNAExtractTaskReview" name="IP_DNAExtractTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.DNAExtractTaskReview }}">
+                  <input type="text" id="IP_PreLibConTaskReview" name="IP_PreLibConTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.PreLibConTaskReview }}">
+                  <input type="text" id="IP_FinLibConTaskReview" name="IP_FinLibConTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.FinLibConTaskReview }}">
+                  <input type="text" id="IP_ComSeqTaskReview" name="IP_ComSeqTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.ComSeqTaskReview }}">
+
+                  <input type="text" id="IP_projectManagement" name="IP_projectManagement" class="form-control col-md-7 col-xs-12" readonly value="{{ data.projectManagement }}">
+                  <input type="text" id="IP_RandDSampleInfoInputHomePage" name="IP_RandDSampleInfoInputHomePage" class="form-control col-md-7 col-xs-12" readonly value="{{ data.RandDSampleInfoInputHomePage }}">
+                  <input type="text" id="IP_RandDSampleReviewHomePage" name="IP_RandDSampleReviewHomePage" class="form-control col-md-7 col-xs-12" readonly value="{{ data.RandDSampleReviewHomePage }}">
+                  <input type="text" id="IP_RandDExperimentalTaskAssignmentHomePage" name="IP_RandDExperimentalTaskAssignmentHomePage" class="form-control col-md-7 col-xs-12" readonly value="{{ data.RandDExperimentalTaskAssignmentHomePage }}">
+                  <input type="text" id="IP_RandDPretreatmentInfoInputHomePage" name="IP_RandDPretreatmentInfoInputHomePage" class="form-control col-md-7 col-xs-12" readonly value="{{ data.RandDPretreatmentInfoInputHomePage }}">
+                  <input type="text" id="IP_RandDDNAExtractInfoInputHomePage" name="IP_RandDDNAExtractInfoInputHomePage" class="form-control col-md-7 col-xs-12" readonly value="{{ data.RandDDNAExtractInfoInputHomePage }}">
+                  <input type="text" id="IP_RandDPreLibConInfoInputHomePage" name="IP_RandDPreLibConInfoInputHomePage" class="form-control col-md-7 col-xs-12" readonly value="{{ data.RandDPreLibConInfoInputHomePage }}">
+                  <input type="text" id="IP_RandDFinLibConInfoInputHomePage" name="IP_RandDFinLibConInfoInputHomePage" class="form-control col-md-7 col-xs-12" readonly value="{{ data.RandDFinLibConInfoInputHomePage }}">
+                  <input type="text" id="IP_RandDComSeqInfoInputHomePage" name="IP_RandDComSeqInfoInputHomePage" class="form-control col-md-7 col-xs-12" readonly value="{{ data.RandDComSeqInfoInputHomePage }}">
+
+                  <input type="text" id="IP_contractManagement" name="IP_contractManagement" class="form-control col-md-7 col-xs-12" readonly value="{{ data.contractManagement }}">
+                  <input type="text" id="IP_contractReview" name="IP_contractReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.contractReview }}">
+
+                  <input type="text" id="IP_BioinfoAnalysis" name="IP_BioinfoAnalysis" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BioinfoAnalysis }}">
+                  <input type="text" id="IP_BioinfoTaskAssignment" name="IP_BioinfoTaskAssignment" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BioinfoTaskAssignment }}">
+                  <input type="text" id="IP_BioinfoDataAnalysisTaskReview" name="IP_BioinfoDataAnalysisTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BioinfoDataAnalysisTaskReview }}">
+                  <input type="text" id="IP_BioinfoDataAnalysisResultReview" name="IP_BioinfoDataAnalysisResultReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BioinfoDataAnalysisResultReview }}">
+                  <input type="text" id="IP_BioinfoReportTaskReview" name="IP_BioinfoReportTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BioinfoReportTaskReview }}">
+
+                  <input type="text" id="IP_ReportManagement" name="IP_ReportManagement" class="form-control col-md-7 col-xs-12" readonly value="{{ data.ReportManagement }}">
+                  <input type="text" id="IP_BioinfoReportMedicalAuditTaskReview" name="IP_BioinfoReportMedicalAuditTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BioinfoReportMedicalAuditTaskReview }}">
+                  <input type="text" id="IP_BioinfoReportOperateAuditTaskReview" name="IP_BioinfoReportOperateAuditTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BioinfoReportOperateAuditTaskReview }}">
+
+                  <input type="text" id="IP_BusinessAffairsManagement" name="IP_BusinessAffairsManagement" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BusinessAffairsManagement }}">
+                  <input type="text" id="IP_BioinfoReportSendInfoTaskReview" name="IP_BioinfoReportSendInfoTaskReview" class="form-control col-md-7 col-xs-12" readonly value="{{ data.BioinfoReportSendInfoTaskReview }}">
+
+              </div>
+
+          {% endfor %}
+
+          <script>
+              var AllLiShow=new Array("SampleManagement","ClinicalSampleRegistration","sampleReview","clinicalExperimentalTaskAssignment","PretreatmentTaskReview",
+                                        "DNAExtractTaskReview","PreLibConTaskReview","FinLibConTaskReview","ComSeqTaskReview",
+                                        "projectManagement","RandDSampleInfoInputHomePage","RandDSampleReviewHomePage","RandDExperimentalTaskAssignmentHomePage","RandDPretreatmentInfoInputHomePage",
+                                        "RandDDNAExtractInfoInputHomePage","RandDPreLibConInfoInputHomePage","RandDFinLibConInfoInputHomePage","RandDComSeqInfoInputHomePage",
+                                        "contractManagement","contractReview",
+                                        "BioinfoAnalysis","BioinfoTaskAssignment","BioinfoDataAnalysisTaskReview","BioinfoDataAnalysisResultReview","BioinfoReportTaskReview",
+                                        "ReportManagement","BioinfoReportMedicalAuditTaskReview","BioinfoReportOperateAuditTaskReview",
+                                        "BusinessAffairsManagement","BioinfoReportSendInfoTaskReview"
+                    );
+             if(document.getElementById("IP_department").value=="销售部"){
+                    document.getElementById("homepage").style.display="none";
+                }
+            if(document.getElementById("IP_DefaultMark").value == 0){  // 默认
+                //alert(document.getElementById("IP_department").value);
+                if(document.getElementById("IP_department").value=="管理员"){
+                    var mycars=AllLiShow;
+                    mycars.push("SystemSetDiv");
+                    mycars.push("UserSeting");
+                    showLi(mycars);
+                }else if(document.getElementById("IP_department").value=="生信部"){
+                    var mycars=new Array("BioinfoAnalysis","BioinfoTaskAssignment","BioinfoDataAnalysisTaskReview","BioinfoDataAnalysisResultReview","BioinfoReportTaskReview");
+                    showLi(mycars);
+                }else if(document.getElementById("IP_department").value=="财务部"){
+                    var mycars=new Array("contractManagement","contractReview");
+                    showLi(mycars);
+                }else if(document.getElementById("IP_department").value=="研发部"){
+                    var mycars=new Array("projectManagement","RandDSampleInfoInputHomePage","RandDSampleReviewHomePage","RandDExperimentalTaskAssignmentHomePage","RandDPretreatmentInfoInputHomePage",
+                                        "RandDDNAExtractInfoInputHomePage","RandDPreLibConInfoInputHomePage","RandDFinLibConInfoInputHomePage","RandDComSeqInfoInputHomePage");
+                    showLi(mycars);
+                }else if(document.getElementById("IP_department").value=="临检中心"){
+                    var mycars=new Array("SampleManagement","PretreatmentTaskReview","DNAExtractTaskReview","PreLibConTaskReview","FinLibConTaskReview","ComSeqTaskReview");
+                    showLi(mycars);
+                }else if(document.getElementById("IP_department").value=="销售部"){
+                    var mycars=new Array("SampleManagement","ClinicalSampleRegistration");
+                    showLi(mycars);
+                }else if(document.getElementById("IP_department").value=="市场部"){
+                    var mycars=new Array("SampleManagement","sampleReview","ReportManagement","BioinfoReportOperateAuditTaskReview","BusinessAffairsManagement","BioinfoReportSendInfoTaskReview");
+                    showLi(mycars);
+                }else if(document.getElementById("IP_department").value=="医学部"){
+                    var mycars=new Array("ReportManagement","BioinfoReportMedicalAuditTaskReview");
+                    showLi(mycars);
+                }
+
+            }else{  // 设置
+                 var arrayShowLi = new Array();
+                 for(i=0;i<AllLiShow.length;i++){
+                     if(document.getElementById("IP_"+AllLiShow[i]).value==1){
+                        arrayShowLi.push(AllLiShow[i]);
+                     }
+                 }
+                 if(document.getElementById("IP_department").value=="管理员") {
+                     arrayShowLi.push("SystemSetDiv");
+                     arrayShowLi.push("UserSeting");
+                 }
+                 showLi(arrayShowLi);
+            }
+
+            function showLi(mycars){
+                for (i=0;i<mycars.length;i++) {
+                    document.getElementById(mycars[i]).style.display="block";  
+                }
+        }
+        </script>
+
+        <!-- /menu footer buttons -->
+        <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Logout" href="/logout/">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+
+        </div>
+        <!-- /menu footer buttons -->
+      </div>
+    </div>
+
+   <!-- top navigation -->
+    <div class="top_nav" >
+      <div class="nav_menu" >
+        <nav>
+          <div class="nav toggle">
+            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+          </div>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="">
+              <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <img src="/static/images/user.png" alt="">{{ userinfo.username }}
+                <span class=" fa fa-angle-down"></span>
+              </a>
+              <ul class="dropdown-menu dropdown-usermenu pull-right">
+                <!--<li><a href="javascript:;"> Profile</a></li>
+                <li>
+                  <a href="javascript:;">
+                    <span class="badge bg-red pull-right">50%</span>
+                    <span>Settings</span>
+                  </a>
+                </li>
+                <li><a href="javascript:;">Help</a></li> -->
+                <li><a href="/logout/"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+              </ul>
+            </li>
+
+            <li role="presentation" class="dropdown">
+              <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-envelope-o"></i>
+                <span class="badge bg-green">{{ num_SystemMessage_Unread }}</span>
+              </a>
+              <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/UserSystemMessagedetailedInfo/">
+                {%  for data in SystemMessage %}
+                <li>
+                  <a>
+                      <input type="hidden" id="Sender" name="Sender" value = "{{ data.Sender }}"/>
+                      <input type="hidden" id="Title" name="Title" value = "{{ data.Title }}"/>
+                      <input type="hidden" id="Time" name="Time" value = "{{ data.Time }}"/>
+                    <span class="image"><img src="/static/images/user.png" alt="Profile Image" /></span>
+                    <span>
+                          <span><input type="submit" value="{{ data.Sender }}" style=" border: 0;background: none;"/></span>
+                          <span class="time"><input type="submit" value="{{ data.Time }}" style=" border: 0;background: none;"/></span>
+                    </span>
+                    <span>
+                        <span class="message"><input type="submit" value="{{ data.Title }}" style=" border: 0;background: none;"/></span>
+                        <span ><input type="submit" value="{{ data.ReadingState }}" style=" border: 0;background: none;"/></span>
+                    </span>
+                  </a>
+                </li>
+                {% endfor %}
+              </form>
+                <li>
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/UserSystemMessageHomePage/">
+                        <div class="text-center">
+                            <strong>
+                                <a>
+                                    <input type="submit" value="查看全部信息" style=" border: 0;background: none;"/>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </strong>
+                        </div>
+                    </form>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- /top navigation -->
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <script type="text/javascript">
+            //jeDate.skin('gray');
+            jeDate({
+                dateCell:"#indate",//isinitVal:true,
+                format:"YYYY-MM",
+                isTime:false, //isClear:false,
+                minDate:"2015-10-19 00:00:00",
+                maxDate:"2016-11-8 00:00:00"
+            })
+            jeDate({
+                dateCell:"#dateinfo",
+                format:"YYYY年MM月DD日 hh:mm:ss",
+                isinitVal:true,
+                isTime:true, //isClear:false,
+                minDate:"2014-09-19 00:00:00",
+                okfun:function(val){alert(val)}
+            })
+
+            //alert("YYYY/MM".match(/\w+|d+/g).join("-"))
+         </script>
+
+        <script type="text/javascript">
+            function search(SearchvalID, tbodyID) {
+                //var SearchVal = Searchval.Search.value;
+                var SearchVal = document.getElementById(SearchvalID).value;
+                var trList = $("#"+tbodyID).children("tr");
+                var tag = 0;
+                for (var i=0;i<trList.length;i++) {
+                    var tdArr = trList.eq(i).find("td");
+                    var sign = 0;
+                    for(var j=0; j<tdArr.length-1; j++){
+                        var val0 = tdArr.eq(j).find("input").val();
+                        if(val0.indexOf(SearchVal) >= 0 ){
+                            sign = 1;
+                            break;
+                        }else{
+                            continue;
+                        }
+                    }
+                    if(sign == 0){
+                        $("#"+tbodyID+" tr").each(function(x){
+                            if(x==i) {//隐藏x行的记录
+                                $(this).hide();
+                            }
+                        });
+                    }else{
+                        tag = 1;
+                        $("#"+tbodyID+" tr").each(function(x){
+                            if(x==i) {//显示x行的记录
+                                $(this).show();
+                            }
+                        });
+                    }
+                }
+                if(tag == 0){
+                    alert("无匹配对象！");
+                }
+            }
+        </script>
+
+        {% block content %} {% endblock %}
+
+    </div>
+    <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            AnchorDx_LIMS - All Right 2017. power by <a href="https://github.com/ranandrom" target="_blank">LuZhiRong</a>
+              -  from <a href="http://www.anchordx.com/" title="anchordx" target="_blank">AnchorDx Medical Co.,Ltd.</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="/static/vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="/static/vendors/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="/static/vendors/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="/static/vendors/Flot/jquery.flot.js"></script>
+    <script src="/static/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="/static/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="/static/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="/static/vendors/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="/static/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="/static/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="/static/vendors/flot.curvedlines/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="/static/vendors/DateJS/build/date.js"></script>
+    <!-- JQVMap -->
+    <script src="/static/vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="/static/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="/static/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/vendors/moment/min/moment.min.js"></script>
+    <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+
+  </body>
+</html>

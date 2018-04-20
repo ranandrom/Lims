@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><strong>系统消息</strong></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/UserSystemMessageProcessing/">
+                      {%  for data in detailedInfo %}
+                        <h2><strong>{{ data.Title }}</strong></h2>
+                        <h2><strong>发件人：</strong>{{ data.Sender }}</h2>
+                        <h2><strong>发件时间：</strong>{{ data.Time }}</h2>
+                        <h2><strong>收件人：</strong>{{ data.Receiver }}</h2>
+
+                        <input type="hidden" id="Sender" name="Sender" value = "{{ data.Sender }}"/>
+                        <input type="hidden" id="Title" name="Title" value = "{{ data.Title }}"/>
+                        <input type="hidden" id="Time" name="Time" value = "{{ data.Time }}"/>
+
+                      <div class="ln_solid"></div>
+
+                      <h2><strong>消息正文：</strong></h2>
+                      <br><br>
+                      <h2>{{ data.Message }}</h2>
+                      <br><br><br>
+
+
+                      <div class="ln_solid"></div>
+                      {% endfor %}
+
+                      <button class="btn btn-primary" type="submit" name="back">返回</button>
+                      <button class="btn btn-success" type="submit" style="background: #f8555a" name="delete">删除</button>
+
+                    <div class="ln_solid"></div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

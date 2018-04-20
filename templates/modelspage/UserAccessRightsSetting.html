@@ -1,0 +1,627 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="">
+        <form enctype="multipart/form-data" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/UserAccessRightsSettingToDataBases/">
+
+            <div class="" style="align-content: center">
+                <div class="row" style="align-content: center">
+                    <div class="col-md-12 col-sm-12 col-xs-12" style="align-content: center">
+                        <div class="x_panel" style="align-content: center">
+                            <h2>用户访问权限设置</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                          <div class="x_content">
+                               <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">用户权限分配模式</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                      <input type="text" id="DefaultMark" name="DefaultMark" class="form-control col-md-7 col-xs-12" readonly value="{{ InputInfo.DefaultMark }}">
+                                    </div>
+                               </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                          <div class="x_content">
+                               <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">用户账号</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                      <input id="username" class="form-control col-md-7 col-xs-12" type="text" name="username" readonly value="{{ InputInfo.Inputusername }}">
+                                    </div>
+                               </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                          <div class="x_content">
+                               <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">用户所在部门</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                      <input id="department" class="form-control col-md-7 col-xs-12" type="text" name="department" readonly value="{{ InputInfo.Inputdepartment }}">
+                                    </div>
+                               </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="AllDiv">
+                {%  for data in settingUserinfo %}
+                <div class="">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_content">
+
+                                   <div class="row">
+
+                                       <div class="col-md-4 col-sm-4 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>样本管理模块</h2>
+                                              <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                              </ul>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                              <div class="dashboard-widget-content">
+                                                <ul class="list-unstyled timeline widget">
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>样本登记</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="ClinicalSampleRegistration" name="ClinicalSampleRegistration" type="radio" value="1" />是 </label> 
+                                                            <label><input id="ClinicalSampleRegistration" name="ClinicalSampleRegistration" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>收样审核</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="sampleReview" name="sampleReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="sampleReview" name="sampleReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>任务分派</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="clinicalExperimentalTaskAssignment" name="clinicalExperimentalTaskAssignment" type="radio" value="1" />是 </label> 
+                                                            <label><input id="clinicalExperimentalTaskAssignment" name="clinicalExperimentalTaskAssignment" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>样本预处理</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="PretreatmentTaskReview" name="PretreatmentTaskReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="PretreatmentTaskReview" name="PretreatmentTaskReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>DNA提取</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="DNAExtractTaskReview" name="DNAExtractTaskReview" type="radio" value="1" />是</label> 
+                                                            <label><input id="DNAExtractTaskReview" name="DNAExtractTaskReview" type="radio" value="0" />否</label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>预文库构建</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="PreLibConTaskReview" name="PreLibConTaskReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="PreLibConTaskReview" name="PreLibConTaskReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>终文库构建</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="FinLibConTaskReview" name="FinLibConTaskReview" type="radio" value="1" />是</label> 
+                                                            <label><input id="FinLibConTaskReview" name="FinLibConTaskReview" type="radio" value="0" />否</label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>上机测序</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="ComSeqTaskReview" name="ComSeqTaskReview" type="radio" value="1" />是</label> 
+                                                            <label><input id="ComSeqTaskReview" name="ComSeqTaskReview" type="radio" value="0" />否</label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                       <div class="col-md-4 col-sm-4 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>项目管理模块</h2>
+                                              <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                              </ul>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                              <div class="dashboard-widget-content">
+                                                <ul class="list-unstyled timeline widget">
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>收样登记</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="RandDSampleInfoInputHomePage" name="RandDSampleInfoInputHomePage" type="radio" value="1" />是 </label> 
+                                                            <label><input id="RandDSampleInfoInputHomePage" name="RandDSampleInfoInputHomePage" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>收样审核</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="RandDSampleReviewHomePage" name="RandDSampleReviewHomePage" type="radio" value="1" />是 </label> 
+                                                            <label><input id="RandDSampleReviewHomePage" name="RandDSampleReviewHomePage" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>任务分派</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="RandDExperimentalTaskAssignmentHomePage" name="RandDExperimentalTaskAssignmentHomePage" type="radio" value="1" />是 </label> 
+                                                            <label><input id="RandDExperimentalTaskAssignmentHomePage" name="RandDExperimentalTaskAssignmentHomePage" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>样本预处理</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="RandDPretreatmentInfoInputHomePage" name="RandDPretreatmentInfoInputHomePage" type="radio" value="1" />是 </label> 
+                                                            <label><input id="RandDPretreatmentInfoInputHomePage" name="RandDPretreatmentInfoInputHomePage" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>DNA提取</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="RandDDNAExtractInfoInputHomePage" name="RandDDNAExtractInfoInputHomePage" type="radio" value="1" />是</label> 
+                                                            <label><input id="RandDDNAExtractInfoInputHomePage" name="RandDDNAExtractInfoInputHomePage" type="radio" value="0" />否</label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>预文库构建</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="RandDPreLibConInfoInputHomePage" name="RandDPreLibConInfoInputHomePage" type="radio" value="1" />是 </label> 
+                                                            <label><input id="RandDPreLibConInfoInputHomePage" name="RandDPreLibConInfoInputHomePage" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>终文库构建</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="RandDFinLibConInfoInputHomePage" name="RandDFinLibConInfoInputHomePage" type="radio" value="1" />是</label> 
+                                                            <label><input id="RandDFinLibConInfoInputHomePage" name="RandDFinLibConInfoInputHomePage" type="radio" value="0" />否</label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>上机测序</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="RandDComSeqInfoInputHomePage" name="RandDComSeqInfoInputHomePage" type="radio" value="1" />是</label> 
+                                                            <label><input id="RandDComSeqInfoInputHomePage" name="RandDComSeqInfoInputHomePage" type="radio" value="0" />否</label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                       <div class="col-md-4 col-sm-4 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>合同管理模块</h2>
+                                              <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                              </ul>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                              <div class="dashboard-widget-content">
+                                                <ul class="list-unstyled timeline widget">
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>合同审核</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="contractReview" name="contractReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="contractReview" name="contractReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                    </div>
+
+                                   <div class="row">
+
+                                       <div class="col-md-4 col-sm-4 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>生信分析模块</h2>
+                                              <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                              </ul>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                              <div class="dashboard-widget-content">
+                                                <ul class="list-unstyled timeline widget">
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>分析任务分派</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="BioinfoTaskAssignment" name="BioinfoTaskAssignment" type="radio" value="1" />是 </label> 
+                                                            <label><input id="BioinfoTaskAssignment" name="BioinfoTaskAssignment" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>数据分析结果</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="BioinfoDataAnalysisTaskReview" name="BioinfoDataAnalysisTaskReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="BioinfoDataAnalysisTaskReview" name="BioinfoDataAnalysisTaskReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>分析结果审核</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="BioinfoDataAnalysisResultReview" name="BioinfoDataAnalysisResultReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="BioinfoDataAnalysisResultReview" name="BioinfoDataAnalysisResultReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>报告生成</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="BioinfoReportTaskReview" name="BioinfoReportTaskReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="BioinfoReportTaskReview" name="BioinfoReportTaskReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                       <div class="col-md-4 col-sm-4 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>报告管理模块</h2>
+                                              <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                              </ul>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                              <div class="dashboard-widget-content">
+                                                <ul class="list-unstyled timeline widget">
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>遗传咨询师审核报告</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="BioinfoReportMedicalAuditTaskReview" name="BioinfoReportMedicalAuditTaskReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="BioinfoReportMedicalAuditTaskReview" name="BioinfoReportMedicalAuditTaskReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>运营审核报告</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="BioinfoReportOperateAuditTaskReview" name="BioinfoReportOperateAuditTaskReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="BioinfoReportOperateAuditTaskReview" name="BioinfoReportOperateAuditTaskReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                       <div class="col-md-4 col-sm-4 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>样商务管理模块</h2>
+                                              <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                              </ul>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                              <div class="dashboard-widget-content">
+                                                <ul class="list-unstyled timeline widget">
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title">
+                                                          <a>报告发送</a>
+                                                        </h2>
+                                                        <br>
+                                                        <p>
+                                                            <label><input id="BioinfoReportSendInfoTaskReview" name="BioinfoReportSendInfoTaskReview" type="radio" value="1" />是 </label> 
+                                                            <label><input id="BioinfoReportSendInfoTaskReview" name="BioinfoReportSendInfoTaskReview" type="radio" value="0" />否 </label> 
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                initradio("ClinicalSampleRegistration",{{ data.ClinicalSampleRegistration }});
+                initradio("sampleReview",{{ data.sampleReview }});
+                initradio("clinicalExperimentalTaskAssignment",{{ data.clinicalExperimentalTaskAssignment }});
+                initradio("PretreatmentTaskReview",{{ data.PretreatmentTaskReview }});
+                initradio("DNAExtractTaskReview",{{ data.DNAExtractTaskReview }});
+                initradio("PreLibConTaskReview",{{ data.PreLibConTaskReview }});
+                initradio("FinLibConTaskReview",{{ data.FinLibConTaskReview }});
+                initradio("ComSeqTaskReview",{{ data.ComSeqTaskReview }});
+                initradio("RandDSampleInfoInputHomePage",{{ data.RandDSampleInfoInputHomePage }});
+                initradio("RandDSampleReviewHomePage",{{ data.RandDSampleReviewHomePage }});
+                initradio("RandDExperimentalTaskAssignmentHomePage",{{ data.RandDExperimentalTaskAssignmentHomePage }});
+                initradio("RandDPretreatmentInfoInputHomePage",{{ data.RandDPretreatmentInfoInputHomePage }});
+                initradio("RandDDNAExtractInfoInputHomePage",{{ data.RandDDNAExtractInfoInputHomePage }});
+                initradio("RandDPreLibConInfoInputHomePage",{{ data.RandDPreLibConInfoInputHomePage }});
+                initradio("RandDFinLibConInfoInputHomePage",{{ data.RandDFinLibConInfoInputHomePage }});
+                initradio("RandDComSeqInfoInputHomePage",{{ data.RandDComSeqInfoInputHomePage }});
+                initradio("contractReview",{{ data.contractReview }});
+                initradio("BioinfoTaskAssignment",{{ data.BioinfoTaskAssignment }});
+                initradio("BioinfoDataAnalysisTaskReview",{{ data.BioinfoDataAnalysisTaskReview }});
+                initradio("BioinfoDataAnalysisResultReview",{{ data.BioinfoDataAnalysisResultReview }});
+                initradio("BioinfoReportTaskReview",{{ data.BioinfoReportTaskReview }});
+                initradio("BioinfoReportMedicalAuditTaskReview",{{ data.BioinfoReportMedicalAuditTaskReview }});
+                initradio("BioinfoReportOperateAuditTaskReview",{{ data.BioinfoReportOperateAuditTaskReview }});
+                initradio("BioinfoReportSendInfoTaskReview",{{ data.BioinfoReportSendInfoTaskReview }});
+                function initradio(rName,rValue){
+                    var rObj = document.getElementsByName(rName);
+
+                    for(var i = 0;i < rObj.length;i++){
+                        if(rObj[i].value == rValue){
+                            rObj[i].checked =  'checked';
+                        }
+                    }
+                }
+            </script>
+
+            {% endfor %}
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_content">
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center">
+                                      <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                                      <button class="btn btn-success" type="submit" name="Determine">确定提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}

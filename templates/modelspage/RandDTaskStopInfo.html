@@ -1,0 +1,1324 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="row" style="text-align:center">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel" >
+                        <input type="button" value="样本信息"  class="btn btn-primary" style=" border: 0;background-color: white; color: black; display:none" id="SampleInfo" onclick="show(this)"/>
+                        <input type="button" value="样本预处理信息" class="btn btn-primary" style=" border: 0; background-color: white; color: black; display:none" id="Pretreatmentbutton" onclick="show(this)"/>
+                        <input type="button" value="DNA提取信息" class="btn btn-primary" style=" border: 0; background-color: white; color: black; display:none" id="DNAExtract" onclick="show(this)"/>
+                        <input type="button" value="预文库构建信息"  class="btn btn-primary" style=" border: 0;background-color: white; color: black; display:none" id="PreLibraryConstruction" onclick="show(this)"/>
+                        <input type="button" value="终文库构建信息"  class="btn btn-primary" style=" border: 0;background-color: white; color: black; display:none" id="FinalLibraryConstruction" onclick="show(this)"/>
+                        <input type="button" value="{{ Next_TaskProgress }}"  class="btn btn-primary" style="display:none; border: 0;background-color: white; color: black" id="Next_TaskProgress">
+                        <input type="button" value="{{ Pretreatment_Sing }}"  class="btn btn-primary" style="display:none; border: 0;background-color: white; color: black" id="Pretreatment_Sing">
+                    </div>
+                </div>
+          </div>
+
+          <div class="row" style="display:none" id="SampleInfoDiv">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本编号</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandD_Recovery_Task_Operation/">
+                    {%  for data in temp_RandDSampleInfo_stop %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12"  readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                    <div class="ln_solid"></div>
+
+                      <h2>医院信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="HospitalForInspection" class="control-label col-md-3 col-sm-3 col-xs-12">*送检医院</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="HospitalForInspection" class="form-control col-md-7 col-xs-12" type="text" name="HospitalForInspection"  readonly value="{{ data.HospitalForInspection }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="Contacts" class="control-label col-md-3 col-sm-3 col-xs-12">*联系人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Contacts" class="form-control col-md-7 col-xs-12" type="text" name="Contacts" readonly value="{{ data.Contacts }}">
+                        </div>
+                      </div>
+
+                    <div class="ln_solid"></div>
+
+                     <h2>收样信息</h2>
+
+                    <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="SamplingTime_Blood" class="control-label col-md-3 col-sm-3 col-xs-12">*收样时间（血样）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="SamplingTime_Blood" class="form-control col-md-7 col-xs-12" type="text" name="SamplingTime_Blood" readonly value="{{ data.SamplingTime_Blood }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="SamplingTime_Tissue" class="control-label col-md-3 col-sm-3 col-xs-12">*收样时间（组织）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="SamplingTime_Tissue" class="form-control col-md-7 col-xs-12" type="text" name="SamplingTime_Tissue" readonly value="{{ data.SamplingTime_Tissue }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*收样人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Collector" class="form-control col-md-7 col-xs-12" type="text" name="Collector" readonly value="{{ data.Collector }}">
+                        </div>
+                      </div>
+
+                    <div class="ln_solid"></div>
+
+                       <h2>项目信息</h2>
+
+                    <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label for="InpatientNumber" class="control-label col-md-3 col-sm-3 col-xs-12">*住院号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="InpatientNumber" class="form-control col-md-7 col-xs-12" type="text" name="InpatientNumber" readonly value="{{ data.InpatientNumber }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="PathologicalNumber" class="control-label col-md-3 col-sm-3 col-xs-12">*病理号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PathologicalNumber" class="form-control col-md-7 col-xs-12" type="text" name="PathologicalNumber" readonly value="{{ data.PathologicalNumber }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*相关编号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="CorrelationNumber" class="form-control col-md-7 col-xs-12" type="text" name="CorrelationNumber" readonly value="{{ data.CorrelationNumber }}">
+                            </div>
+                          </div>
+
+
+                    <div class="ln_solid"></div>
+
+                         <h2>样本信息</h2>
+
+                    <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label for="PatientName" class="control-label col-md-3 col-sm-3 col-xs-12">*患者姓名</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PatientName" class="form-control col-md-7 col-xs-12" type="text" name="PatientName" readonly value="{{ data.PatientName }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*患者性别</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="PatientSex" class="btn btn-default" type="text" name="PatientSex" readonly value="{{ data.PatientSex }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*患者年龄</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PatientAge" class="form-control col-md-7 col-xs-12" type="text" name="PatientAge" readonly value="{{ data.PatientAge }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="BloodSampleType">*血样类型</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="BloodSampleType" class="btn btn-default" type="text" name="BloodSampleType" readonly value="{{ data.BloodSampleType }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="BloodSamplingTime" class="control-label col-md-3 col-sm-3 col-xs-12">*采血时间</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="BloodSamplingTime" class="form-control col-md-7 col-xs-12" type="text" name="BloodSamplingTime" readonly value="{{ data.BloodSamplingTime }}">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueSampleSources">*组织样本来源</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="TissueSampleSources" class="btn btn-default" type="text" name="TissueSampleSources" readonly value="{{ data.TissueSampleSources }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="TissueQuantity" class="control-label col-md-3 col-sm-3 col-xs-12">*组织数量</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="TissueQuantity" class="form-control col-md-7 col-xs-12" type="number" name="TissueQuantity" readonly value="{{ data.TissueQuantity }}">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueType">*组织类型</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="TissueType" class="btn btn-default" type="text" name="TissueType" readonly value="{{ data.TissueType }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueSampleProcessing">*组织样本处理方式</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="TissueSampleProcessing" class="btn btn-default" type="text" name="TissueSampleProcessing" readonly value="{{ data.TissueSampleProcessing }}">
+                            </div>
+                        </div>
+
+                     <div class="ln_solid"></div>
+
+                      <h2>临床信息</h2>
+
+                    <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label for="OperationDate" class="control-label col-md-3 col-sm-3 col-xs-12">*手术日期</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="OperationDate" class="form-control col-md-7 col-xs-12" type="text" name="OperationDate" readonly value="{{ data.OperationDate }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*病理信息</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PathologicalInfo" class="form-control col-md-7 col-xs-12" type="text" name="PathologicalInfo" readonly value="{{ data.PathologicalInfo }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="TNMStaging" class="control-label col-md-3 col-sm-3 col-xs-12">*TNM分期</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="TNMStaging" class="form-control col-md-7 col-xs-12" type="text" name="TNMStaging" readonly value="{{ data.TNMStaging }}">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <label for="Stage" class="control-label col-md-3 col-sm-3 col-xs-12">*Stage</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="Stage" class="form-control col-md-7 col-xs-12" type="text" name="Stage" readonly value="{{ data.Stage }}">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*分子诊断信息</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="MolecularDiagnosticInfo" class="form-control col-md-7 col-xs-12" type="text" name="MolecularDiagnosticInfo" readonly value="{{ data.MolecularDiagnosticInfo }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Classification">*分类</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="Classification" class="btn btn-default" type="text" name="Classification" readonly value="{{ data.Classification }}">
+                            </div>
+                        </div>
+
+                    <div class="ln_solid"></div>
+
+                        <h2>存放信息</h2>
+
+                    <div class="ln_solid"></div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PlasmaUse">*血浆用途</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="PlasmaUse" class="btn btn-default" type="text" name="PlasmaUse" readonly value="{{ data.PlasmaUse }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueUse">*组织用途</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                 <input id="TissueUse" class="btn btn-default" type="text" name="TissueUse" readonly value="{{ data.TissueUse }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PlasmaStoragePosition">*血浆存放位置</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="PlasmaStoragePosition" class="btn btn-default" type="text" name="PlasmaStoragePosition" readonly value="{{ data.PlasmaStoragePosition }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueStoragePosition">*组织存放位置</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="TissueStoragePosition" class="btn btn-default" type="text" name="TissueStoragePosition" readonly value="{{ data.TissueStoragePosition }}">
+                            </div>
+                        </div>
+
+                     <div class="ln_solid"></div>
+
+                     <h2>审核信息<small>*号为必填项</small></h2>
+
+                      <div class="ln_solid"></div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*审核人</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="SampleAuditor" class="form-control col-md-7 col-xs-12" type="text" name="SampleAuditor" readonly value="{{ data.SampleAuditor }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*审核时间</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="ReviewTime" class="form-control col-md-7 col-xs-12" type="text" name="ReviewTime" readonly value="{{ data.ReviewTime }}">
+                            </div>
+                        </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">审核备注</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <textarea name="ReviewRemarks" id="ReviewRemarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly >{{ data.ReviewRemarks }}</textarea>
+                            </div>
+                          </div>
+
+                      <input type="text" class="form-control col-md-7 col-xs-12" style="display:none;" id="Stop_Next_TaskProgress" name="Stop_Next_TaskProgress" value="{{ Next_TaskProgress }}">
+                      <div class="form-group" style="display:none;">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">下一步任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Pretreatment" class="form-control col-md-7 col-xs-12" type="text" name="Pretreatment" readonly value="样本预处理">
+                          <input id="DNA_extraction" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction" readonly value="DNA提取">
+                          <input id="PreLibCon" class="form-control col-md-7 col-xs-12" type="text" name="PreLibCon" readonly value="预文库构建">
+                          <input id="FinLibCon" class="form-control col-md-7 col-xs-12" type="text" name="FinLibCon" readonly value="终文库构建">
+                          <input id="ComSeq" class="form-control col-md-7 col-xs-12" type="text" name="ComSeq" readonly value="上机测序">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                        <h2>其他信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                        <div class="form-group" id="SampleInfoDiv_Div_Next_TaskProgress" style="display:none;">
+                        <label for="TaskProgress" class="control-label col-md-3 col-sm-3 col-xs-12">任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Next_TaskProgress" class="btn btn-default" type="text" name="Next_TaskProgress" readonly value="{{ data.Next_TaskProgress }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="SampleInfoDiv_Div_Next_TaskProgress_Time" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务终止时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Next_TaskProgress_Time" class="form-control col-md-7 col-xs-12" type="text" name="Next_TaskProgress_Time" readonly value="{{ data.Next_TaskProgress_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="SampleInfoDiv_Div_taskRemarks" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="taskRemarks" id="taskRemarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.Next_TaskProgress_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                    <div class="ln_solid"></div>
+                     {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button type="submit" class="btn btn-success" style="display:none;" id="Pretreatment_recoveryTask" name="Stop_recoveryTask">恢复任务</button>
+                        </div>
+                      </div>
+                    <script type="text/javascript">
+                        if(document.getElementById("Stop_Next_TaskProgress").value=="样本预处理"){
+                            document.getElementById("Pretreatment_recoveryTask").style.display="";
+                            document.getElementById("SampleInfoDiv_Div_Next_TaskProgress").style.display="";
+                            document.getElementById("SampleInfoDiv_Div_Next_TaskProgress_Time").style.display="";
+                            document.getElementById("SampleInfoDiv_Div_taskRemarks").style.display="";
+                        }
+                    </script>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          <div class="" style="display:none" id="PretreatmentDiv">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息<small>*号为必填项</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandD_Recovery_Task_Operation/">
+                    {%  for data in temp_RandDPretreatment_stop %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>样本预处理信息<small>*号为必填项</small></h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*血浆总体积(mL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Plasma_volume" class="form-control col-md-7 col-xs-12" type="number" name="Plasma_volume" readonly value="{{ data.Plasma_volume }}">
+                        </div>
+                        <h4>(mL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*分装管数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Division_Tube_Number" class="form-control col-md-7 col-xs-12" type="number" name="Division_Tube_Number" readonly value="{{ data.Division_Tube_Number }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*白细胞分离管数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="number_of_white_blood_cells" class="form-control col-md-7 col-xs-12" type="number" name="number_of_white_blood_cells" readonly value="{{ data.number_of_white_blood_cells }}">
+                        </div>
+                      </div>
+
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*是否溶血</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input id="isHemolysis" class="btn btn-default" type="text" name="isHemolysis" readonly value="{{ data.isHemolysis }}">
+                        </div>
+                      </div>
+
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*是否脂血</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input id="isFatBlood" class="btn btn-default" type="text" name="isFatBlood" readonly value="{{ data.isFatBlood }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*采血管类型</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input id="Type_of_blood_vessel" class="btn btn-default" type="text" name="Type_of_blood_vessel" readonly value="{{ data.Type_of_blood_vessel }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*分血时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Blood_sharing_time" class="form-control col-md-7 col-xs-12" type="text" name="Blood_sharing_time" readonly value="{{ data.Blood_sharing_time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Pretreatment_remarks" id="Pretreatment_remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.Pretreatment_remarks }}</textarea>
+                        </div>
+                      </div>
+
+                        <input type="text" class="form-control col-md-7 col-xs-12" style="display:none;" id="Stop_Next_TaskProgress" name="Stop_Next_TaskProgress" value="{{ Next_TaskProgress }}">
+                        <div class="form-group" style="display:none;">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">下一步任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Pretreatment" class="form-control col-md-7 col-xs-12" type="text" name="Pretreatment" readonly value="样本预处理">
+                          <input id="DNA_extraction" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction" readonly value="DNA提取">
+                          <input id="PreLibCon" class="form-control col-md-7 col-xs-12" type="text" name="PreLibCon" readonly value="预文库构建">
+                          <input id="FinLibCon" class="form-control col-md-7 col-xs-12" type="text" name="FinLibCon" readonly value="终文库构建">
+                          <input id="ComSeq" class="form-control col-md-7 col-xs-12" type="text" name="ComSeq" readonly value="上机测序">
+                        </div>
+                      </div>
+
+                       <div class="ln_solid"></div>
+
+                          <h2>其他信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                        <div class="form-group" id="PretreatmentDiv_Div_Next_TaskProgress" style="display:none;">
+                        <label for="TaskProgress" class="control-label col-md-3 col-sm-3 col-xs-12">任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Next_TaskProgress" class="btn btn-default" type="text" name="Next_TaskProgress" readonly value="{{ data.Next_TaskProgress }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="PretreatmentDiv_Div_Next_TaskProgress_Time" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务终止时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Next_TaskProgress_Time" class="form-control col-md-7 col-xs-12" type="text" name="Next_TaskProgress_Time" readonly value="{{ data.Next_TaskProgress_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="PretreatmentDiv_Div_taskRemarks" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="taskRemarks" id="taskRemarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.Next_TaskProgress_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                    <div class="ln_solid"></div>
+                      {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button type="submit" class="btn btn-success" style="display:none;" id="DNA_extraction_recoveryTask" name="Stop_recoveryTask">恢复任务</button>
+                        </div>
+                      </div>
+                    <script type="text/javascript">
+                        if(document.getElementById("Stop_Next_TaskProgress").value=="DNA提取"){
+                            document.getElementById("DNA_extraction_recoveryTask").style.display="";
+                            document.getElementById("PretreatmentDiv_Div_Next_TaskProgress").style.display="";
+                            document.getElementById("PretreatmentDiv_Div_Next_TaskProgress_Time").style.display="";
+                            document.getElementById("PretreatmentDiv_Div_taskRemarks").style.display="";
+                        }
+                    </script>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+
+          <div class="row" style="display:none;" id="DNAExtractDiv">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息<small>*号为必填项</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandD_Recovery_Task_Operation/">
+                        {%  for data in temp_RandDDNAExtractInfo_stop %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                        <div class="ln_solid"></div>
+
+                      <h2>DNA提取信息<small>*号为必填项</small></h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*DNA样品名称</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNASampleName" class="form-control col-md-7 col-xs-12" type="text" name="DNASampleName" readonly value="{{ data.DNASampleName }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*血浆体积(mL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="PlasmaVolume" class="form-control col-md-7 col-xs-12" type="number" name="PlasmaVolume" readonly value="{{ data.PlasmaVolume }}">
+                        </div>
+                        <h4>(mL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*定量方式</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="QuantitativeMethod" class="btn btn-default" type="text" name="QuantitativeMethod" readonly value="{{ data.QuantitativeMethod }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*DNA浓度(ng/µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_Concentration" class="form-control col-md-7 col-xs-12" type="number" name="DNA_Concentration" readonly value="{{ data.DNA_Concentration }}">
+                        </div>
+                        <h4>(ng/µL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*DNA体积(µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_volume" class="form-control col-md-7 col-xs-12" type="number" name="DNA_volume" readonly value="{{ data.DNA_volume }}">
+                        </div>
+                        <h4>(µL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*DNA总量(ng)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_Total" class="form-control col-md-7 col-xs-12" type="number" name="DNA_Total" readonly value="{{ data.DNA_Total }}">
+                        </div>
+                        <h4>(ng)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*A260/A280</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="A260_A280" class="form-control col-md-7 col-xs-12" type="text" name="A260_A280" readonly value="{{ data.A260_A280 }}">
+                        </div>
+                      </div>
+
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*A260/A230</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="A260_A230" class="form-control col-md-7 col-xs-12" type="text" name="A260_A230" readonly value="{{ data.A260_A230 }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*提取试剂盒类型</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input id="Extraction_kit_type" class="form-control col-md-7 col-xs-12" type="text" name="Extraction_kit_type" readonly value="{{ data.Extraction_kit_type }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*提取时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_time" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction_time" readonly value="{{ data.DNA_extraction_time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*质检方式</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Quality_inspection_method" class="btn btn-default" type="text" name="Quality_inspection_method" readonly value="{{ data.Quality_inspection_method }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*质检结果</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input id="Quality_inspection_result" class="btn btn-default" type="text" name="Quality_inspection_result" readonly value="{{ data.Quality_inspection_result }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*胶图链接</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Glue_map_link" class="form-control col-md-7 col-xs-12" type="text" name="Glue_map_link" readonly value="{{ data.Glue_map_link }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*DNA存储位置</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_storage_location" class="form-control col-md-7 col-xs-12" type="text" name="DNA_storage_location" readonly value="{{ data.DNA_storage_location }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*DNA提取人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_Operator" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction_Operator" readonly value="{{ data.DNA_extraction_Operator }}">
+                        </div>
+                      </div>
+
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="DNA_extraction_remarks" id="DNA_extraction_remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.DNA_extraction_remarks }}</textarea>
+                        </div>
+                      </div>
+
+
+                       <div class="ln_solid"></div>
+
+                       <h2>其他信息信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">DNA提取次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_num" class="btn btn-default" type="number" name="DNA_extraction_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                       <input type="text" class="form-control col-md-7 col-xs-12" style="display:none;" id="Stop_Next_TaskProgress" name="Stop_Next_TaskProgress" value="{{ Next_TaskProgress }}">
+                      <div class="form-group" style="display:none;">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">下一步任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Pretreatment" class="form-control col-md-7 col-xs-12" type="text" name="Pretreatment" readonly value="样本预处理">
+                          <input id="DNA_extraction" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction" readonly value="DNA提取">
+                          <input id="PreLibCon" class="form-control col-md-7 col-xs-12" type="text" name="PreLibCon" readonly value="预文库构建">
+                          <input id="FinLibCon" class="form-control col-md-7 col-xs-12" type="text" name="FinLibCon" readonly value="终文库构建">
+                          <input id="ComSeq" class="form-control col-md-7 col-xs-12" type="text" name="ComSeq" readonly value="上机测序">
+                        </div>
+                      </div>
+
+                        <div class="form-group" id="DNAExtractDiv_Div_Next_TaskProgress" style="display:none;">
+                        <label for="TaskProgress" class="control-label col-md-3 col-sm-3 col-xs-12">任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Next_TaskProgress" class="btn btn-default" type="text" name="Next_TaskProgress" readonly value="{{ data.Next_TaskProgress }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="DNAExtractDiv_Div_Next_TaskProgress_Time" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务终止时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Next_TaskProgress_Time" class="form-control col-md-7 col-xs-12" type="text" name="Next_TaskProgress_Time" readonly value="{{ data.Next_TaskProgress_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="DNAExtractDiv_Div_taskRemarks" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="taskRemarks" id="taskRemarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.Next_TaskProgress_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+                    {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button type="submit" class="btn btn-success" style="display:none;" id="PreLibCon_recoveryTask" name="Stop_recoveryTask">恢复任务</button>
+                        </div>
+                      </div>
+                    <script type="text/javascript">
+                        if(document.getElementById("Stop_Next_TaskProgress").value=="预文库构建"){
+                            document.getElementById("PreLibCon_recoveryTask").style.display="";
+                            document.getElementById("DNAExtractDiv_Div_Next_TaskProgress").style.display="";
+                            document.getElementById("DNAExtractDiv_Div_Next_TaskProgress_Time").style.display="";
+                            document.getElementById("DNAExtractDiv_Div_taskRemarks").style.display="";
+                        }
+                    </script>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          <div class="row" style="display:none" id="PreLibConDiv">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息<small>*号为必填项</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandD_Recovery_Task_Operation/">
+                      {%  for data in temp_RandDPreLibConInfo_stop %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*实验次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_num" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>预文库构建信息<small>*号为必填项</small></h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*预文库名称</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="PreLibConName" class="form-control col-md-7 col-xs-12" type="text" name="PreLibConName" readonly value="{{ data.PreLibConName }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*转化起始量（ng）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="InitialAmountOfTransformation" class="form-control col-md-7 col-xs-12" type="text" name="InitialAmountOfTransformation" readonly value="{{ data.InitialAmountOfTransformation }}">
+                        </div>
+                        <h4>(ng)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*建库起始量（ng）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="InitialQuantityOfPreLibCon" class="form-control col-md-7 col-xs-12" type="text" name="InitialQuantityOfPreLibCon" readonly value="{{ data.InitialQuantityOfPreLibCon }}">
+                        </div>
+                        <h4>(ng)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*浓度(ng/µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Concentration" class="form-control col-md-7 col-xs-12" type="text" name="Concentration" readonly value="{{ data.DNA_Concentration }}">
+                        </div>
+                        <h4>(ng/µL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*体积(µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_volume" class="form-control col-md-7 col-xs-12" type="text" name="DNA_volume" readonly value="{{ data.DNA_volume }}">
+                        </div>
+                        <h4>(µL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*DNA总量(ng)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_Total" class="form-control col-md-7 col-xs-12" type="number" name="DNA_Total" readonly value="{{ data.DNA_Total }}">
+                        </div>
+                        <h4>(ng)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*Index-i5</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Index_i5" class="form-control col-md-7 col-xs-12" type="text" name="Index_i5" readonly value="{{ data.Index_i5 }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*Index-i7</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Index_i7" class="form-control col-md-7 col-xs-12" type="text" name="Index_i7" readonly value="{{ data.Index_i7 }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*建库方法</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Build_lib_method" class="btn btn-default" type="text" name="Build_lib_method" readonly value="{{ data.Build_lib_method }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*建库时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Build_lib_time" class="form-control col-md-7 col-xs-12" type="text" name="Build_lib_time" readonly value="{{ data.Build_lib_time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*预文库存储位置</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="PreLibCon_storage_location" class="form-control col-md-7 col-xs-12" type="text" name="PreLibCon_storage_location" readonly value="{{ data.PreLibCon_storage_location }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*建库人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Build_lib_man" class="form-control col-md-7 col-xs-12" type="text" name="Build_lib_man" readonly value="{{ data.Build_lib_man }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*质检结果</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Quality_inspection_result" class="btn btn-default" type="text" name="Quality_inspection_result" readonly value="{{ data.Quality_inspection_result }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*胶图链接</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Glue_map_link" class="form-control col-md-7 col-xs-12" type="text" name="Glue_map_link" readonly value="{{ data.Glue_map_link }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*转化试剂盒编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="ConversionKitNumber" class="form-control col-md-7 col-xs-12" type="text" name="ConversionKitNumber" readonly value="{{ data.ConversionKitNumber }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*建库试剂盒编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="NumberOfLibraryKit" class="form-control col-md-7 col-xs-12" type="text" name="NumberOfLibraryKit" readonly value="{{ data.NumberOfLibraryKit }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Build_lib_remarks" id="Build_lib_remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.NumberOfLibraryKit }}</textarea>
+                        </div>
+                      </div>
+
+                       <div class="ln_solid"></div>
+                    <h2>其他信息信息</h2>
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">预文库构建次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Build_lib_num" class="btn btn-default" type="number" name="Build_lib_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                       <input type="text" class="form-control col-md-7 col-xs-12" style="display:none;" id="Stop_Next_TaskProgress" name="Stop_Next_TaskProgress" value="{{ Next_TaskProgress }}">
+                      <div class="form-group" style="display:none;">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">下一步任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Pretreatment" class="form-control col-md-7 col-xs-12" type="text" name="Pretreatment" readonly value="样本预处理">
+                          <input id="DNA_extraction" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction" readonly value="DNA提取">
+                          <input id="PreLibCon" class="form-control col-md-7 col-xs-12" type="text" name="PreLibCon" readonly value="预文库构建">
+                          <input id="FinLibCon" class="form-control col-md-7 col-xs-12" type="text" name="FinLibCon" readonly value="终文库构建">
+                          <input id="ComSeq" class="form-control col-md-7 col-xs-12" type="text" name="ComSeq" readonly value="上机测序">
+                        </div>
+                      </div>
+
+                        <div class="form-group" id="PreLibConDiv_Div_Next_TaskProgress" style="display:none;">
+                        <label for="TaskProgress" class="control-label col-md-3 col-sm-3 col-xs-12">任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Next_TaskProgress" class="btn btn-default" type="text" name="Next_TaskProgress" readonly value="{{ data.Next_TaskProgress }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="PreLibConDiv_Div_Next_TaskProgress_Time" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务终止时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Next_TaskProgress_Time" class="form-control col-md-7 col-xs-12" type="text" name="Next_TaskProgress_Time" readonly value="{{ data.Next_TaskProgress_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="PreLibConDiv_Div_taskRemarks" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="taskRemarks" id="taskRemarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.Next_TaskProgress_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+                      {% endfor %}
+
+                          <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                              <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                              <button type="submit" class="btn btn-success" style="display:none;" id="FinLibCon_recoveryTask" name="Stop_recoveryTask">恢复任务</button>
+                            </div>
+                          </div>
+                        <script type="text/javascript">
+                            if(document.getElementById("Stop_Next_TaskProgress").value=="终文库构建"){
+                                document.getElementById("FinLibCon_recoveryTask").style.display="";
+                                document.getElementById("PreLibConDiv_Div_Next_TaskProgress").style.display="";
+                                document.getElementById("PreLibConDiv_Div_Next_TaskProgress_Time").style.display="";
+                                document.getElementById("PreLibConDiv_Div_taskRemarks").style.display="";
+                            }
+                        </script>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          <div class="row" style="display:none" id="FinLibConDiv">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息<small>*号为必填项</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandD_Recovery_Task_Operation/">
+                      {%  for data in temp_RandDFinLibConInfo_stop %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                        <div class="form-group" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*DNA提取实验次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_num" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction_num" readonly value="{{ data.DNA_extraction_num }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*预文库构建实验次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="PreLibCon_Build_lib_num" class="form-control col-md-7 col-xs-12" type="text" name="PreLibCon_Build_lib_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>终文库构建信息<small>*号为必填项</small></h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*预文库名称</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="PreLibConName" class="form-control col-md-7 col-xs-12" type="text" name="PreLibConName" readonly value="{{ data.PreLibConName }}">
+                        </div>
+                      </div>
+
+                     <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*Pool内文库数目</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="PoolInternalLibNumber" class="form-control col-md-7 col-xs-12" type="text" name="PoolInternalLibNumber" readonly value="{{ data.PoolInternalLibNumber }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*终文库名称</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="FinLibConName" class="form-control col-md-7 col-xs-12" type="text" name="FinLibConName" readonly value="{{ data.FinLibConName }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*浓度(ng/µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_Concentration" class="form-control col-md-7 col-xs-12" type="number" name="DNA_Concentration" readonly value="{{ data.DNA_Concentration }}">
+                        </div>
+                        <h4>(ng/µL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*体积(µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_volume" class="form-control col-md-7 col-xs-12" type="number" name="DNA_volume" readonly value="{{ data.DNA_volume }}">
+                        </div>
+                        <h4>(µL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*DNA总量(ng)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_Total" class="form-control col-md-7 col-xs-12" type="number" name="DNA_Total" readonly value="{{ data.DNA_Total }}">
+                        </div>
+                        <h4>(ng)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*Indexi5i7</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Indexi5i7" class="form-control col-md-7 col-xs-12" type="text" name="Indexi5i7" readonly value="{{ data.Indexi5i7 }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*捕获panel</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Panel" class="form-control col-md-7 col-xs-12" type="text" name="Panel" readonly value="{{ data.Panel }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*建库时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Build_lib_time" class="form-control col-md-7 col-xs-12" type="text" name="Build_lib_time" readonly value="{{ data.Build_lib_time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*终文库存储位置</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="FinLibCon_storage_location" class="form-control col-md-7 col-xs-12" type="text" name="FinLibCon_storage_location" readonly value="{{ data.FinLibCon_storage_location }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*建库人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Build_lib_man" class="form-control col-md-7 col-xs-12" type="text" name="Build_lib_man" readonly value="{{ data.Build_lib_man }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*Sequencing Info</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="SequencingInfo" class="form-control col-md-7 col-xs-12" type="text" name="SequencingInfo" readonly value="{{ data.SequencingInfo }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Build_lib_remarks" id="Build_lib_remarks" class="form-control col-md-7 col-xs-12" rows="5" readonly>{{ data.Build_lib_remarks }}</textarea>
+                        </div>
+                      </div>
+
+                       <div class="ln_solid"></div>
+
+                    <h2>其他信息信息</h2>
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">终文库构建次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Build_finlib_num" class="btn btn-default" type="number" name="Build_finlib_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                       <input type="text" class="form-control col-md-7 col-xs-12" style="display:none;" id="Stop_Next_TaskProgress" name="Stop_Next_TaskProgress" value="{{ Next_TaskProgress }}">
+                      <div class="form-group" style="display:none;">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">下一步任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Pretreatment" class="form-control col-md-7 col-xs-12" type="text" name="Pretreatment" readonly value="样本预处理">
+                          <input id="DNA_extraction" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction" readonly value="DNA提取">
+                          <input id="PreLibCon" class="form-control col-md-7 col-xs-12" type="text" name="PreLibCon" readonly value="预文库构建">
+                          <input id="FinLibCon" class="form-control col-md-7 col-xs-12" type="text" name="FinLibCon" readonly value="终文库构建">
+                          <input id="ComSeq" class="form-control col-md-7 col-xs-12" type="text" name="ComSeq" readonly value="上机测序">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="FinLibConDiv_Div_Next_TaskProgress" style="display:none;">
+                        <label for="TaskProgress" class="control-label col-md-3 col-sm-3 col-xs-12">任务进度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Next_TaskProgress" class="btn btn-default" type="text" name="Next_TaskProgress" readonly value="{{ data.Next_TaskProgress }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="FinLibConDiv_Div_Next_TaskProgress_Time" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务终止时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Next_TaskProgress_Time" class="form-control col-md-7 col-xs-12" type="text" name="Next_TaskProgress_Time" readonly value="{{ data.Next_TaskProgress_Time }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="FinLibConDiv_Div_taskRemarks" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="taskRemarks" id="taskRemarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.Next_TaskProgress_Remarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      {% endfor %}
+                          <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                              <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                              <button type="submit" class="btn btn-success" style="display:none;" id="ComSeq_recoveryTask" name="Stop_recoveryTask">恢复任务</button>
+                            </div>
+                          </div>
+                        <script type="text/javascript">
+                            if(document.getElementById("Stop_Next_TaskProgress").value=="上机测序"){
+                                document.getElementById("ComSeq_recoveryTask").style.display="";
+                                document.getElementById("FinLibConDiv_Div_Next_TaskProgress").style.display="";
+                                document.getElementById("FinLibConDiv_Div_Next_TaskProgress_Time").style.display="";
+                                document.getElementById("FinLibConDiv_Div_taskRemarks").style.display="";
+                            }
+                        </script>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          <script>
+            var Next_TaskProgress=document.getElementById("Next_TaskProgress").value; 
+            var Pretreatment_Sing=document.getElementById("Pretreatment_Sing").value; 
+            var buttonArray=new Array();
+            if(Next_TaskProgress=="样本预处理"){
+                buttonArray=new Array("SampleInfo");
+            }else if(Next_TaskProgress=="DNA提取"){
+                if(Pretreatment_Sing==0){
+                    buttonArray=new Array("SampleInfo");
+                }else{
+                    buttonArray=new Array("SampleInfo","Pretreatmentbutton");
+                }
+            }else if(Next_TaskProgress=="预文库构建"){
+                if(Pretreatment_Sing==0){
+                    buttonArray=new Array("SampleInfo","DNAExtract");
+                }else{
+                    buttonArray=new Array("SampleInfo","Pretreatmentbutton","DNAExtract");
+                }
+            }else if(Next_TaskProgress=="终文库构建"){
+                if(Pretreatment_Sing==0){
+                    buttonArray=new Array("SampleInfo","DNAExtract","PreLibraryConstruction");
+                }else{
+                    buttonArray=new Array("SampleInfo","Pretreatmentbutton","DNAExtract","PreLibraryConstruction");
+                }
+            }else if(Next_TaskProgress=="上机测序"){
+                if(Pretreatment_Sing==0){
+                    buttonArray=new Array("SampleInfo","DNAExtract","PreLibraryConstruction","FinalLibraryConstruction");
+                }else{
+                    buttonArray=new Array("SampleInfo","Pretreatmentbutton","DNAExtract","PreLibraryConstruction","FinalLibraryConstruction");
+                }
+            }
+            var buttonId=new Array("SampleInfo","Pretreatmentbutton","DNAExtract","PreLibraryConstruction","FinalLibraryConstruction");
+            for (i=0;i<buttonId.length;i++) {
+                if(contains(buttonArray,buttonId[i])){
+                    document.getElementById(buttonId[i]).style.display="";
+                }else{
+                    document.getElementById(buttonId[i]).style.display="none";
+                }
+            }
+            if(Pretreatment_Sing==0){
+                if(Next_TaskProgress=="样本预处理" || Next_TaskProgress=="DNA提取"){
+                    document.getElementById(buttonId[buttonArray.length-1]).style.color="red";
+                    //setDivStyle(buttonId[0]);
+                    setDivStyle(buttonId[buttonArray.length-1]);
+                } else{
+                    document.getElementById(buttonId[buttonArray.length]).style.color="red";
+                    //setDivStyle(buttonId[0]);
+                    setDivStyle(buttonId[buttonArray.length]);
+                }
+
+                //document.getElementById(buttonId[buttonArray.length]).style.color="red";
+                //setDivStyle(buttonId[0]);
+                //setDivStyle(buttonId[buttonArray.length]);
+            }else{
+                document.getElementById(buttonId[buttonArray.length-1]).style.color="red";
+                //setDivStyle(buttonId[0]);
+                setDivStyle(buttonId[buttonArray.length-1]);
+            }
+
+            function show(e){
+                //location.reload(true);
+                var id=e.getAttribute("id");
+                button=exist(id);
+                button.setAttribute("style","border: 0; background-color: white;color: red;");
+                setbuttonStyle(id);
+                setDivStyle(id);
+            }
+            function setbuttonStyle(id){
+                //buttonArray=new Array("SampleInfo","DNAExtract","PreLibraryConstruction","FinalLibraryConstruction");
+                for (i=0;i<buttonArray.length;i++) {
+                     button=exist(buttonArray[i]);
+                     if(buttonArray[i]!=id){
+                        button.setAttribute("style","border: 0; background-color: white;color: black;");  
+                     }
+                }
+        }
+            function contains(arr,obj){
+              var i=arr.length;  
+              while(i--){  
+                if(arr[i] === obj){  
+                  return true;  
+                }
+              }
+              return false;  
+            }
+            function setDivStyle(id){
+                var divArray=new Array();
+                if(id=="Pretreatmentbutton"){
+                     divArray=new Array("PretreatmentDiv");
+                }else if(id=="SampleInfo"){
+                     divArray=new Array("SampleInfoDiv");
+                }else if(id=="DNAExtract"){
+                    divArray=new Array("DNAExtractDiv");
+                }else if(id=="PreLibraryConstruction"){
+                    divArray=new Array("PreLibConDiv");
+                }else if(id=="FinalLibraryConstruction"){
+                    divArray=new Array("FinLibConDiv");
+                }
+                var mycars=new Array("SampleInfoDiv","PretreatmentDiv","DNAExtractDiv","PreLibConDiv","FinLibConDiv");
+                for (i=0;i<mycars.length;i++) {
+                     if(contains(divArray,mycars[i])){
+                        document.getElementById(mycars[i]).style.display="block";
+                     }else{
+                        document.getElementById(mycars[i]).style.display="none";
+                     }
+                } 
+        }
+            function exist(id){
+                var bt=document.getElementById(id);
+          if(null==bt){
+           return false;
+          }else{
+             return bt;    
+          }
+        }
+        </script>
+
+  {% endblock %}

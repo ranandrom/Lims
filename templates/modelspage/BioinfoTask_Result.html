@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>生信数据分析信息录入</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/Bioinfo_DataAnalysisResult_Examine_ToDataBases/">
+                      {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*样本来源</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="SampleSource" class="form-control col-md-7 col-xs-12" type="text" name="SampleSource" readonly value="{{ data.SampleSource }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" id="DivExperimentNumber" >
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*实验编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="ExperimentNumber" class="form-control col-md-7 col-xs-12" type="text" name="ExperimentNumber" readonly value="{{ data.ExperimentNumber }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*上机测序实验次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Computer_Seq_num" class="form-control col-md-7 col-xs-12" type="text" name="Computer_Seq_num" readonly value="{{ data.Computer_Seq_num }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group" style="display:none;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*数据分析次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DataAnalysis_num" class="form-control col-md-7 col-xs-12" type="text" name="DataAnalysis_num" readonly value="{{ data.DataAnalysis_num }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>分析结果信息录入</h2>
+
+                      <div class="ln_solid"></div>
+
+                       <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*数据质量</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="DataQquality" class="btn btn-default" type="text" name="DataQquality" readonly value="{{ data.DataQquality }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*有效测序深度</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Effective_sequencing_depth" class="form-control col-md-7 col-xs-12" type="text" name="Effective_sequencing_depth" readonly value="{{ data.Effective_sequencing_depth }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*Sequencing file name</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="SequencingFileName" class="form-control col-md-7 col-xs-12" type="text" name="SequencingFileName" readonly value="{{ data.SequencingFileName }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*QC result</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="QC_Result" class="form-control col-md-7 col-xs-12" type="text" name="QC_Result" readonly value="{{ data.QC_Result }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="DataQquality" class="control-label col-md-3 col-sm-3 col-xs-12">*Path to sorted.deduped.bam</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="Path_To_Sorted_Deduped_Bam" class="form-control col-md-7 col-xs-12" type="text" name="Path_To_Sorted_Deduped_Bam" readonly value="{{ data.Path_To_Sorted_Deduped_Bam }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">任务备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="AnalysisRemarks" id="AnalysisRemarks" class="form-control col-md-7 col-xs-12" rows="5"  readonly>{{ data.AnalysisRemarks }}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <h2>分析次数</h2>
+
+                      <div class="ln_solid"></div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">分析次数</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="DataAnalysis_num" class="btn btn-default" type="text" name="DataAnalysis_num" readonly value="{{ data.DataAnalysis_num }}">
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                      <div class="ln_solid"></div>
+
+                      <h2>分析结果审核信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                       <div class="form-group">
+                        <label for="Examine_Result" class="control-label col-md-3 col-sm-3 col-xs-12">*审核结果</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="Examine_Result" name="Examine_Result" class="btn btn-default" onchange="Change(this)">
+                                <option id="option01" name="option01" value="通过">通过</option>
+                                <option id="option02" name="option02" value="不通过">不通过</option>
+                            </select>
+                        </div>
+                      </div>
+
+                        <script type="text/javascript">
+                             function Change(Examine_Result) {
+                                if ($("#Examine_Result").val() == '通过'){
+                                      $('#DivReportMakeTaskMan').show()
+                                } else {
+                                    $('#DivReportMakeTaskMan').hide()
+                                }
+                             }
+                        </script>
+
+                       <div class="form-group" id="DivReportMakeTaskMan">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*报告制作任务接收人</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="ReportMakeTask_Man" name="ReportMakeTask_Man" class="btn btn-default" required>
+                                    {%  for data in userlist %}
+                                        <option value="{{ data.username }}">{{ data.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                       </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">审核备注</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="Examine_Remarks" id="Examine_Remarks" class="form-control col-md-7 col-xs-12" rows="5"  placeholder="审核备注"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button class="btn btn-success" type="submit" name="Determine">确定提交</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

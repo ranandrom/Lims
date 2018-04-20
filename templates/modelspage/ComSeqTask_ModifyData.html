@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>上机测序数据录入信息</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/ComSeqInfoToDataBases/">
+                      {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本条码号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientName">*实验编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="ExperimentNumber" class="form-control col-md-7 col-xs-12" type="text" name="ExperimentNumber" readonly value="{{ data.ExperimentNumber }}">
+                        </div>
+                      </div>
+
+                        <div class="ln_solid"></div>
+
+                      <h2>上机测序信息<small>*号为必填项</small></h2>
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*稀释倍数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DilutionMultiple" class="form-control col-md-7 col-xs-12" type="text" name="DilutionMultiple" value="{{ data.DilutionMultiple }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">*qPCR测量值(pM)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="qPCR" class="form-control col-md-7 col-xs-12" type="text" name="qPCR" value="{{ data.qPCR }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*文库平均长度(bp)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="AverageLengthLibrary" class="form-control col-md-7 col-xs-12" type="text" name="AverageLengthLibrary" value="{{ data.AverageLengthLibrary }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*文库有效浓度(nM)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="LibEffConcentration" class="form-control col-md-7 col-xs-12" type="text" name="LibEffConcentration" value="{{ data.LibEffConcentration }}">
+                        </div>
+                        <h4>(ng)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*定量人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="QuantitativeHuman" class="form-control col-md-7 col-xs-12" type="text" name="QuantitativeHuman" value="{{ data.QuantitativeHuman }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="acquisition_time" class="control-label col-md-3 col-sm-3 col-xs-12">*测序时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="OperatingTime" class="form-control col-md-7 col-xs-12" type="text" name="OperatingTime" value="{{ data.OperatingTime }}" onClick="laydate()">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="SeqRemarks" id="SeqRemarks" class="form-control col-md-7 col-xs-12" rows="5" >{{ data.SeqRemarks }}</textarea>
+                        </div>
+                      </div>
+
+                       <div class="ln_solid"></div>
+
+                       <h2>其他信息信息</h2>
+
+                      <div class="ln_solid"></div>
+
+                       <div class="form-group">
+                                <label for="TaskReceiver" class="control-label col-md-3 col-sm-3 col-xs-12">*生信分析任务分派人</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select id="BioTaskAssignment" name="BioTaskAssignment" class="btn btn-default" required>
+                                        <option value="{{ data.BioTaskAssignment }}">{{ data.BioTaskAssignment }}</option>
+                                        {%  for data in userlist %}
+                                            <option value="{{ data.username }}">{{ data.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                      <div class="form-group">
+                        <label for="contract_name" class="control-label col-md-3 col-sm-3 col-xs-12">上机测序次数</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Computer_Seq_num" class="btn btn-default" type="number" name="Computer_Seq_num" readonly value="{{ data.ExperimentTimes }}">
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+                      {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button class="btn btn-success" type="submit" name="submitModify">确认修改</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

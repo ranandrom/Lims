@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>样本登记草稿</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本编号</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandDSampleInfoInputToDataBase/">
+                    {%  for data in data %}
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" value="{{ data.sam_code_num }}" required>
+                          <input type="hidden" id="old_sam_code_num" name="old_sam_code_num" class="form-control col-md-7 col-xs-12" value="{{ data.sam_code_num }}">
+                        </div>
+                      </div>
+                    <div class="ln_solid"></div>
+
+                      <h2>医院信息<small>*号为必填项</small></h2>
+
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="HospitalForInspection" class="control-label col-md-3 col-sm-3 col-xs-12">*送检医院</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="HospitalForInspection" class="form-control col-md-7 col-xs-12" type="text" name="HospitalForInspection" value="{{ data.HospitalForInspection }}">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="Contacts" class="control-label col-md-3 col-sm-3 col-xs-12">*联系人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Contacts" class="form-control col-md-7 col-xs-12" type="text" name="Contacts" value="{{ data.Contacts }}">
+                        </div>
+                      </div>
+
+                    <div class="ln_solid"></div>
+
+                     <h2>收样信息<small>*号为必填项</small></h2>
+
+                    <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="SamplingTime_Blood" class="control-label col-md-3 col-sm-3 col-xs-12">*收样时间（血样）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="SamplingTime_Blood" class="form-control col-md-7 col-xs-12" type="text" name="SamplingTime_Blood" value="{{ data.SamplingTime_Blood }}"
+                                 onClick="jeDate({dateCell:'#SamplingTime_Blood',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="SamplingTime_Tissue" class="control-label col-md-3 col-sm-3 col-xs-12">*收样时间（组织）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="SamplingTime_Tissue" class="form-control col-md-7 col-xs-12" type="text" name="SamplingTime_Tissue" value="{{ data.SamplingTime_Tissue }}"
+                                 onClick="jeDate({dateCell:'#SamplingTime_Tissue',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*收样人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Collector" class="form-control col-md-7 col-xs-12" type="text" name="Collector" value="{{ data.Collector }}">
+                        </div>
+                      </div>
+
+                    <div class="ln_solid"></div>
+
+                       <h2>项目信息<small>*号为必填项</small></h2>
+
+                    <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label for="InpatientNumber" class="control-label col-md-3 col-sm-3 col-xs-12">*住院号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="InpatientNumber" class="form-control col-md-7 col-xs-12" type="text" name="InpatientNumber" value="{{ data.InpatientNumber }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="PathologicalNumber" class="control-label col-md-3 col-sm-3 col-xs-12">*病理号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PathologicalNumber" class="form-control col-md-7 col-xs-12" type="text" name="PathologicalNumber" value="{{ data.PathologicalNumber }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*相关编号</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="CorrelationNumber" class="form-control col-md-7 col-xs-12" type="text" name="CorrelationNumber" value="{{ data.CorrelationNumber }}">
+                            </div>
+                          </div>
+
+
+                    <div class="ln_solid"></div>
+
+                         <h2>样本信息<small>*号为必填项</small></h2>
+
+                    <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label for="PatientName" class="control-label col-md-3 col-sm-3 col-xs-12">*患者姓名</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PatientName" class="form-control col-md-7 col-xs-12" type="text" name="PatientName" value="{{ data.PatientName }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*患者性别</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="PatientSex" name="PatientSex" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.PatientSex }}">{{ data.PatientSex }}</option>
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*患者年龄</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PatientAge" class="form-control col-md-7 col-xs-12" type="text" name="PatientAge" value="{{ data.PatientAge }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="BloodSampleType">*血样类型</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="BloodSampleType" name="BloodSampleType" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.BloodSampleType }}">{{ data.BloodSampleType }}</option>
+                                    <option value="全血">全血</option>
+                                    <option value="血浆">血浆</option>
+                                </select>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="BloodSamplingTime" class="control-label col-md-3 col-sm-3 col-xs-12">*采血时间</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="BloodSamplingTime" class="form-control col-md-7 col-xs-12" type="text" name="BloodSamplingTime" value="{{ data.BloodSamplingTime }}"
+                                     onClick="jeDate({dateCell:'#BloodSamplingTime',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueSampleSources">*组织样本来源</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="TissueSampleSources" name="TissueSampleSources" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.TissueSampleSources }}">{{ data.TissueSampleSources }}</option>
+                                    <option value="手术切除">手术切除</option>
+                                    <option value="穿刺">穿刺</option>
+                                    <option value="纤支镜">纤支镜</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="TissueQuantity" class="control-label col-md-3 col-sm-3 col-xs-12">*组织数量</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="TissueQuantity" class="form-control col-md-7 col-xs-12" type="text" name="TissueQuantity" value="{{ data.TissueQuantity }}">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueType">*组织类型</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="TissueType" name="TissueType" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.TissueType }}">{{ data.TissueType }}</option>
+                                    <option value="N">N</option>
+                                    <option value="T">T</option>
+                                    <option value="P">P</option>
+                                    <option value="L">L</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueSampleProcessing">*组织样本处理方式</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="TissueSampleProcessing" name="TissueSampleProcessing" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.TissueSampleProcessing }}">{{ data.TissueSampleProcessing }}</option>
+                                    <option value="冰冻新鲜">冰冻新鲜</option>
+                                    <option value="石蜡包埋(白片)">石蜡包埋(白片)</option>
+                                    <option value="石蜡包埋(未切片)">石蜡包埋(未切片)</option>
+                                    <option value="石蜡包埋(EP管)">石蜡包埋(EP管)</option>
+                                    <option value="福尔马林浸泡">福尔马林浸泡</option>
+                                </select>
+                            </div>
+                        </div>
+
+                     <div class="ln_solid"></div>
+
+                      <h2>临床信息<small>*号为必填项</small></h2>
+
+                    <div class="ln_solid"></div>
+
+                          <div class="form-group">
+                            <label for="OperationDate" class="control-label col-md-3 col-sm-3 col-xs-12">*手术日期</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="OperationDate" class="form-control col-md-7 col-xs-12" type="text" name="OperationDate" value="{{ data.OperationDate }}" onClick="laydate()">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*病理信息</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="PathologicalInfo" class="form-control col-md-7 col-xs-12" type="text" name="PathologicalInfo" value="{{ data.PathologicalInfo }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="TNMStaging" class="control-label col-md-3 col-sm-3 col-xs-12">*TNM分期</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="TNMStaging" class="form-control col-md-7 col-xs-12" type="text" name="TNMStaging" value="{{ data.TNMStaging }}">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <label for="Stage" class="control-label col-md-3 col-sm-3 col-xs-12">*Stage</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="Stage" class="form-control col-md-7 col-xs-12" type="text" name="Stage" value="{{ data.Stage }}">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">*分子诊断信息</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="MolecularDiagnosticInfo" class="form-control col-md-7 col-xs-12" type="text" name="MolecularDiagnosticInfo" value="{{ data.MolecularDiagnosticInfo }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Classification">*分类</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="Classification" name="Classification" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.Classification }}">{{ data.Classification }}</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Benign">Benign</option>
+                                    <option value="Malignant">Malignant</option>
+                                    <option value="NA">NA</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    <div class="ln_solid"></div>
+
+                        <h2>存放信息<small>*号为必填项</small></h2>
+
+                    <div class="ln_solid"></div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PlasmaUse">*血浆用途</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="PlasmaUse" name="PlasmaUse" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.PlasmaUse }}">{{ data.PlasmaUse }}</option>
+                                    <option value="DNA">DNA</option>
+                                    <option value="RNA">RNA</option>
+                                    <option value="DNA&RNA">DNA&RNA</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueUse">*组织用途</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="TissueUse" name="TissueUse" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.TissueUse }}">{{ data.TissueUse }}</option>
+                                    <option value="DNA">DNA</option>
+                                    <option value="RNA">RNA</option>
+                                    <option value="DNA&RNA">DNA&RNA</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PlasmaStoragePosition">*血浆存放位置</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="PlasmaStoragePosition" name="PlasmaStoragePosition" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.PlasmaStoragePosition }}">{{ data.PlasmaStoragePosition }}</option>
+                                    <option value="样本处理间-80℃冰箱">样本处理间-80℃冰箱</option>
+                                    <option value="研发实验室-80℃冰箱">研发实验室-80℃冰箱</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TissueStoragePosition">*组织存放位置</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="TissueStoragePosition" name="TissueStoragePosition" class="btn btn-default">
+                                    <option selected="selected" value="{{ data.TissueStoragePosition }}">{{ data.TissueStoragePosition }}</option>
+                                    <option value="样本处理间-80℃冰箱">样本处理间-80℃冰箱</option>
+                                    <option value="样本处理间4℃冰箱">样本处理间4℃冰箱</option>
+                                    <option value="研发实验室-80℃冰箱">研发实验室-80℃冰箱</option>
+                                    <option value="研发实验室4℃冰箱">研发实验室4℃冰箱</option>
+                                </select>
+                            </div>
+                        </div>
+
+                     <div class="ln_solid"></div>
+
+                     <h2>样本审核人</h2>
+
+                    <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label for="TaskReceiver" class="control-label col-md-3 col-sm-3 col-xs-12">*样本审核人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="SampleAuditor" name="SampleAuditor" class="btn btn-default" required>
+                                <option value="{{ data.SampleAuditor }}">{{ data.SampleAuditor }}</option>
+                                {%  for data in userlist %}
+                                    <option value="{{ data.username }}">{{ data.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                      </div>
+
+                    <div class="ln_solid"></div>
+                     {% endfor %}
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <a href="/RandDSampleInfoInputHomePage/"><button class="btn btn-primary" type="button" >返回</button></a>
+                          <button type="submit" class="btn btn-success" name="saveDraft">保存草稿</button>
+                          <button class="btn btn-success" type="submit" name="submitReview">提交审核</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}

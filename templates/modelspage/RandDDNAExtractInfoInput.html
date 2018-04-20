@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+          <!-- top tiles -->
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h2>DNA提取信息录入</h2>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>样本信息<small>*号为必填项</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandDDNAExtractInfoToDataBases/">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sam_code_num">*样本编号</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="sam_code_num" name="sam_code_num" class="form-control col-md-7 col-xs-12" readonly value="{{ sam_code_num }}">
+                        </div>
+                      </div>
+
+                        <div class="ln_solid"></div>
+                      
+                      <h2>DNA提取信息<small>*号为必填项</small></h2>
+                      
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*DNA样品名称</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNASampleName" class="form-control col-md-7 col-xs-12" type="text" name="DNASampleName" placeholder="DNA样品名称">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*血浆体积(mL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="PlasmaVolume" class="form-control col-md-7 col-xs-12" type="text" name="PlasmaVolume" placeholder="血浆体积(mL)">
+                        </div>
+                        <h4>(mL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*定量方式</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="QuantitativeMethod" name="QuantitativeMethod" class="btn btn-default">
+                                <option selected="selected" value="Nanodrop">Nanodrop</option>
+                                <option value="Qubit">Qubit</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*DNA浓度(ng/µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_Concentration" class="form-control col-md-7 col-xs-12" type="text" name="DNA_Concentration" placeholder="DNA浓度(ng/µL)">
+                        </div>
+                        <h4>(ng/µL)</h4>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*DNA体积(µL)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_volume" class="form-control col-md-7 col-xs-12" type="text" name="DNA_volume" placeholder="DNA体积(µL)">
+                        </div>
+                        <h4>(µL)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*DNA总量(ng)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_Total" class="form-control col-md-7 col-xs-12" type="text" name="DNA_Total" placeholder="DNA总量(ng)">
+                        </div>
+                        <h4>(ng)</h4>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*A260/A280</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="A260_A280" class="form-control col-md-7 col-xs-12" type="text" name="A260_A280" placeholder="A260/A280">
+                        </div>
+                      </div>
+
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*A260/A230</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="A260_A230" class="form-control col-md-7 col-xs-12" type="text" name="A260_A230" placeholder="A260/A230">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*提取试剂盒类型</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="Extraction_kit_type" name="Extraction_kit_type" class="btn btn-default">
+                                <option selected="selected" value="MagMax Cell-Fell DNA Isolation Kit">MagMax Cell-Fell DNA Isolation Kit</option>
+                                <option value="Bioo NEXTprep-MagTM cfDNA Isolation Kit">Bioo NEXTprep-MagTM cfDNA Isolation Kit</option>
+                                <option value="QIAGEN cfDNA Kit">QIAGEN cfDNA Kit</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*提取时间</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_time" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction_time" placeholder="点击选择提取时间"
+                                 onClick="jeDate({dateCell:'#DNA_extraction_time',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*质检方式</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="Quality_inspection_method" name="Quality_inspection_method" class="btn btn-default">
+                                <option selected="selected" value="Agilent 2100">Agilent 2100</option>
+                                <option value="琼脂糖凝胶电泳">琼脂糖凝胶电泳</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PatientSex">*质检结果</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="Quality_inspection_result" name="Quality_inspection_result" class="btn btn-default">
+                                <option selected="selected" value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*胶图链接</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="Glue_map_link" class="form-control col-md-7 col-xs-12" type="text" name="Glue_map_link" placeholder="胶图链接">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">*DNA存储位置</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_storage_location" class="form-control col-md-7 col-xs-12" type="text" name="DNA_storage_location" placeholder="DNA存储位置">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="contract_pay" class="control-label col-md-3 col-sm-3 col-xs-12">*DNA提取人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="DNA_extraction_Operator" class="form-control col-md-7 col-xs-12" type="text" name="DNA_extraction_Operator" placeholder="DNA提取人">
+                        </div>
+                      </div>
+
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">其它（备注）</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea name="DNA_extraction_remarks" id="DNA_extraction_remarks" class="form-control col-md-7 col-xs-12" rows="5" placeholder="其它（备注）"></textarea>
+                        </div>
+                      </div>
+
+                       <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button" onclick="window.history.back()">返回</button>
+                          <button type="submit" class="btn btn-success" name="Determine">确认提交</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+ {% endblock %}
