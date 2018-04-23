@@ -102,9 +102,8 @@ def RandDSampleInfoInputData(request):
                                "num_SystemMessage_Unread": num_SystemMessage_Unread})
             elif button_name == 'upload':
                 File_Name = ''
-                cols = ''
-                dataList = []
-                num_cols = []
+                dictData = {}
+                dictClos = {}
                 if request.method == "POST":  # 请求方法为POST时，进行处理  
                     myFile = request.FILES.get("myfile", None)  #  获取上传的文件，如果没有文件，则默认为None
                     # print myFile
@@ -132,13 +131,14 @@ def RandDSampleInfoInputData(request):
                 # 获取所有sheet
                 # print workbook.sheet_names()  # [u'sheet1', u'sheet2']
                 # sheet2_name = workbook.sheet_names()[0]
+                sheet_name = workbook.sheet_names()
 
                 # 根据sheet索引或者名称获取sheet内容
-                sheet2 = workbook.sheet_by_index(0)  # sheet索引从0开始
+                # sheet2 = workbook.sheet_by_index(0)  # sheet索引从0开始
                 # sheet2 = workbook.sheet_by_name('sheet1')
 
                 # sheet的名称，行数，列数
-                print sheet2.name, sheet2.nrows, sheet2.ncols
+                # print sheet2.name, sheet2.nrows, sheet2.ncols
 
                 # print sheet2.merged_cells
                 # print sheet2.merged_cells[0][2]
@@ -153,34 +153,40 @@ def RandDSampleInfoInputData(request):
                 #                 rows[m] = sheet2.cell_value(merged_cells[0], merged_cells[2])
                 #             # print rows[m]
                 #     print rows
+                for name in sheet_name:
+                    sheet2 = workbook.sheet_by_name(name)
+                    dataList = []
+                    num_cols = []
+                    for n in range(0, sheet2.ncols):
+                        # 获取单元格内容的数据类型
+                        # ctype : 0 empty,1 string, 2 number, 3 date, 4 boolean, 5 error
+                        # print sheet2.cell(1,0).ctype
+                        cols = sheet2.col_values(n)  # 获取第n列内容
+                        for merged_cells in sheet2.merged_cells:
+                            if merged_cells[2] <= n and n < merged_cells[3]:
+                                # print '第', n, '行', merged_cells[2], '列到', merged_cells[3],'列为合并格！'
+                                for m in range(merged_cells[0], merged_cells[1]):
+                                    cols[m] = sheet2.cell_value(merged_cells[0], merged_cells[2])
+                                # print rows[m]
+                        # print cols
+                        strr = ''
+                        for i in range(0, len(cols)):
+                            strr += str(cols[i]) + '\n'
 
-                for n in range(0, sheet2.ncols):
-                    List = []
-                    cols = sheet2.col_values(n)  # 获取第n列内容
-                    for merged_cells in sheet2.merged_cells:
-                        if merged_cells[2] <= n and n < merged_cells[3]:
-                            # print '第', n, '行', merged_cells[2], '列到', merged_cells[3],'列为合并格！'
-                            for m in range(merged_cells[0], merged_cells[1]):
-                                cols[m] = sheet2.cell_value(merged_cells[0], merged_cells[2])
-                            # print rows[m]
-                    # print cols
-                    str = ''
-                    for i in range(0, len(cols)):
-                        str += cols[i] + '\n'
-                    # List.append(str)
-                    dataList.append(str)
-                    num_cols.append(n+1)
+                        dataList.append(strr)
+                        num_cols.append(n+1)
+
+                    dictData[name] = dataList
+                    dictClos[name] = num_cols
 
                 # print dataList[0], dataList
                 # for i in range(0, len(dataList)):
                 #     print i, dataList[i][0]
 
-
-                # str = 'sss'+ '\n' + 'aaaa' + '\n'
-
                 return render(request, "modelspage/RandDSampleRegisterBatchImport.html",
                               {"userinfo": temp, "myInfo": temp_myInfo, "userlist": temp_userlist,
-                               "num_cols": num_cols, "dataList": json.dumps(dataList), "fileName": File_Name,
+                               "fileName": File_Name, "sheet_name": sheet_name,
+                               "dictData": json.dumps(dictData), "dictClos": json.dumps(dictClos),
                                "SystemMessage": temp_SystemMessage_Unread,
                                "num_SystemMessage_Unread": num_SystemMessage_Unread})
         else:

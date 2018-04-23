@@ -2,23 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c124aec3-b0cd-4a95-b131-ed35bb42d500" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterBatchImport.html" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/AnchorDxLimsApp/RandD_SampleInfo_Input.py" afterPath="$PROJECT_DIR$/AnchorDxLimsApp/RandD_SampleInfo_Input.py" />
       <change beforePath="$PROJECT_DIR$/AnchorDxLimsApp/views.py" afterPath="$PROJECT_DIR$/AnchorDxLimsApp/views.py" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/BioinfoTask_review_ModifyData.html" afterPath="$PROJECT_DIR$/templates/modelspage/BioinfoTask_review_ModifyData.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/BioinfoTask_review_submit.html" afterPath="$PROJECT_DIR$/templates/modelspage/BioinfoTask_review_submit.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/Bioinfo_TaskToExamineDetermine.html" afterPath="$PROJECT_DIR$/templates/modelspage/Bioinfo_TaskToExamineDetermine.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/DNAExtractTask_submit.html" afterPath="$PROJECT_DIR$/templates/modelspage/DNAExtractTask_submit.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/FinLibConTaskReview.html" afterPath="$PROJECT_DIR$/templates/modelspage/FinLibConTaskReview.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/FinLibConTask_ModifyData.html" afterPath="$PROJECT_DIR$/templates/modelspage/FinLibConTask_ModifyData.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/FinLibConTask_ShowData.html" afterPath="$PROJECT_DIR$/templates/modelspage/FinLibConTask_ShowData.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/PreLibConTaskReview.html" afterPath="$PROJECT_DIR$/templates/modelspage/PreLibConTaskReview.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/PreLibConTask_ModifyData.html" afterPath="$PROJECT_DIR$/templates/modelspage/PreLibConTask_ModifyData.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/PreLibConTask_ShowData.html" afterPath="$PROJECT_DIR$/templates/modelspage/PreLibConTask_ShowData.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/PreLibConTask_submit.html" afterPath="$PROJECT_DIR$/templates/modelspage/PreLibConTask_submit.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterHomePage.html" afterPath="$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterHomePage.html" />
-      <change beforePath="$PROJECT_DIR$/templates/modelspage/clinicalExperimentalTaskAssignment.html" afterPath="$PROJECT_DIR$/templates/modelspage/clinicalExperimentalTaskAssignment.html" />
+      <change beforePath="$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterBatchImport.html" afterPath="$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterBatchImport.html" />
+      <change beforePath="$PROJECT_DIR$/temporary/test.xlsx" afterPath="$PROJECT_DIR$/temporary/test.xlsx" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,41 +31,28 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AnchorDxLimsApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="255" column="8" lean-forward="false" selection-start-line="255" selection-start-column="8" selection-end-line="255" selection-end-column="8" />
+            <state relative-caret-position="532">
+              <caret line="276" column="0" lean-forward="true" selection-start-line="276" selection-start-column="0" selection-end-line="276" selection-end-column="0" />
               <folding>
                 <element signature="e#587#622#0" expanded="false" />
                 <element signature="e#624#630#0" expanded="false" />
                 <element signature="e#2410#6711#0" expanded="false" />
                 <element signature="e#6783#10594#0" expanded="false" />
                 <element signature="e#10628#10723#0" expanded="false" />
-                <element signature="e#52064#54253#0" expanded="false" />
-                <element signature="e#54323#57014#0" expanded="false" />
-                <element signature="e#57071#70517#0" expanded="false" />
-                <element signature="e#70576#71583#0" expanded="false" />
-                <element signature="e#71655#74517#0" expanded="false" />
-                <element signature="e#74587#83442#0" expanded="false" />
-                <element signature="e#83509#84524#0" expanded="false" />
-                <element signature="e#84604#86743#0" expanded="false" />
-                <element signature="e#86821#93377#0" expanded="false" />
-                <element signature="e#93431#93843#0" expanded="false" />
-                <element signature="e#93845#93887#0" expanded="false" />
-                <element signature="e#94801#95858#0" expanded="false" />
-                <element signature="e#95924#99693#0" expanded="false" />
-                <element signature="e#99752#101556#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RandD_SampleInfo_Input.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AnchorDxLimsApp/RandD_SampleInfo_Input.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="182" column="96" lean-forward="false" selection-start-line="182" selection-start-column="88" selection-end-line="182" selection-end-column="96" />
-              <folding>
-                <element signature="e#19#54#0" expanded="true" />
-                <element signature="e#44068#56871#0" expanded="false" />
+                <element signature="e#52068#54257#0" expanded="false" />
+                <element signature="e#54327#57018#0" expanded="false" />
+                <element signature="e#57075#70521#0" expanded="false" />
+                <element signature="e#70580#71587#0" expanded="false" />
+                <element signature="e#71659#74521#0" expanded="false" />
+                <element signature="e#74591#83446#0" expanded="false" />
+                <element signature="e#83513#84528#0" expanded="false" />
+                <element signature="e#84608#86747#0" expanded="false" />
+                <element signature="e#86825#93381#0" expanded="false" />
+                <element signature="e#93435#93847#0" expanded="false" />
+                <element signature="e#93849#93891#0" expanded="false" />
+                <element signature="e#94805#95862#0" expanded="false" />
+                <element signature="e#95928#99697#0" expanded="false" />
+                <element signature="e#99756#101560#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -86,7 +61,7 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AnchorDx_Lims/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
+            <state relative-caret-position="817">
               <caret line="82" column="106" lean-forward="false" selection-start-line="82" selection-start-column="106" selection-end-line="82" selection-end-column="106" />
               <folding />
             </state>
@@ -96,17 +71,9 @@
       <file leaf-file-name="RandDSampleRegisterBatchImport.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterBatchImport.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="551">
-              <caret line="56" column="37" lean-forward="true" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
-              <folding>
-                <element signature="e#505#539#0#HTML" expanded="true" />
-                <element signature="e#694#715#0#HTML" expanded="true" />
-                <element signature="e#2134#2160#0#HTML" expanded="true" />
-                <element signature="e#2304#2322#0#HTML" expanded="true" />
-                <element signature="e#2701#2727#0#HTML" expanded="true" />
-                <element signature="e#2869#2887#0#HTML" expanded="true" />
-                <element signature="e#3310#3336#0#HTML" expanded="true" />
-              </folding>
+            <state relative-caret-position="285">
+              <caret line="59" column="43" lean-forward="true" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -114,13 +81,9 @@
       <file leaf-file-name="homepage.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/modelspage/homepage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
+            <state relative-caret-position="1482">
               <caret line="78" column="77" lean-forward="false" selection-start-line="78" selection-start-column="64" selection-end-line="78" selection-end-column="77" />
-              <folding>
-                <element signature="e#3248#3269#0#HTML" expanded="true" />
-                <element signature="e#4238#4256#0#HTML" expanded="true" />
-                <element signature="e#4605#4638#0#HTML" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -128,7 +91,7 @@
       <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
+            <state relative-caret-position="7334">
               <caret line="386" column="48" lean-forward="false" selection-start-line="386" selection-start-column="28" selection-end-line="386" selection-end-column="48" />
               <folding />
             </state>
@@ -138,42 +101,21 @@
       <file leaf-file-name="sample_reg.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/modelspage/sample_reg.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4161">
-              <caret line="135" column="164" lean-forward="true" selection-start-line="135" selection-start-column="28" selection-end-line="135" selection-end-column="164" />
+            <state relative-caret-position="3401">
+              <caret line="179" column="142" lean-forward="false" selection-start-line="179" selection-start-column="121" selection-end-line="179" selection-end-column="142" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RandDSampleRegisterHomePage.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterHomePage.html">
+      <file leaf-file-name="RandD_SampleInfo_Input.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AnchorDxLimsApp/RandD_SampleInfo_Input.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="710" column="160" lean-forward="false" selection-start-line="710" selection-start-column="147" selection-end-line="710" selection-end-column="160" />
-              <folding>
-                <element signature="e#33679#33697#0#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Bioinfo_Report_Info_Submit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/modelspage/Bioinfo_Report_Info_Submit.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="184" column="102" lean-forward="true" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="102" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Bioinfo_Report_Make.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AnchorDxLimsApp/Bioinfo_Report_Make.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="297" column="25" lean-forward="false" selection-start-line="297" selection-start-column="12" selection-end-line="297" selection-end-column="25" />
+            <state relative-caret-position="3268">
+              <caret line="182" column="51" lean-forward="true" selection-start-line="182" selection-start-column="51" selection-end-line="182" selection-end-column="51" />
               <folding>
                 <element signature="e#19#54#0" expanded="true" />
+                <element signature="e#44550#57353#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -234,9 +176,9 @@
         <option value="$PROJECT_DIR$/templates/modelspage/FinLibConTask_ShowData.html" />
         <option value="$PROJECT_DIR$/templates/modelspage/FinLibConTask_ModifyData.html" />
         <option value="$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterHomePage.html" />
-        <option value="$PROJECT_DIR$/AnchorDxLimsApp/views.py" />
         <option value="$PROJECT_DIR$/AnchorDx_Lims/urls.py" />
         <option value="$PROJECT_DIR$/AnchorDxLimsApp/RandD_SampleInfo_Input.py" />
+        <option value="$PROJECT_DIR$/AnchorDxLimsApp/views.py" />
         <option value="$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterBatchImport.html" />
       </list>
     </option>
@@ -268,6 +210,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -305,8 +249,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -707,7 +649,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23958333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39978093" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1046,37 +988,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AnchorDxLimsApp/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="255" column="8" lean-forward="false" selection-start-line="255" selection-start-column="8" selection-end-line="255" selection-end-column="8" />
-          <folding>
-            <element signature="e#587#622#0" expanded="false" />
-            <element signature="e#624#630#0" expanded="false" />
-            <element signature="e#2410#6711#0" expanded="false" />
-            <element signature="e#6783#10594#0" expanded="false" />
-            <element signature="e#10628#10723#0" expanded="false" />
-            <element signature="e#52064#54253#0" expanded="false" />
-            <element signature="e#54323#57014#0" expanded="false" />
-            <element signature="e#57071#70517#0" expanded="false" />
-            <element signature="e#70576#71583#0" expanded="false" />
-            <element signature="e#71655#74517#0" expanded="false" />
-            <element signature="e#74587#83442#0" expanded="false" />
-            <element signature="e#83509#84524#0" expanded="false" />
-            <element signature="e#84604#86743#0" expanded="false" />
-            <element signature="e#86821#93377#0" expanded="false" />
-            <element signature="e#93431#93843#0" expanded="false" />
-            <element signature="e#93845#93887#0" expanded="false" />
-            <element signature="e#94801#95858#0" expanded="false" />
-            <element signature="e#95924#99693#0" expanded="false" />
-            <element signature="e#99752#101556#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AnchorDx_Lims/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
+        <state relative-caret-position="817">
           <caret line="82" column="106" lean-forward="false" selection-start-line="82" selection-start-column="106" selection-end-line="82" selection-end-column="106" />
           <folding />
         </state>
@@ -1084,84 +998,97 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AnchorDxLimsApp/Bioinfo_Report_Make.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
+        <state relative-caret-position="5453">
           <caret line="297" column="25" lean-forward="false" selection-start-line="297" selection-start-column="12" selection-end-line="297" selection-end-column="25" />
-          <folding>
-            <element signature="e#19#54#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/modelspage/Bioinfo_Report_Info_Submit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="184" column="102" lean-forward="true" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="102" />
+        <state relative-caret-position="3496">
+          <caret line="184" column="102" lean-forward="false" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="102" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/modelspage/homepage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1482">
+          <caret line="78" column="77" lean-forward="false" selection-start-line="78" selection-start-column="64" selection-end-line="78" selection-end-column="77" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
+        <state relative-caret-position="7334">
           <caret line="386" column="48" lean-forward="false" selection-start-line="386" selection-start-column="28" selection-end-line="386" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/modelspage/sample_reg.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4161">
-          <caret line="135" column="164" lean-forward="true" selection-start-line="135" selection-start-column="28" selection-end-line="135" selection-end-column="164" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterHomePage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
+        <state relative-caret-position="328">
           <caret line="710" column="160" lean-forward="false" selection-start-line="710" selection-start-column="147" selection-end-line="710" selection-end-column="160" />
           <folding>
-            <element signature="e#33679#33697#0#HTML" expanded="true" />
+            <element signature="e#37389#37431#0#HTML" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/modelspage/homepage.html">
+    <entry file="file://$PROJECT_DIR$/templates/modelspage/sample_reg.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="78" column="77" lean-forward="false" selection-start-line="78" selection-start-column="64" selection-end-line="78" selection-end-column="77" />
-          <folding>
-            <element signature="e#3248#3269#0#HTML" expanded="true" />
-            <element signature="e#4238#4256#0#HTML" expanded="true" />
-            <element signature="e#4605#4638#0#HTML" expanded="true" />
-          </folding>
+        <state relative-caret-position="3401">
+          <caret line="179" column="142" lean-forward="false" selection-start-line="179" selection-start-column="121" selection-end-line="179" selection-end-column="142" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AnchorDxLimsApp/RandD_SampleInfo_Input.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="182" column="96" lean-forward="false" selection-start-line="182" selection-start-column="88" selection-end-line="182" selection-end-column="96" />
+        <state relative-caret-position="3268">
+          <caret line="182" column="51" lean-forward="true" selection-start-line="182" selection-start-column="51" selection-end-line="182" selection-end-column="51" />
           <folding>
             <element signature="e#19#54#0" expanded="true" />
-            <element signature="e#44068#56871#0" expanded="false" />
+            <element signature="e#44550#57353#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AnchorDxLimsApp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="276" column="0" lean-forward="true" selection-start-line="276" selection-start-column="0" selection-end-line="276" selection-end-column="0" />
+          <folding>
+            <element signature="e#587#622#0" expanded="false" />
+            <element signature="e#624#630#0" expanded="false" />
+            <element signature="e#2410#6711#0" expanded="false" />
+            <element signature="e#6783#10594#0" expanded="false" />
+            <element signature="e#10628#10723#0" expanded="false" />
+            <element signature="e#52068#54257#0" expanded="false" />
+            <element signature="e#54327#57018#0" expanded="false" />
+            <element signature="e#57075#70521#0" expanded="false" />
+            <element signature="e#70580#71587#0" expanded="false" />
+            <element signature="e#71659#74521#0" expanded="false" />
+            <element signature="e#74591#83446#0" expanded="false" />
+            <element signature="e#83513#84528#0" expanded="false" />
+            <element signature="e#84608#86747#0" expanded="false" />
+            <element signature="e#86825#93381#0" expanded="false" />
+            <element signature="e#93435#93847#0" expanded="false" />
+            <element signature="e#93849#93891#0" expanded="false" />
+            <element signature="e#94805#95862#0" expanded="false" />
+            <element signature="e#95928#99697#0" expanded="false" />
+            <element signature="e#99756#101560#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/modelspage/RandDSampleRegisterBatchImport.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="56" column="37" lean-forward="true" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
-          <folding>
-            <element signature="e#505#539#0#HTML" expanded="true" />
-            <element signature="e#694#715#0#HTML" expanded="true" />
-            <element signature="e#2134#2160#0#HTML" expanded="true" />
-            <element signature="e#2304#2322#0#HTML" expanded="true" />
-            <element signature="e#2701#2727#0#HTML" expanded="true" />
-            <element signature="e#2869#2887#0#HTML" expanded="true" />
-            <element signature="e#3310#3336#0#HTML" expanded="true" />
-          </folding>
+        <state relative-caret-position="285">
+          <caret line="59" column="43" lean-forward="true" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>

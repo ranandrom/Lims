@@ -254,7 +254,7 @@ def homepage(request):
         password = request.POST.get('password', None)
         # print(r'首页，username: ', username, password)
         user = auth.authenticate(username=username, password=password)
-        print(username, password)
+        # print(username, password)
         if user is not None and user.is_active:
             # Correct password, and the user is marked "active"
             auth.login(request, user)
@@ -311,7 +311,7 @@ def homepage(request):
         except Exception:
             return render(request, "index.html")
         else:
-            print(r'首页，username: ', username, department)
+            # print(r'首页，username: ', username, department)
             temp = {"username": username, "department": department}
             temp_myInfo = models.UserInfo.objects.filter(username=username)  # 用户信息
             # temp_SystemMessage = models.UserSystemMessage.objects.filter(Receiver=username)  # 用户系统信息

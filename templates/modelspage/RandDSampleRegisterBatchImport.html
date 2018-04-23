@@ -32,9 +32,9 @@
                      <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="/RandDSampleInfoInputToDataBase/">
 
                       <table id="datatable_responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                          <datalist id="datalistID">
-                              {%  for n in num_cols %}
-                                    <option>{{ n }}</option>
+                          <datalist id="sheet_namelistID">
+                              {%  for name in sheet_name %}
+                                    <option>{{ name }}</option>
                               {% endfor %}
                           </datalist>
                           <thead>
@@ -42,26 +42,108 @@
                                 <th style="text-align:center;">
                                   <p>样本编号</p>
                                   <p>第
-                                      <input type="text" style="width: 20%" id="clos_sam_code_num" name="clos_sam_code_num" list="datalistID" required>
-                                      列
-                                      <input name="button_sam_code_num" type="button"  value="导入" onclick=setVal("sam_code_num","clos_sam_code_num")>
+                                      <input type="text" style="width: 75%" id="sheet_sam_code_num" name="sheet_sam_code_num" list="sheet_namelistID"
+                                             onChange=setClosVal("num_sam_code_num_colslistID","sheet_sam_code_num") >
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_sam_code_num" name="clos_sam_code_num" list="num_sam_code_num_colslistID">
+                                      列</p>
+                                      <datalist id="num_sam_code_num_colslistID"></datalist>
+                                      <p><input name="button_sam_code_num" type="button"  value="确认导入" onclick=setVal("sheet_sam_code_num","sam_code_num","clos_sam_code_num")>
                                   </p>
                                 </th>
                                <th style="text-align:center;">
                                 <p>送检医院</p>
                                   <p>第
-                                      <input type="text" style="width: 20%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="datalistID" required>
-                                      列
-                                      <input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("HospitalForInspection","clos_HospitalForInspection")>
+                                      <input type="text" style="width: 75%" id="sheet_HospitalForInspection" name="sheet_HospitalForInspection" list="sheet_namelistID"
+                                             onChange=setClosVal("num_HospitalForInspection_colslistID","sheet_HospitalForInspection")>
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="num_HospitalForInspection_colslistID">
+                                      列</p>
+                                      <datalist id="num_HospitalForInspection_colslistID"></datalist>
+                                      <p><input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("sheet_HospitalForInspection","HospitalForInspection","clos_HospitalForInspection")>
                                   </p>
                                 </th>
-                              <th style="text-align:center;">联系人</th>
-                              <th>收样时间（血样）</th>
-                              <th>收样时间（组织）</th>
-                              <th>收样人</th>
-                              <th>住院号</th>
-                              <th>病理号</th>
-                              <th>相关编号</th>
+                              <th style="text-align:center;">
+                                <p>联系人</p>
+                                <p>第
+                                      <input type="text" style="width: 75%" id="sheet_Contacts" name="sheet_Contacts" list="sheet_namelistID"
+                                             onChange=setClosVal("num_Contacts_colslistID","sheet_Contacts")>
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_Contacts" name="clos_Contacts" list="num_Contacts_colslistID">
+                                      列</p>
+                                      <datalist id="num_Contacts_colslistID"></datalist>
+                                      <p><input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("sheet_Contacts","Contacts","clos_Contacts")>
+                                  </p>
+                              </th>
+                              <th style="text-align:center;">
+                                <p>收样时间（血样）</p>
+                                <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="sheet_namelistID">
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="num_colslistID">
+                                      列</p>
+                                      <p><input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("HospitalForInspection","clos_HospitalForInspection")>
+                                  </p>
+                              </th>
+                              <th style="text-align:center;">
+                                <p>收样时间（组织）</p>
+                                <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="sheet_namelistID">
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="num_colslistID">
+                                      列</p>
+                                      <p><input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("HospitalForInspection","clos_HospitalForInspection")>
+                                  </p>
+                              </th>
+                              <th style="text-align:center;">
+                                <p>收样人</p>
+                                <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="sheet_namelistID">
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="num_colslistID">
+                                      列</p>
+                                      <p><input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("HospitalForInspection","clos_HospitalForInspection")>
+                                  </p>
+                              </th>
+                              <th style="text-align:center;">
+                                <p>住院号</p>
+                                <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="sheet_namelistID">
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="num_colslistID">
+                                      列</p>
+                                      <p><input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("HospitalForInspection","clos_HospitalForInspection")>
+                                  </p>
+                              </th>
+                              <th style="text-align:center;">
+                                <p>病理号</p>
+                                <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="sheet_namelistID">
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="num_colslistID">
+                                      列</p>
+                                      <p><input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("HospitalForInspection","clos_HospitalForInspection")>
+                                  </p>
+                              </th>
+                              <th style="text-align:center;">
+                                <p>相关编号</p>
+                                <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="sheet_namelistID">
+                                      页</p>
+                                      <p>第
+                                      <input type="text" style="width: 75%" id="clos_HospitalForInspection" name="clos_HospitalForInspection" list="num_colslistID">
+                                      列</p>
+                                      <p><input name="button_HospitalForInspection" type="button"  value="导入" onclick=setVal("HospitalForInspection","clos_HospitalForInspection")>
+                                  </p>
+                              </th>
                             </tr>
                           </thead>
 
@@ -80,12 +162,44 @@
                           </tbody>
                         </table>
                         <script type="text/javascript">
-                          var SamplingTime = {{ dataList | safe }};
+                          var dictData = {{ dictData | safe }};
+                          var dictClos = {{ dictClos | safe }};
                           //document.getElementById("SamplingTime_Blood").value = SamplingTime[0] ;
-                          function setVal(inputID,closID){
+                          //for (var key in dict) {
+                              //console.log(key + ":" + dict[key]);
+                              //alert(key);
+                              //alert(dict[key]);
+                         // }
+                          function setClosVal(datalistID,sheetName) {
+                              var sheet = document.getElementById(sheetName).value;
+                              for (var key in dictClos) {
+                                  if(key == sheet){
+                                      //document.getElementById(inputID).value =  dictClos[key];
+                                      //获取datalist的dom
+                                      var ss = document.getElementById(datalistID);
+                                      for (var i = 0; i < dictClos[key].length; i++) {
+                                          //var city = cities[i];
+                                          //纯js实现的方式
+                                          var op = document.createElement("option");
+                                          //op.setAttribute("label", city.label);
+                                          op.setAttribute("value", dictClos[key][i]);
+                                          ss.appendChild(op);
+                                      }
+                                  }
+                              }
+                          }
+                          function setVal(sheetName,inputID,closID){
                               var clos = document.getElementById(closID).value;
-                              document.getElementById(inputID).value = SamplingTime[clos-1];
-                              // alert(clos_sam_code_num);
+                              var sheet = document.getElementById(sheetName).value;
+                              //document.getElementById(inputID).value = SamplingTime[clos-1];
+                              //alert(sheetName);
+                              //document.getElementById(inputID).value =  dict[sheetName][clos-1];
+                              //alert(dict[sheetName][clos-1]);
+                              for (var key in dictData) {
+                                  if(key == sheet){
+                                    document.getElementById(inputID).value =  dictData[key][clos-1];
+                                  }
+                              }
                           }
                       </script>
 
